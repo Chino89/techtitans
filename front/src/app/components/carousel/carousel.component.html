@@ -1,9 +1,9 @@
 <div id="default-carousel" class="group relative w-2/3 m-auto" data-carousel="slide">
   <!-- Carousel wrapper -->
-  <div class="relative h-56 overflow-hidden rounded-xl shadow-lg shadow-gray-300 md:h-96">
+  <div class="relative h-56 md:h-96 overflow-hidden rounded-xl shadow-lg shadow-gray-300 ">
     <div
       *ngFor="let photo of carouselContent"
-      class="hidden w-full duration-500 ease-in absolute inset-0 transition-all transform"
+      class="absolute block w-full -translate-x-1 -translate-y-1 duration-600 ease-in-out"
       data-carousel-item
     >
       <img
