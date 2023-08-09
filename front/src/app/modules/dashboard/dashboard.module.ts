@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { FeatureModule } from 'src/app/feature/feature.module';
 
 @NgModule({
   declarations: [DashboardPageComponent],
@@ -10,7 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-    
+    FeatureModule
   ],
   exports: [
     DashboardPageComponent
