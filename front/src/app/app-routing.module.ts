@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './feature/components/not-found/not-found.component'
 
 const routes: Routes = [
   {
-    path: 'dashboard',
+    path: '',
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
   },
   {
     path: '**',
-    redirectTo: 'dashboard'
-  }
+    component: NotFoundComponent
+  },
 ];
 
 @NgModule({
