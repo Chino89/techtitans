@@ -4,7 +4,7 @@
     aria-label="Global"
   >
     <div class="flex lg:flex-1">
-      <a href="dashboard" class="-m-1.5 p-1.5">
+      <a href=" " class="-m-1.5 p-1.5">
         <span class="sr-only">Incubadora del NOC</span>
         <img
           class="h-24 w-auto"
@@ -40,12 +40,12 @@
       <div class="relative" (click)="action()">
         <button
           type="button"
-          class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+          class="group flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
           aria-expanded="false"
         >
           Institucional
           <svg
-            class="h-5 w-5 flex-none text-noc-orange hover:text-noc-blue"
+            class="h-5 w-5 flex-none text-noc-orange group-hover:text-noc-blue"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -189,15 +189,15 @@
           </div>
         </div>
       </div>
-      <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
+      <a href="cursos" class="text-sm font-semibold leading-6 text-gray-900"
         >Cursos</a
       >
       <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
         >Novedades</a
       >
     </div>
-    <div class="group hidden lg:flex lg:flex-1 lg:justify-end">
-      <a href="#" class="flex items-center text-sm font-semibold leading-6 text-gray-900"
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <a href="#" class="group flex items-center text-sm font-semibold leading-6 text-gray-900"
         >Log in
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -221,7 +221,7 @@
     <!-- Background backdrop, show/hide based on slide-over state. -->
     <div class="fixed inset-0 z-10"></div>
     <div
-      class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10"
+      class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10"
     >
       <div class="flex items-center justify-between">
         <a href="#" class="-m-1.5 p-1.5">
@@ -307,7 +307,7 @@
               </div>
             </div>
             <a
-              href="#"
+              href="cursos"
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Cursos</a
             >
