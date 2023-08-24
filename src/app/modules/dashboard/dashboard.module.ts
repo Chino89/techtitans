@@ -4,6 +4,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FeatureModule } from 'src/app/feature/feature.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [DashboardPageComponent],
@@ -11,7 +12,8 @@ import { FeatureModule } from 'src/app/feature/feature.module';
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-    FeatureModule
+    FeatureModule, 
+    HttpClientModule
   ],
   exports: [
     DashboardPageComponent
