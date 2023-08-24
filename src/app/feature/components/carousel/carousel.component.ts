@@ -1,9 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-
-type CarouselItem = {
-  img: string;
-  alt: string;
-};
+import { CarouselItem } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-carousel',
