@@ -16,6 +16,11 @@ const routes: Routes = [
       import('./modules/courses/courses.module').then((m) => m.CoursesModule),
   },
   {
+    path: 'login',
+    loadChildren: () =>
+      import('./modules/login/login.module').then((m) => m.LoginModule),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },

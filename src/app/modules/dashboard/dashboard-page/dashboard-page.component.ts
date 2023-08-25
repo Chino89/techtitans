@@ -18,7 +18,7 @@ export class DashboardPageComponent implements OnInit {
   ngOnInit(): void {
     this.http
       .get<Course[]>('	https://jsonplaceholder.org/posts')
-      .pipe(map((r) => r.slice(1, 7)))
+      .pipe(map((r) => r.slice(-6)))
       .subscribe((response) => (this.courses = response));
   }
 }
