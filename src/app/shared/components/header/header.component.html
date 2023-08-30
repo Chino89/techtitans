@@ -4,7 +4,7 @@
     aria-label="Global"
   >
     <div class="flex lg:flex-1">
-      <a href=" " class="-m-1.5 p-1.5">
+      <a routerLink="" class="-m-1.5 p-1.5">
         <span class="sr-only">Incubadora del NOC</span>
         <img
           class="h-24 w-auto"
@@ -36,8 +36,33 @@
         </svg>
       </button>
     </div>
-    <div class="hidden lg:flex lg:gap-x-12">
-      <div class="relative" (click)="action()">
+    <div class="hidden lg:flex items-center lg:gap-x-12">
+      <div class="relative flex">
+        <a
+          type="button"
+          class="group flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+          aria-expanded="false"
+          routerLink=""
+        >
+          Home
+          <svg
+            class="h-4 w-4 flex-none text-noc-orange group-hover:text-noc-blue"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M3 8v10a1 1 0 0 0 1 1h4v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5h4a1 1 0 0 0 1-1V8M1 10l9-9 9 9"
+            />
+          </svg>
+        </a>
+      </div>
+      <div class="relative flex" (click)="action()">
         <button
           type="button"
           class="group flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
@@ -58,9 +83,10 @@
           </svg>
         </button>
         <div
+          *ngIf="dropdown"
           class="absolute -left-8 top-full z-30 mt-3 w-screen max-w-sm overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
         >
-          <div *ngIf="dropdown" class="p-4">
+          <div class="p-4">
             <div
               class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
             >
@@ -83,7 +109,7 @@
                 </svg>
               </div>
               <div class="flex-auto">
-                <a href="#" class="block font-semibold text-gray-900">
+                <a routerLink="" class="block font-semibold text-gray-900">
                   Staff
                   <span class="absolute inset-0"></span>
                 </a>
@@ -112,7 +138,7 @@
                 </svg>
               </div>
               <div class="flex-auto">
-                <a href="#" class="block font-semibold text-gray-900">
+                <a routerLink="" class="block font-semibold text-gray-900">
                   Servicios
                   <span class="absolute inset-0"></span>
                 </a>
@@ -148,7 +174,7 @@
                 </svg>
               </div>
               <div class="flex-auto">
-                <a href="#" class="block font-semibold text-gray-900">
+                <a routerLink="" class="block font-semibold text-gray-900">
                   Ubicación
                   <span class="absolute inset-0"></span>
                 </a>
@@ -177,7 +203,7 @@
                 </svg>
               </div>
               <div class="flex-auto">
-                <a href="#" class="block font-semibold text-gray-900">
+                <a routerLink="" class="block font-semibold text-gray-900">
                   Contacto
                   <span class="absolute inset-0"></span>
                 </a>
@@ -189,31 +215,63 @@
           </div>
         </div>
       </div>
-      <a href="cursos" class="text-sm font-semibold leading-6 text-gray-900"
+      <a
+        routerLink="cursos"
+        class="text-sm font-semibold leading-6 text-gray-900"
         >Cursos</a
       >
-      <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
+      <a routerLink="" class="text-sm font-semibold leading-6 text-gray-900"
         >Novedades</a
       >
     </div>
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-      <a href="login" class="group flex items-center text-sm font-semibold leading-6 text-gray-900"
-        >Log in
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-5 h-5 text-noc-orange group-hover:text-noc-blue"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-          />
-        </svg>
-      </a>
+      <div *ngIf="!userIsLoged">
+        <a
+          routerLink="login"
+          class="group flex items-center text-sm font-semibold leading-6 text-gray-900"
+          >Iniciar sesión
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5 text-noc-orange group-hover:text-noc-blue"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+            />
+          </svg>
+        </a>
+      </div>
+      <div class="flex flex-col" *ngIf="userIsLoged">
+        <div>
+          <span class="text-sm">Bienvenido</span>
+          <span class="text-sm ml-2">{{ userData?.name }}</span>
+        </div>
+        <a
+          routerLink="login"
+          class="group flex justify-end items-center text-sm font-semibold leading-6 text-gray-900"
+          >Cerrar sesión
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 18 15"
+            stroke="currentColor"
+            class="w-5 h-5 text-noc-orange group-hover:text-noc-blue"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1"
+              d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3"
+            />
+          </svg>
+        </a>
+      </div>
     </div>
   </nav>
   <!-- Mobile menu, show/hide based on menu open state. -->
@@ -224,7 +282,7 @@
       class="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10"
     >
       <div class="flex items-center justify-between">
-        <a href="#" class="-m-1.5 p-1.5">
+        <a routerLink="" class="-m-1.5 p-1.5">
           <span class="sr-only">Incubadora del NOC</span>
           <img
             class="h-24 w-auto"
@@ -255,7 +313,7 @@
         </button>
       </div>
       <div class="mt-6 flow-root">
-        <div class="-my-6 divide-y divide-gray-500/10">
+        <div  class="-my-6 divide-y divide-gray-500/10">
           <div class="space-y-2 py-6">
             <div class="-mx-3">
               <button
@@ -285,43 +343,54 @@
                 id="disclosure-1"
               >
                 <a
-                  href="#"
+                  routerLink=""
                   class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >Staff</a
                 >
                 <a
-                  href="#"
+                  routerLink=""
                   class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >Servicios</a
                 >
                 <a
-                  href="#"
+                  routerLink=""
                   class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >Ubicación</a
                 >
                 <a
-                  href="#"
+                  routerLink=""
                   class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >Contacto</a
                 >
               </div>
             </div>
             <a
-              href="cursos"
+              routerLink="cursos"
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Cursos</a
             >
             <a
-              href="#"
+              routerLink=""
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Novedades</a
             >
           </div>
-          <div class="py-6">
+          <div *ngIf="!userIsLoged" class="py-6 flex justify-center">
             <a
-              href="#"
+              routerLink="login"
               class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-              >Log in</a
+              >Iniciar Sesión</a
+            >
+          </div>
+          <div *ngIf="userIsLoged" class="flex flex-col items-center py-6">
+            <div>
+              <span class="text-sm">Bienvenido</span>
+              <span class="text-sm ml-2">{{ userData?.name }}</span>
+            </div>
+            <a
+              routerLink=""
+              class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >Cerrar sesión</a
             >
           </div>
         </div>

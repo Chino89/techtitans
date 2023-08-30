@@ -5,6 +5,7 @@ import { NotFoundComponent } from './feature/components/not-found/not-found.comp
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
