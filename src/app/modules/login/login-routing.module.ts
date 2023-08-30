@@ -5,15 +5,14 @@ import { LoginPageComponent } from './login-page/login-page.component';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: LoginPageComponent,
-    children: [
-      
-    ]
-  }
+    children: [],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class LoginRoutingModule { }
+export class LoginRoutingModule {}
