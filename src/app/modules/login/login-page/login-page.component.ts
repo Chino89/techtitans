@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginRequest } from 'src/app/core/interfaces/interfaces';
+import { LoginRequest, LoginError } from 'src/app/core/interfaces/interfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 
 @Component({
@@ -10,7 +10,9 @@ import { LoginService } from 'src/app/core/services/auth/login.service';
   styleUrls: ['./login-page.component.css'],
 })
 export class LoginPageComponent implements OnInit {
-  loginError: string = '';
+  hide: boolean = true;
+  greeting: string = 'Hola! Qué bueno verte otra vez';
+  loginError: LoginError[] = [{ msg: '' }];
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -21,7 +23,9 @@ export class LoginPageComponent implements OnInit {
     private loginService: LoginService
   ) {}
   
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
   login() {
     if (this.loginForm.valid) {
       this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
@@ -29,8 +33,11 @@ export class LoginPageComponent implements OnInit {
           console.log(userData);
         },
         error: (errorData) => {
-          console.error(errorData);
-          this.loginError = errorData;
+          if (errorData.error.mensaje) {
+            this.loginError = [{ msg: errorData.error.mensaje }];
+          } else {
+            this.loginError = errorData.error.errors as LoginError[];
+          }
         },
         complete: () => {
           console.info('Login completo');

@@ -11,16 +11,33 @@ type CarouselItem = {
   };
 
 type LoginRequest = {
-  email: string,
+  email: string;
   password: string;
 }
 
-type User = {
-  id: number,
-  name?: string
-  lastname?: string
-  email: string
-  message?: string
+type RegisterRequest = {
+  nombre: string;
+  apellido: string;
+  email: string;
+  password: string;
+  terms: boolean;
 }
 
-export { Course, CarouselItem, LoginRequest, User };
+type RegisterError = {
+  msg: string;
+}
+
+type LoginError = {
+  msg: string;
+}
+
+type User = {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  roles: string[];
+  accessToken: string;
+}
+
+export { Course, CarouselItem, LoginRequest, User, RegisterRequest, RegisterError, LoginError };

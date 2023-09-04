@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LoginRequest, User } from '../../interfaces/interfaces';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,33 +13,21 @@ export class LoginService {
   );
   currentUserData: BehaviorSubject<User> = new BehaviorSubject<User>({
     id: 0,
+    nombre: '',
+    apellido: '',
     email: '',
+    roles: [''],
+    accessToken: ''
   });
 
   constructor(private http: HttpClient) {}
 
   login(credentials: LoginRequest): Observable<User> {
-    return this.http.get<User>('././assets/data.json').pipe(
+    return this.http.post<User>('http://localhost:3000/auth/iniciarsesion', {email: credentials.email , password: credentials.password}).pipe(
       tap((userData: User) => {
         this.currentUserData.next(userData);
         this.currentUserLoginOn.next(true);
-      }),
-      catchError(this.handleError)
-    );
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      console.error('Se produjo un error', error.error);
-    } else {
-      console.error(
-        'Backend retornó el codigo de error',
-        error.status,
-        error.error
-      );
-    }
-    return throwError(
-      () => new Error('Algo falló. Por favor intenta nuevamente.')
+      })
     );
   }
 

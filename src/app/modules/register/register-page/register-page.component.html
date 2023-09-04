@@ -1,0 +1,215 @@
+<section class="bg-gray-50 px-6 py-8 mx-auto h-auto lg:py-16">
+  <div class="flex flex-col items-center justify-center">
+    <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+      <div class="p-6 space-y-4 md:space-y-8 sm:p-8">
+        <h1
+          class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+        >
+          {{ greeting }}
+        </h1>
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <input
+                formControlName="nombre"
+                type="text"
+                name="floating_first_name"
+                id="floating_first_name"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer {{
+                  registerForm.errors
+                    ? 'focus:border-red-600'
+                    : 'focus:border-blue-600'
+                }}"
+                placeholder=" "
+                required
+              />
+              <label
+                for="floating_first_name"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Nombre</label
+              >
+            </div>
+            <div
+              *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)"
+              class="alert alert-danger"
+            >
+              <div
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="nombre.errors?.['required']"
+              >
+                El nombre es requerido.
+              </div>
+              <div
+                class="mt-2 text-sm text-red-600"
+                *ngIf="nombre.errors?.['minlength']"
+              >
+                El nombre al menos debe tener 2 carácteres.
+              </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <input
+                formControlName="apellido"
+                type="text"
+                name="floating_last_name"
+                id="floating_last_name"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="floating_last_name"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Apellido</label
+              >
+            </div>
+            <div
+              *ngIf="
+                apellido?.invalid && (apellido?.dirty || apellido?.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="apellido.errors?.['required']"
+              >
+                El apellido es requerido.
+              </div>
+              <div
+                class="mt-2 text-sm text-red-600"
+                *ngIf="apellido.errors?.['minlength']"
+              >
+                El apellido al menos debe tener 2 carácteres.
+              </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-4 group">
+              <input
+                formControlName="email"
+                type="email"
+                name="floating_email"
+                id="floating_email"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="floating_email"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Email</label
+              >
+            </div>
+            <div></div>
+            <div
+              *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+              class="alert alert-danger"
+            >
+              <div
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="email.errors?.['required']"
+              >
+                El email es necesario para iniciar sesión.
+              </div>
+              <div
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="email.errors?.['email']"
+              >
+                El email debe tener un formato válido.
+              </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <input
+                formControlName="password"
+                type="password"
+                name="floating_password"
+                id="floating_password"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="floating_password"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Password</label
+              >
+            </div>
+            <div
+              *ngIf="password.invalid && (password?.dirty || password?.touched)"
+              class="alert alert-danger"
+            >
+              <div
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="password.errors?.['required']"
+              >
+                Necesitas ingresar un password.
+              </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="flex items-start mb-6">
+              <div class="flex items-center h-5">
+                <input
+                  formControlName="terms"
+                  id="terms"
+                  type="checkbox"
+                  value=""
+                  class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                  required
+                />
+              </div>
+              <label
+                for="terms"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Acepto los
+                <a
+                  href="#"
+                  class="text-blue-600 hover:underline dark:text-blue-500"
+                  >terminos y condiciones</a
+                ></label
+              >
+            </div>
+            <div
+              *ngIf="terms.invalid && (terms?.dirty || terms?.touched)"
+              class="alert alert-danger"
+            >
+              <div
+                class="-mt-2 text-xs text-red-600"
+                *ngIf="terms.errors?.['required']"
+              >
+                Debes aceptar los terminos y condiciones.
+              </div>
+            </div>
+          </div>
+          <div class="mx-auto my-6 text-sm" *ngIf="!(registerError[0].msg.length === 0)">
+            <p
+              *ngFor="let error of registerError"
+              class="flex justify-center mt-2 text-sm text-red-600"
+            >
+              {{ error.msg }}
+            </p>
+          </div>
+          <button
+            type="submit"
+            class="w-full text-white {{
+              registerForm.invalid ? 'bg-gray-300' : 'bg-blue-600'
+            }} hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          >
+            Crear mi cuenta
+          </button>
+        </form>
+        <p class="flex justify-center mt-6 text-sm font-light text-gray-500">
+          Ya tienes una cuenta?
+          <a
+            routerLink="/login"
+            class="ml-2 font-medium text-primary-600 hover:underline"
+            >Inicia sesión</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
