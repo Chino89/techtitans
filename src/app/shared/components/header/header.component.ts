@@ -26,13 +26,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.loginService.currentUserData.subscribe({
       next: (userData) => {
         this.userData = userData;
+        if (userData.nombre !== '') {
+          localStorage.setItem('userData', JSON.stringify(userData));
+        }
       },
     });
+
+    const _userData = localStorage.getItem('userData');
+    const _userDataObj = JSON.parse(_userData ?? '{}');
+    if (_userDataObj && _userDataObj.nombre !== '') {
+      this.userData = _userDataObj;
+    }
   }
 
   ngOnDestroy(): void {
     this.loginService.currentUserLoginOn.unsubscribe();
-    this.loginService.currentUserData.subscribe();
+    this.loginService.currentUserData.unsubscribe();
   }
 
   openMobileMenu() {
@@ -50,5 +59,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   action() {
     this.dropdown = !this.dropdown;
+  }
+
+  onLogOut() {
+    this.loginService.logOut();
+    localStorage.removeItem('userData');
   }
 }
