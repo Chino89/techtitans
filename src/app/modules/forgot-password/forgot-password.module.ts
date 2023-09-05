@@ -3,17 +3,16 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { LoginRoutingModule } from './login-routing.module';
-import { LoginPageComponent } from './login-page/login-page.component';
+import { ForgotPasswordRoutingModule } from './forgot-password-routing.module';
+import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 
 @NgModule({
-  declarations: [LoginPageComponent],
+  declarations: [ForgotPasswordPageComponent],
   imports: [
     CommonModule,
-    LoginRoutingModule,
+    ForgotPasswordRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [],
 })
-export class LoginModule {}
+export class ForgotPasswordModule {}

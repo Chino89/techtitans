@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-  RegisterError,
+  backEndError,
   RegisterRequest,
 } from 'src/app/core/interfaces/interfaces';
-import { RegisterService } from 'src/app/core/services/register.service';
+import { RegisterService } from 'src/app/core/services/auth/register.service';
 
 @Component({
   selector: 'app-register-page',
@@ -14,7 +14,7 @@ import { RegisterService } from 'src/app/core/services/register.service';
 })
 export class RegisterPageComponent implements OnInit {
   greeting: string = 'Hola, Bienvenido!';
-  registerError: RegisterError[] = [{ msg: '' }];
+  registerError: backEndError[] = [{ msg: '' }];
   registerForm = this.formBuilder.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
     apellido: ['', [Validators.required, Validators.minLength(2)]],
@@ -46,7 +46,7 @@ export class RegisterPageComponent implements OnInit {
             if (errorData.error.message) {
               this.registerError = [{ msg: errorData.error.message }];
             } else {
-              this.registerError = errorData.error.errors as RegisterError[];
+              this.registerError = errorData.error.errors as backEndError[];
             }
           },
           complete: () => {

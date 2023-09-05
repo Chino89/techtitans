@@ -26,7 +26,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/register/register.module').then((m) => m.RegisterModule),
   },
-
+  {
+    path: 'forgot_password',
+    loadChildren: () =>
+      import('./modules/forgot-password/forgot-password.module').then((m) => m.ForgotPasswordModule),
+  },
   {
     path: '**',
     component: NotFoundComponent,
