@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginRequest, LoginError } from 'src/app/core/interfaces/interfaces';
+
 import { LoginService } from 'src/app/core/services/auth/login.service';
+import { LoginRequest, backEndError } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-login-page',
@@ -12,7 +13,7 @@ import { LoginService } from 'src/app/core/services/auth/login.service';
 export class LoginPageComponent implements OnInit {
   hide: boolean = true;
   greeting: string = 'Hola! Qué bueno verte otra vez';
-  loginError: LoginError[] = [{ msg: '' }];
+  loginError: backEndError[] = [{ msg: '' }];
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -34,7 +35,7 @@ export class LoginPageComponent implements OnInit {
           if (errorData.error.mensaje) {
             this.loginError = [{ msg: errorData.error.mensaje }];
           } else {
-            this.loginError = errorData.error.errors as LoginError[];
+            this.loginError = errorData.error.errors as backEndError[];
           }
         },
         complete: () => {

@@ -23,11 +23,7 @@ type RegisterRequest = {
   terms: boolean;
 }
 
-type RegisterError = {
-  msg: string;
-}
-
-type LoginError = {
+type backEndError = {
   msg: string;
 }
 
@@ -40,4 +36,4 @@ type User = {
   accessToken: string;
 }
 
-export { Course, CarouselItem, LoginRequest, User, RegisterRequest, RegisterError, LoginError };
+export { Course, CarouselItem, LoginRequest, User, RegisterRequest, backEndError };
