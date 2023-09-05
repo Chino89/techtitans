@@ -22,10 +22,8 @@ export class LoginPageComponent implements OnInit {
     private router: Router,
     private loginService: LoginService
   ) {}
-  
-  ngOnInit(): void {
-    
-  }
+
+  ngOnInit(): void {}
   login() {
     if (this.loginForm.valid) {
       this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
@@ -48,6 +46,10 @@ export class LoginPageComponent implements OnInit {
       console.log('error al inicio de sesión');
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  logOut() {
+    this.loginService.logOut();
   }
 
   get email() {
