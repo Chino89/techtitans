@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegisterPageComponent } from './register-page/register-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
+import { RecoveryPasswordPageComponent } from './recovery-password-page/recovery-password-page.component';
 
 const routes: Routes = [
   {
@@ -24,10 +25,16 @@ const routes: Routes = [
     component: ForgotPasswordPageComponent,
     children: [],
   },
+  {
+    path: 'recuperar-clave/:token',
+    pathMatch: 'full',
+    component: RecoveryPasswordPageComponent,
+    children: [],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}
