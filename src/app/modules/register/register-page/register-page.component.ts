@@ -14,7 +14,7 @@ import { RegisterService } from 'src/app/core/services/auth/register.service';
 })
 export class RegisterPageComponent implements OnInit {
   greeting: string = 'Hola, Bienvenido!';
-  registerError: backEndError[] = [{ msg: '' }];
+  registerError: backEndError[] = [];
   registerForm = this.formBuilder.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
     apellido: ['', [Validators.required, Validators.minLength(2)]],
@@ -43,8 +43,9 @@ export class RegisterPageComponent implements OnInit {
             console.log(userData);
           },
           error: (errorData) => {
-            if (errorData.error.message) {
-              this.registerError = [{ msg: errorData.error.message }];
+            console.log(errorData);
+            if (errorData.error.mensaje) {
+              this.registerError = [{ mensaje: errorData.error.mensaje }];
             } else {
               this.registerError = errorData.error.errors as backEndError[];
             }

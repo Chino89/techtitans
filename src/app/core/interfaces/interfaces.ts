@@ -1,21 +1,21 @@
-type Course = {
+export type Course = {
   id: number;
   title: string;
   content: string;
   image: string;
 };
 
-type CarouselItem = {
+export type CarouselItem = {
     img: string;
     alt: string;
   };
 
-type LoginRequest = {
+export type LoginRequest = {
   email: string;
   password: string;
 }
 
-type RegisterRequest = {
+export type RegisterRequest = {
   nombre: string;
   apellido: string;
   email: string;
@@ -23,11 +23,15 @@ type RegisterRequest = {
   terms: boolean;
 }
 
-type backEndError = {
-  msg: string;
+export type ForgotPasswordRequest = {
+  email: string;
 }
 
-type User = {
+export type backEndError = {
+  mensaje: string;
+}
+
+export type User = {
   id: number;
   nombre: string;
   apellido: string;
@@ -36,4 +40,3 @@ type User = {
   accessToken: string;
 }
 
-export { Course, CarouselItem, LoginRequest, User, RegisterRequest, backEndError };

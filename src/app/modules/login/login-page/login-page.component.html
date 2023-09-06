@@ -76,33 +76,19 @@
               </div>
             </div>
           </div>
-          <div class="flex items-center justify-between">
-            <div class="flex items-start">
-              <div class="flex items-center h-5">
-                <input
-                  id="remember"
-                  aria-describedby="remember"
-                  type="checkbox"
-                  class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300"
-                  required=""
-                />
-              </div>
-              <div class="ml-3 text-sm">
-                <label for="remember" class="text-gray-500">Remember me</label>
-              </div>
-            </div>
+          <div class="flex justify-end">
             <a
               routerLink="/forgot_password"
               class="text-sm font-medium text-primary-600 hover:underline"
               >Olvidaste tu Password?</a
             >
           </div>
-          <div class="mx-auto my-6 text-sm" *ngIf="!(loginError[0].msg.length === 0)">
+          <div class="mx-auto my-6 text-sm" *ngIf="!(loginError.length === 0)">
             <p
               *ngFor="let error of loginError"
               class="flex justify-center mt-2 text-sm text-red-600"
             >
-              {{ error.msg }}
+              {{ error.mensaje }}
             </p>
           </div>
           <button

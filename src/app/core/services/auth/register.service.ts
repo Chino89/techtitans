@@ -13,13 +13,10 @@ export class RegisterService {
 
   register(credentials: RegisterRequest): Observable<User> {
     return this.http.post<User>(`${environment.API_URL}/auth/registrarme`, {
-    // return this.http.post<User>('http://localhost:3000/auth/registrarme', {
       nombre: credentials.nombre,
       apellido: credentials.apellido,
       email: credentials.email,
       password: credentials.password,
     });
-
   }
-
 }
