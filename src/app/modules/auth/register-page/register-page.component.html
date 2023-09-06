@@ -147,6 +147,9 @@
               >
                 Necesitas ingresar una contraseña.
               </div>
+              <div class="mt-2 text-sm text-red-600" *ngIf="password.invalid">
+                La contraseña debe tener más de 6 carácteres y menos de 20.
+              </div>
             </div>
           </div>
           <div class="mb-4">
