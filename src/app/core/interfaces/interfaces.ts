@@ -6,14 +6,14 @@ export type Course = {
 };
 
 export type CarouselItem = {
-    img: string;
-    alt: string;
-  };
+  img: string;
+  alt: string;
+};
 
 export type LoginRequest = {
   email: string;
   password: string;
-}
+};
 
 export type RegisterRequest = {
   nombre: string;
@@ -21,15 +21,20 @@ export type RegisterRequest = {
   email: string;
   password: string;
   terms: boolean;
-}
+};
+
+export type SetPasswordRequest = {
+  password: string;
+  confirmPassword: string;
+};
 
 export type ForgotPasswordRequest = {
   email: string;
-}
+};
 
 export type backEndError = {
   mensaje: string;
-}
+};
 
 export type User = {
   id: number;
@@ -38,5 +43,4 @@ export type User = {
   email: string;
   roles: string[];
   accessToken: string;
-}
-
+};
