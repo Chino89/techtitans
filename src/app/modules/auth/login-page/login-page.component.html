@@ -10,8 +10,8 @@
           {{ greeting }}
         </h1>
         <form
-          [formGroup]="recoveryForm"
-          (ngSubmit)="setPassword()"
+          [formGroup]="loginForm"
+          (ngSubmit)="login()"
           class="space-y-4 md:space-y-6"
         >
           <div class="relative z-0 mb-6 group">
@@ -47,17 +47,46 @@
               </div>
             </div>
           </div>
-          <p class="text-sm text-center font-medium text-gray-600">
-            A éste Email se te enviará un correo para poder reestablecer tu
-            clave.
-          </p>
-          <div
-            class="mx-auto my-6 text-sm"
-            *ngIf="!(recoveryError.length === 0)"
-          >
+          <div class="relative z-0 mb-6 group">
+            <input
+              formControlName="password"
+              type="password"
+              name="floating_password"
+              id="floating_password"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            />
+            <label
+              for="floating_password"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-2 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >Tu Contraseña</label
+            >
+            <div
+              *ngIf="
+                password?.invalid && (password?.dirty || password?.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div
+                class="mt-2 text-sm text-red-600"
+                *ngIf="password?.errors?.['required']"
+              >
+                La contraseña es requerida.
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <a
+              routerLink="/auth/olvide-clave"
+              class="text-sm font-medium text-primary-600 hover:underline"
+              >Olvidaste tu contraseña?</a
+            >
+          </div>
+          <div class="mx-auto my-6 text-sm" *ngIf="!(loginError.length === 0)">
             <p
-              *ngFor="let error of recoveryError"
-              class="flex justify-center mt-2 text-sm text-red-600"
+              *ngFor="let error of loginError"
+              class="text-center mt-2 text-sm text-red-600"
             >
               {{ error.mensaje }}
             </p>
@@ -65,7 +94,7 @@
           <button
             type="submit"
             class="w-full text-white {{
-              recoveryForm.invalid ? 'bg-gray-300' : 'bg-blue-600'
+              loginForm.invalid ? 'bg-gray-300' : 'bg-blue-600'
             }} hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             Ingresar
@@ -73,7 +102,7 @@
           <p class="flex justify-center text-sm font-light text-gray-500">
             Todavía no tienes cuenta?
             <a
-              routerLink="/register"
+              routerLink="/auth/registrarme"
               class="ml-2 font-medium text-primary-600 hover:underline"
               >Crea una</a
             >

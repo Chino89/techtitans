@@ -17,20 +17,25 @@ const routes: Routes = [
       import('./modules/courses/courses.module').then((m) => m.CoursesModule),
   },
   {
-    path: 'login',
+    path: 'auth',
     loadChildren: () =>
-      import('./modules/login/login.module').then((m) => m.LoginModule),
+      import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
-  {
-    path: 'register',
-    loadChildren: () =>
-      import('./modules/register/register.module').then((m) => m.RegisterModule),
-  },
-  {
-    path: 'forgot_password',
-    loadChildren: () =>
-      import('./modules/forgot-password/forgot-password.module').then((m) => m.ForgotPasswordModule),
-  },
+  // {
+  //   path: 'login',
+  //   loadChildren: () =>
+  //     import('./modules/login/login.module').then((m) => m.LoginModule),
+  // },
+  // {
+  //   path: 'register',
+  //   loadChildren: () =>
+  //     import('./modules/register/register.module').then((m) => m.RegisterModule),
+  // },
+  // {
+  //   path: 'forgot_password',
+  //   loadChildren: () =>
+  //     import('./modules/forgot-password/forgot-password.module').then((m) => m.ForgotPasswordModule),
+  // },
   {
     path: '**',
     component: NotFoundComponent,
