@@ -1,3 +1,5 @@
+import { Observable } from "rxjs";
+
 export type Course = {
   id: number;
   title: string;
@@ -44,3 +46,7 @@ export type User = {
   roles: string[];
   accessToken: string;
 };
+
+export interface onExit {
+  onExit: () => Observable<boolean> | Promise<boolean> | boolean;
+}

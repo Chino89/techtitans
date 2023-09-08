@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   backEndError,
+  onExit,
   RegisterRequest,
 } from 'src/app/core/interfaces/interfaces';
 import { RegisterService } from 'src/app/core/services/auth/register.service';
@@ -12,7 +13,7 @@ import { RegisterService } from 'src/app/core/services/auth/register.service';
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.css'],
 })
-export class RegisterPageComponent implements OnInit {
+export class RegisterPageComponent implements OnInit, onExit {
   greeting: string = 'Hola, Bienvenido!';
   registerError: backEndError[] = [];
   registerForm = this.formBuilder.group({
@@ -60,6 +61,11 @@ export class RegisterPageComponent implements OnInit {
       console.log('Error al registrar nuevo usuario');
       this.registerForm.markAllAsTouched();
     }
+  }
+
+  onExit() {
+    const message= confirm('Tu cuenta aun no ha sido creada. ¿Estás seguro de que quieres abandonar el registro?')
+    return message;
   }
 
   get nombre() {

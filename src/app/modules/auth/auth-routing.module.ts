@@ -6,6 +6,10 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { RecoveryPasswordPageComponent } from './recovery-password-page/recovery-password-page.component';
 
+import { RecoveryGuard } from 'src/app/core/guards/recovery.guard';
+import { ExitGuard } from 'src/app/core/guards/exit.guard';
+
+
 const routes: Routes = [
   {
     path: 'iniciar-sesion',
@@ -16,6 +20,7 @@ const routes: Routes = [
   {
     path: 'registrarme',
     pathMatch: 'full',
+    canDeactivate: [ExitGuard],
     component: RegisterPageComponent,
     children: [],
   },
@@ -28,6 +33,7 @@ const routes: Routes = [
   {
     path: 'recuperar-clave/:token',
     pathMatch: 'full',
+    // canActivate: [RecoveryGuard],
     component: RecoveryPasswordPageComponent,
     children: [],
   },
