@@ -21,16 +21,13 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private loginService: LoginService
+    private loginService: LoginService,
   ) {}
 
   ngOnInit(): void {}
   login() {
     if (this.loginForm.valid) {
       this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
-        next: (userData) => {
-          console.log(userData);
-        },
         error: (errorData) => {
           if (errorData.error.mensaje) {
             this.loginError = [{ mensaje: errorData.error.mensaje }];
