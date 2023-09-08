@@ -6,6 +6,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 import { LoginRequest, User } from '../../interfaces/interfaces';
+import { TokenService } from './token.service';
 
 const helper = new JwtHelperService();
 
@@ -23,7 +24,7 @@ export class LoginService {
     accessToken: '',
   });
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private tokenService: TokenService) {
     this.checkToken();
   }
 
@@ -33,33 +34,26 @@ export class LoginService {
 
   login(credentials: LoginRequest): Observable<User> {
     return this.http
-      .post<User>(`${environment.API_URL}/auth/iniciarsesion`, {
-        email: credentials.email,
-        password: credentials.password,
-      })
+      .post<User>(`${environment.API_URL}/auth/iniciarsesion`, credentials)
       .pipe(
-        tap((userData: User) => {
-          this.currentUserData.next(userData);
-          this.saveToken(userData.accessToken);
+        tap((response: any) => {
+          this.currentUserData.next(response.user);
+          this.tokenService.saveToken(response.user.accessToken);
           this.currentUserLoginOn.next(true);
-          return userData;
+          return response;
         })
       );
   }
 
   logOut() {
-    localStorage.removeItem('token');
+    this.tokenService.removeToken();
     this.currentUserLoginOn.next(false);
   }
 
   private checkToken() {
-    const userToken = localStorage.getItem('token');
+    const userToken = this.tokenService.checkToken();
     const isExpired = helper.isTokenExpired(userToken);
     isExpired ? this.logOut() : this.currentUserLoginOn.next(true);
-  }
-
-  private saveToken(token: string) {
-    localStorage.setItem('token', token);
   }
 
   get userData(): Observable<User> {
