@@ -25,10 +25,8 @@ export class AdminGuard implements CanActivate {
     return this.loginService.currentUserData.pipe(
       map((user) => {
         if (user?.roles.includes('ROLE_ADMIN') ) {
-          console.log('Es un usuario Admin');
           return true;
         }else {
-          console.log('No es un usuario Admin')
           this.router.navigateByUrl('');
           return false;
         }
