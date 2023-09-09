@@ -14,6 +14,18 @@ const helper = new JwtHelperService();
   providedIn: 'root',
 })
 export class LoginService {
+  constructor(private http: HttpClient, private tokenService: TokenService) {
+    this.checkToken();
+  }
+
+  get userIsLogged(): Observable<boolean> {
+    return this.currentUserLoginOn.asObservable();
+  }
+
+  get userData(): Observable<User> {
+    return this.currentUserData.asObservable();
+  }
+
   currentUserLoginOn = new BehaviorSubject<boolean>(false);
   currentUserData: BehaviorSubject<User> = new BehaviorSubject<User>({
     id: 0,
@@ -24,13 +36,6 @@ export class LoginService {
     accessToken: '',
   });
 
-  constructor(private http: HttpClient, private tokenService: TokenService) {
-    this.checkToken();
-  }
-
-  get userIsLogged(): Observable<boolean> {
-    return this.currentUserLoginOn.asObservable();
-  }
 
   login(credentials: LoginRequest): Observable<User> {
     return this.http
@@ -45,6 +50,19 @@ export class LoginService {
       );
   }
 
+  checkLogin() {
+      const token = this.tokenService.checkToken(); 
+      if(token) {
+        const payload = token!.split('.')[1];
+          const payloadDecoded = atob(payload);
+          const values = JSON.parse(payloadDecoded);
+          if (values) {
+            this.currentUserData.next(values)  
+          }     
+    }
+
+  }
+
   logOut() {
     this.tokenService.removeToken();
     this.currentUserLoginOn.next(false);
@@ -54,9 +72,5 @@ export class LoginService {
     const userToken = this.tokenService.checkToken();
     const isExpired = helper.isTokenExpired(userToken);
     isExpired ? this.logOut() : this.currentUserLoginOn.next(true);
-  }
-
-  get userData(): Observable<User> {
-    return this.currentUserData.asObservable();
   }
 }

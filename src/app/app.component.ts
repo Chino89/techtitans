@@ -16,12 +16,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     initFlowbite();
-    const token = this.tokenService.checkToken();
-    const payload = token!.split('.')[1];
-    const payloadDecoded = atob(payload);
-    const values = JSON.parse(payloadDecoded);
-    if (values) {
-      this.loginService.currentUserData.next(values)
-    }    
+    this.loginService.checkLogin();
   }
 }
