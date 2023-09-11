@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
     | UrlTree {
       return this.loginService.userIsLogged.pipe(map(user => {
         if (!user) {
-          this.router.navigateByUrl('/auth/iniciar-sesion');
+          this.router.navigateByUrl('/iniciar-sesion');
           return false
         }
         return true

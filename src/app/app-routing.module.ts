@@ -6,8 +6,7 @@ import { AdminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
+    path: 'home',
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
@@ -20,7 +19,7 @@ const routes: Routes = [
       import('./modules/courses/courses.module').then((m) => m.CoursesModule),
   },
   {
-    path: 'auth',
+    path: '',
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },

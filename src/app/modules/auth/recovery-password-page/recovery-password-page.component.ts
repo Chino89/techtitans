@@ -59,7 +59,7 @@ export class RecoveryPasswordPageComponent implements OnInit {
           },
           complete: () => {
             console.info('Password seteado con éxito');
-            this.router.navigateByUrl('/auth/iniciar-sesion');
+            this.router.navigateByUrl('/iniciar-sesion');
           },
         });
     }

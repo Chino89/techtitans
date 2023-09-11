@@ -42,7 +42,7 @@
           type="button"
           class="group flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
           aria-expanded="false"
-          routerLink=""
+          routerLink="home"
         >
           Home
           <svg
@@ -227,7 +227,7 @@
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
       <div *ngIf="!userIsLoged">
         <a
-          routerLink="auth/iniciar-sesion"
+          routerLink="iniciar-sesion"
           class="group flex items-center text-sm font-semibold leading-6 text-gray-900"
           >Iniciar sesión
           <svg
@@ -378,7 +378,7 @@
           </div>
           <div *ngIf="!userIsLoged" class="py-6 flex justify-center">
             <a
-              routerLink="auth/iniciar-sesion"
+              routerLink="iniciar-sesion"
               class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Iniciar Sesión</a
             >
