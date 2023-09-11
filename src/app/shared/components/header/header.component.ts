@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/core/interfaces/interfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 
@@ -14,7 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showMobileMenu = false;
   dropdown = false;
 
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
@@ -64,5 +65,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onLogOut() {
     this.loginService.logOut();
     localStorage.removeItem('userData');
+    this.router.navigateByUrl('home');
   }
 }

@@ -54,7 +54,7 @@ export class RegisterPageComponent implements OnInit, onExit {
           complete: () => {
             console.info('Registro exitoso');
             window.alert('Bienvenido! No olvides validar tu email');
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('home');
           },
         });
     } else {

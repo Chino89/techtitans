@@ -37,7 +37,7 @@ export class LoginPageComponent implements OnInit {
         },
         complete: () => {
           console.info('Login completo');
-          this.router.navigateByUrl('');
+          this.router.navigateByUrl('home');
         },
       });
     } else {
