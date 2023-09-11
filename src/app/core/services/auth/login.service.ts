@@ -36,36 +36,35 @@ export class LoginService {
     accessToken: '',
   });
 
-
   login(credentials: LoginRequest): Observable<User> {
     return this.http
       .post<User>(`${environment.API_URL}/auth/iniciarsesion`, credentials)
       .pipe(
         tap((response: any) => {
-          this.currentUserData.next(response.user);
-          this.tokenService.saveToken(response.user.accessToken);
+          this.getUserData(response.accessToken)
+          this.tokenService.saveToken(response.accessToken)
           this.currentUserLoginOn.next(true);
-          return response;
         })
       );
   }
 
   checkLogin() {
-      const token = this.tokenService.checkToken(); 
-      if(token) {
-        const payload = token!.split('.')[1];
-          const payloadDecoded = atob(payload);
-          const values = JSON.parse(payloadDecoded);
-          if (values) {
-            this.currentUserData.next(values)  
-          }     
+    const token = this.tokenService.checkToken();
+    if (token) {
+      this.getUserData(token)
     }
-
   }
 
   logOut() {
     this.tokenService.removeToken();
     this.currentUserLoginOn.next(false);
+  }
+
+  private getUserData(token: string) {
+    const payload = token!.split('.')[1];
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    this.currentUserData.next(values);
   }
 
   private checkToken() {
