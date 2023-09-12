@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { PasswordRecoveryService } from 'src/app/core/services/auth/password-recovery.service';
 import {
@@ -8,6 +8,7 @@ import {
   backEndError,
 } from 'src/app/core/interfaces/interfaces';
 import { MyValidators } from 'src/app/utils/validators';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-recovery-password-page',
@@ -16,6 +17,7 @@ import { MyValidators } from 'src/app/utils/validators';
 })
 export class RecoveryPasswordPageComponent implements OnInit {
   greeting: string = 'Elige tu contraseña';
+  passwordToast: boolean = false;
   recoveryError: backEndError[] = [];
   setForm = this.formBuilder.group(
     {
@@ -27,25 +29,29 @@ export class RecoveryPasswordPageComponent implements OnInit {
           Validators.maxLength(20),
         ],
       ],
-      confirmPassword: ['', Validators.required],
+      confirm_password: ['', Validators.required],
     },
     {
       validators: MyValidators.matchPasswords,
     }
   );
+  token: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private passwordRecoveryService: PasswordRecoveryService
+    private passwordRecoveryService: PasswordRecoveryService,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.token = this.route.snapshot.paramMap.get('token') as string;
+  }
 
   renewPassword() {
     if (this.setForm.valid) {
       this.passwordRecoveryService
-        .setPassword(this.setForm.value as SetPasswordRequest)
+        .setPassword(this.setForm.value as SetPasswordRequest, this.token)
         .subscribe({
           next: (userData) => {
             console.log(userData);
@@ -59,16 +65,24 @@ export class RecoveryPasswordPageComponent implements OnInit {
           },
           complete: () => {
             console.info('Password seteado con éxito');
-            this.router.navigateByUrl('/iniciar-sesion');
+            this.passwordToast = true;
+            setTimeout(() => {
+              this.router.navigateByUrl('/iniciar-sesion');
+            }, 3000);
           },
         });
     }
   }
 
+
+  closeToast() {
+    this.passwordToast = false;
+  }
+
   get password() {
     return this.setForm.controls['password'];
   }
-  get confirmPassword() {
-    return this.setForm.controls['confirmPassword'];
+  get confirm_password() {
+    return this.setForm.controls['confirm_password'];
   }
 }

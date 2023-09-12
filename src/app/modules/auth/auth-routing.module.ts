@@ -5,10 +5,10 @@ import { RegisterPageComponent } from './register-page/register-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { RecoveryPasswordPageComponent } from './recovery-password-page/recovery-password-page.component';
+import { VerifyUserComponent } from './verify-user/verify-user.component';
 
 import { RecoveryGuard } from 'src/app/core/guards/recovery.guard';
 import { ExitGuard } from 'src/app/core/guards/exit.guard';
-
 
 const routes: Routes = [
   {
@@ -35,6 +35,12 @@ const routes: Routes = [
     pathMatch: 'full',
     // canActivate: [RecoveryGuard],
     component: RecoveryPasswordPageComponent,
+    children: [],
+  },
+  {
+    path: 'verificar/:token',
+    pathMatch: 'full',
+    component: VerifyUserComponent,
     children: [],
   },
 ];

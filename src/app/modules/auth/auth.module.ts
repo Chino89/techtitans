@@ -9,6 +9,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { RecoveryPasswordPageComponent } from './recovery-password-page/recovery-password-page.component';
+import { VerifyUserComponent } from './verify-user/verify-user.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { RecoveryPasswordPageComponent } from './recovery-password-page/recovery
     RegisterPageComponent,
     ForgotPasswordPageComponent,
     RecoveryPasswordPageComponent,
+    VerifyUserComponent,
   ],
   imports: [
     CommonModule,

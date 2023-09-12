@@ -6,7 +6,7 @@ import { AdminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
