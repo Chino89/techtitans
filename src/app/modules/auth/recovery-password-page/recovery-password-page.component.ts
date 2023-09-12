@@ -8,6 +8,7 @@ import {
   backEndError,
 } from 'src/app/core/interfaces/interfaces';
 import { MyValidators } from 'src/app/utils/validators';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-recovery-password-page',
@@ -16,6 +17,7 @@ import { MyValidators } from 'src/app/utils/validators';
 })
 export class RecoveryPasswordPageComponent implements OnInit {
   greeting: string = 'Elige tu contraseña';
+  passwordToast: boolean = false;
   recoveryError: backEndError[] = [];
   setForm = this.formBuilder.group(
     {
@@ -63,10 +65,18 @@ export class RecoveryPasswordPageComponent implements OnInit {
           },
           complete: () => {
             console.info('Password seteado con éxito');
-            this.router.navigateByUrl('/iniciar-sesion');
+            this.passwordToast = true;
+            setTimeout(() => {
+              this.router.navigateByUrl('/iniciar-sesion');
+            }, 3000);
           },
         });
     }
+  }
+
+
+  closeToast() {
+    this.passwordToast = false;
   }
 
   get password() {

@@ -15,7 +15,7 @@ import {
 })
 export class ForgotPasswordPageComponent implements OnInit {
   greeting: string = 'Recuperemos tu clave';
-  emailToast= false;
+  emailToast: boolean = false;
   communication: string = 'Mail enviado, Chequea tu casilla.';
   recoveryError: backEndError[] = [];
   recoveryForm = this.formBuilder.group({
