@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 export type Course = {
   id: number;
@@ -27,7 +27,7 @@ export type RegisterRequest = {
 
 export type SetPasswordRequest = {
   password: string;
-  confirmPassword: string;
+  confirm_password: string;
 };
 
 export type ForgotPasswordRequest = {
