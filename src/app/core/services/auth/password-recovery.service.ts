@@ -10,9 +10,9 @@ import { SetPasswordRequest, User } from '../../interfaces/interfaces';
 export class PasswordRecoveryService {
   constructor(private http: HttpClient) {}
 
-  setPassword(credential: SetPasswordRequest): Observable<User> {
+  setPassword(credential: SetPasswordRequest, token: string): Observable<User> {
     return this.http.post<User>(
-      `${environment.API_URL}/auth/recuperar-clave/:token`,
+      `${environment.API_URL}/auth/recuperar-clave/${token}`,
       credential
     );
   }
