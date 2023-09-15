@@ -13,6 +13,7 @@ import { LoginRequest, backEndError } from 'src/app/core/interfaces/interfaces';
 export class LoginPageComponent implements OnInit {
   hide: boolean = true;
   greeting: string = 'Hola! Qué bueno verte otra vez';
+  errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   loginError: backEndError[] = [];
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
