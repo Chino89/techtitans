@@ -5,8 +5,8 @@ export type Course = {
   title: string;
   content: string;
   image: string;
-  imageUrl: string;
-  description: string;
+  // imageUrl: string;
+  // description: string;
 };
 
 export type CarouselItem = {

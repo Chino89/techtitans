@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'cursos',
-    canActivate: [AdminGuard], //Only Admin can access this path at the moment, Just for test AdminGuard
+    // canActivate: [AdminGuard], //Only Admin can access this path at the moment, Just for test AdminGuard
     loadChildren: () =>
       import('./modules/courses/courses.module').then((m) => m.CoursesModule),
   },
