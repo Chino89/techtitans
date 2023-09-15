@@ -8,7 +8,6 @@ import {
   backEndError,
 } from 'src/app/core/interfaces/interfaces';
 import { MyValidators } from 'src/app/utils/validators';
-import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-recovery-password-page',
@@ -17,6 +16,7 @@ import { timer } from 'rxjs';
 })
 export class RecoveryPasswordPageComponent implements OnInit {
   greeting: string = 'Elige tu contraseña';
+  errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   passwordToast: boolean = false;
   recoveryError: backEndError[] = [];
   setForm = this.formBuilder.group(
@@ -73,7 +73,6 @@ export class RecoveryPasswordPageComponent implements OnInit {
         });
     }
   }
-
 
   closeToast() {
     this.passwordToast = false;
