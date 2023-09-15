@@ -15,6 +15,8 @@ import { RegisterService } from 'src/app/core/services/auth/register.service';
 })
 export class RegisterPageComponent implements OnInit, onExit {
   greeting: string = 'Hola, Bienvenido!';
+  errorGreeting: string = 'Oops! Tuvimos algunos errores...';
+  registerToast: boolean = false;
   registerError: backEndError[] = [];
   registerForm = this.formBuilder.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
@@ -44,7 +46,6 @@ export class RegisterPageComponent implements OnInit, onExit {
             console.log(userData);
           },
           error: (errorData) => {
-            console.log(errorData);
             if (errorData.error.mensaje) {
               this.registerError = [{ mensaje: errorData.error.mensaje }];
             } else {
@@ -53,8 +54,10 @@ export class RegisterPageComponent implements OnInit, onExit {
           },
           complete: () => {
             console.info('Registro exitoso');
-            window.alert('Bienvenido! No olvides validar tu email');
-            this.router.navigateByUrl('');
+            this.registerToast = true;
+            setTimeout(() => {
+              this.router.navigateByUrl('/iniciar-sesion');
+            }, 3000);
           },
         });
     } else {
@@ -63,6 +66,9 @@ export class RegisterPageComponent implements OnInit, onExit {
     }
   }
 
+  closeToast() {
+    this.registerToast = false;
+  }  
   onExit() {
     const message= confirm('Tu cuenta aun no ha sido creada. ¿Estás seguro de que quieres abandonar el registro?')
     return message;
