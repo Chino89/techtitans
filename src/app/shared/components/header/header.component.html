@@ -223,6 +223,12 @@
       <a routerLink="" class="text-sm font-semibold leading-6 text-gray-900"
         >Novedades</a
       >
+      <a
+        *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')"
+        routerLink="cursos/crear-curso"
+        class="text-sm font-semibold leading-6 text-gray-900"
+        >Crear curso</a
+      >
     </div>
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
       <div *ngIf="!userIsLoged">
@@ -374,6 +380,12 @@
               routerLink=""
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Novedades</a
+            >
+            <a
+              *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')"
+              routerLink="cursos/crear-curso"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >Crear curso</a
             >
           </div>
           <div *ngIf="!userIsLoged" class="py-6 flex justify-center">
