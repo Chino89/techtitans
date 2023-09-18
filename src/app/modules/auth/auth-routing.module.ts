@@ -9,6 +9,7 @@ import { VerifyUserComponent } from './verify-user/verify-user.component';
 
 import { RecoveryGuard } from 'src/app/core/guards/recovery.guard';
 import { ExitGuard } from 'src/app/core/guards/exit.guard';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
   {
