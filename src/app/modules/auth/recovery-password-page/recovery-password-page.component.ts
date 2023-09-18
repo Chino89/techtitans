@@ -74,10 +74,6 @@ export class RecoveryPasswordPageComponent implements OnInit {
     }
   }
 
-  closeToast() {
-    this.passwordToast = false;
-  }
-
   get password() {
     return this.setForm.controls['password'];
   }

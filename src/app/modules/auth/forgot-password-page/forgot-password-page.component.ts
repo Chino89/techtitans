@@ -17,7 +17,8 @@ export class ForgotPasswordPageComponent implements OnInit {
   greeting: string = 'Recuperemos tu clave';
   errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   emailToast: boolean = false;
-  communication: string = 'Mail enviado, Chequea tu casilla.';
+  communication: string =
+    'Te hemos enviado un email, Chequea tu casilla por favor.';
   recoveryError: backEndError[] = [];
   recoveryForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -37,7 +38,6 @@ export class ForgotPasswordPageComponent implements OnInit {
         .recovery(this.recoveryForm.value as ForgotPasswordRequest)
         .subscribe({
           error: (errorData) => {
-            console.log('estoy en el error', errorData);
             if (errorData.error.mensaje) {
               this.recoveryError = [{ mensaje: errorData.error.mensaje }];
             } else {
@@ -45,18 +45,15 @@ export class ForgotPasswordPageComponent implements OnInit {
             }
           },
           complete: () => {
-            console.info('Mail enviado');
             this.emailToast = true;
+            setTimeout(() => {
+              this.router.navigateByUrl('');
+            }, 5000);
           },
         });
     } else {
-      console.log('Error al recuperar contraseña');
       this.recoveryForm.markAllAsTouched();
     }
-  }
-
-  closeToast() {
-    this.emailToast = false;
   }
 
   get email() {

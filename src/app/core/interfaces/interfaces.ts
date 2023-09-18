@@ -1,3 +1,4 @@
+import { RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
 export type Course = {
@@ -50,5 +51,5 @@ export type User = {
 };
 
 export interface onExit {
-  onExit: () => Observable<boolean> | Promise<boolean> | boolean;
+  onExit: (nextRoute: RouterStateSnapshot | undefined) => Observable<boolean> | Promise<boolean> | boolean;
 }

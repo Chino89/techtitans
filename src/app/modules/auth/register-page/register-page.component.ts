@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterStateSnapshot } from '@angular/router';
 import {
   backEndError,
   onExit,
@@ -18,6 +18,9 @@ export class RegisterPageComponent implements OnInit, onExit {
   errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   registerToast: boolean = false;
   registerError: backEndError[] = [];
+  hasUser: boolean = false;
+  nextRoute: string = '';
+  forceExit: boolean = false;
   registerForm = this.formBuilder.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
     apellido: ['', [Validators.required, Validators.minLength(2)]],
@@ -55,6 +58,7 @@ export class RegisterPageComponent implements OnInit, onExit {
           complete: () => {
             console.info('Registro exitoso');
             this.registerToast = true;
+            this.hasUser = true;
             setTimeout(() => {
               this.router.navigateByUrl('/iniciar-sesion');
             }, 3000);
@@ -68,10 +72,23 @@ export class RegisterPageComponent implements OnInit, onExit {
 
   closeToast() {
     this.registerToast = false;
-  }  
-  onExit() {
-    const message= confirm('Tu cuenta aun no ha sido creada. ¿Estás seguro de que quieres abandonar el registro?')
-    return message;
+  }
+
+  onExit(nextRoute: RouterStateSnapshot | undefined) {
+    if (this.forceExit) {
+      return true;
+    }
+    if (this.registerForm.dirty && !this.hasUser) {
+      this.registerToast = true;
+      this.nextRoute = nextRoute!.url;
+      return false;
+    }
+    return true;
+  }
+
+  navigate() {
+    this.forceExit = true;
+    this.router.navigateByUrl(this.nextRoute);
   }
 
   get nombre() {
