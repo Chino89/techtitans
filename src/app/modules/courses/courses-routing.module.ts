@@ -14,8 +14,6 @@ const routes: Routes = [
     component: NewCourseComponent,
     children: []
   },
-  
-
 ];
 
 @NgModule({
