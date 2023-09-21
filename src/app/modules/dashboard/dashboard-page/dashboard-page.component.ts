@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import carouselContent from '../../../../assets/carousel/carousel.json';
 import { HttpClient } from '@angular/common/http';
-import { Course } from 'src/app/core/interfaces/interfaces';
-import { map } from 'rxjs/operators';
+
+import carouselContent from '../../../../assets/carousel/carousel.json';
+import { CourseService } from 'src/app/core/services/course/course.service';
+
+import { courseResponse } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -10,15 +12,18 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./dashboard-page.component.css'],
 })
 export class DashboardPageComponent implements OnInit {
-  courses: Course[] = [];
+  courses: courseResponse[] = [];
 
   items = carouselContent;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private courseService: CourseService) {}
 
   ngOnInit(): void {
-    this.http
-      .get<Course[]>('	https://jsonplaceholder.org/posts')
-      .pipe(map((r) => r.slice(-6)))
-      .subscribe((response) => (this.courses = response));
+    this.courseService.getAllCourses().subscribe({
+      error: (errorData) => console.log(errorData),
+      next: (data: any) => {
+        this.courses = data.data;
+        console.log(this.courses, 'cursos');
+      },
+    });
   }
 }
