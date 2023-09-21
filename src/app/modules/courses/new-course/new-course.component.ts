@@ -21,7 +21,7 @@ interface HtmlInputEvent extends Event {
 })
 export class NewCourseComponent implements OnInit {
   adminToken: string | null = '';
-  greeting: string = 'Creando curso';
+  greeting: string = 'Crear un nuevo curso';
   errorGreeting: string = 'Se encontraron errores';
   newCourseError: backEndError[] = [];
   selectedPhoto: ArrayBuffer | string = '';

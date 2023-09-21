@@ -1,35 +1,19 @@
 <section class="bg-gray-50 px-6 py-8 mx-auto h-auto lg:py-16">
-  <div class="flex flex-col items-center justify-center">
-    <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
-      <div class="p-6 space-y-4 md:space-y-8 sm:p-8">
-        <h1
-          *ngIf="newCourseError.length === 0"
-          class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
-        >
-          {{ greeting }}
-        </h1>
-        <h1
-          *ngIf="newCourseError.length > 0"
-          class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
-        >
-          {{ errorGreeting }}
-        </h1>
-        <form [formGroup]="newCourseForm" (ngSubmit)="createCourse()">
-          <div class="mb-4">
-            <div class="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                formControlName="nombre"
-                name="courseName"
-                id="courseName"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label
-                for="courseName"
-                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
-                >Nombre del curso</label
+    <div class="flex flex-col items-center justify-center">
+        <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+            <div class="p-6 space-y-4 md:space-y-8 sm:p-8">
+                <h1 *ngIf="newCourseError.length === 0" class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+                    {{ greeting }}
+                </h1>
+                <h1 *ngIf="newCourseError.length > 0" class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+                    {{ errorGreeting }}
+                </h1>
+                <form [formGroup]="newCourseForm" (ngSubmit)="createCourse()">
+                    <div class="mb-4">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <input type="text" formControlName="nombre" name="courseName" id="courseName" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" " required />
+                            <label for="courseName" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">Nombre del curso</label
               >
             </div>
             <div
@@ -267,7 +251,7 @@
                 id="underline_select"
                 class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
-                <option selected disabled>Selecciona una categoría</option>
+                <option value="" selected disabled>Selecciona una categoría</option>
                 <option
                   *ngFor="let category of categories"
                   value="{{ category.id }}"
@@ -303,7 +287,7 @@
                 id="underline_select"
                 class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
-                <option selected disabled>Selecciona un docente</option>
+                <option value="" selected disabled>Selecciona un docente</option>
                 <option
                   *ngFor="let teacher of teachers"
                   value="{{ teacher.id }}"
