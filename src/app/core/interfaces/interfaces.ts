@@ -1,13 +1,30 @@
 import { RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-export type Course = {
+export type courseRequest = {
+  nombre: string;
+  descripcion: string;
+  dia: string;
+  hora: string;
+  duracion: string;
+  precio: string;
+  categoriaId: string;
+  docenteId: string;
+  file: Blob;
+};
+
+export type courseResponse = {
   id: number;
-  title: string;
-  content: string;
-  image: string;
-  // imageUrl: string;
-  // description: string;
+  nombre: string;
+  descripcion: string;
+  portada: string;
+  dia_curso: string;
+  hora_curso: string;
+  duracion: string;
+  precio: string;
+  slug: string;
+  categoria: string;
+  docente: string;
 };
 
 export type CarouselItem = {
@@ -51,5 +68,7 @@ export type User = {
 };
 
 export interface onExit {
-  onExit: (nextRoute: RouterStateSnapshot | undefined) => Observable<boolean> | Promise<boolean> | boolean;
+  onExit: (
+    nextRoute: RouterStateSnapshot | undefined
+  ) => Observable<boolean> | Promise<boolean> | boolean;
 }
