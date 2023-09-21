@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { backEndError } from 'src/app/core/interfaces/interfaces';
 import { VerifyUserService } from 'src/app/core/services/auth/verify-user.service';
+import { backEndError } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-verify-user',
@@ -16,26 +16,23 @@ export class VerifyUserComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private verifyUserService: VerifyUserService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.token = this.route.snapshot.paramMap.get('token') as string;
-    this.verifyUserService
-      .verifyUser(this.token as string)
-      // .subscribe((response) => console.log('hay response??', response));
-      .subscribe({
-        error: (errorData) => {
-          if (errorData.error.mensaje) {
-            this.verifyError = [{ mensaje: errorData.error.mensaje }];
-          }
-        },
-        complete: () => {
-          console.info('Usuario verificado');
-          setTimeout(() => {
-            this.router.navigateByUrl('/iniciar-sesion');
-          }, 5000);
+    this.verifyUserService.verifyUser(this.token as string).subscribe({
+      error: (errorData) => {
+        if (errorData.error.mensaje) {
+          this.verifyError = [{ mensaje: errorData.error.mensaje }];
         }
-      });
-  } 
+      },
+      complete: () => {
+        console.info('Usuario verificado');
+        setTimeout(() => {
+          this.router.navigateByUrl('/iniciar-sesion');
+        }, 5000);
+      },
+    });
+  }
 }

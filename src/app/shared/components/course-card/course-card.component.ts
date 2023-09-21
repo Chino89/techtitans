@@ -1,22 +1,28 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Course } from 'src/app/core/interfaces/interfaces';
+
+import { courseResponse } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-course-card',
   templateUrl: './course-card.component.html',
-  styleUrls: ['./course-card.component.css']
+  styleUrls: ['./course-card.component.css'],
 })
 export class CourseCardComponent implements OnInit {
-  @Input() courseContent: Course = {
+  @Input() courseContent: courseResponse = {
     id: 0,
-    title: '',
-    content: '',
-    image: ''
+    nombre: '',
+    descripcion: '',
+    portada: '',
+    dia_curso: '',
+    hora_curso: '',
+    duracion: '',
+    precio: '',
+    slug: '',
+    categoria: '',
+    docente: '',
   };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
