@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router, RouterStateSnapshot } from '@angular/router';
 
 import { CategoryService } from 'src/app/core/services/category/category.service';
 import { CourseService } from 'src/app/core/services/course/course.service';
@@ -20,9 +20,10 @@ interface HtmlInputEvent extends Event {
   styleUrls: ['./new-course.component.css'],
 })
 export class NewCourseComponent implements OnInit {
-  adminToken: string | null = '';
   greeting: string = 'Crear un nuevo curso';
   errorGreeting: string = 'Se encontraron errores';
+  newCourseToast: boolean = false;
+  hasCourse: boolean = false;
   newCourseError: backEndError[] = [];
   selectedPhoto: ArrayBuffer | string = '';
   file: Blob = new Blob();
@@ -30,6 +31,9 @@ export class NewCourseComponent implements OnInit {
   invalidType: boolean = false;
   categories: any;
   teachers: any;
+  forceExit: boolean = false;
+  nextRoute: string = '';
+  spinner: boolean = false;
 
   newCourseForm = this.formBuilder.group(
     {
@@ -64,7 +68,7 @@ export class NewCourseComponent implements OnInit {
     private categoryService: CategoryService,
     private teacherService: TeacherService,
     private courseService: CourseService,
-    private http: HttpClient
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +96,7 @@ export class NewCourseComponent implements OnInit {
   }
 
   createCourse() {
+    this.spinner = true;
     const formData = new FormData();
     const {
       nombre,
@@ -125,9 +130,36 @@ export class NewCourseComponent implements OnInit {
         },
         complete: () => {
           console.info('Curso creado');
+          this.newCourseToast = true;
+          this.hasCourse = true;
+          this.spinner = false;
+          setTimeout(() => {
+            this.router.navigateByUrl('/cursos');
+          }, 3000);
         },
       });
     }
+  }
+
+  closeToast() {
+    this.newCourseToast = false;
+  }
+
+  onExit(nextRoute: RouterStateSnapshot | undefined) {
+    if (this.forceExit) {
+      return true;
+    }
+    if (this.newCourseForm.dirty && !this.hasCourse) {
+      this.newCourseToast = true;
+      this.nextRoute = nextRoute!.url;
+      return false;
+    }
+    return true;
+  }
+
+  navigate() {
+    this.forceExit = true;
+    this.router.navigateByUrl(this.nextRoute);
   }
 
   get nombre() {
