@@ -1,6 +1,8 @@
 <a href="{{ courseContent!.slug }}">
-  <div class="bg-white border border-gray-200 rounded-lg shadow">
-    <img class="rounded-t-lg" src="{{ courseContent.portada }}" alt="" />
+  <div class="bg-white border border-gray-200 rounded-lg shadow ">
+    <div class="w-[300px] h-[250px]">
+      <img class="rounded-t-lg w-full h-full object-cover p-2" src="{{ courseContent.portada }}" alt="" />
+    </div>
     <div class="p-5">
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
         {{ courseContent!.nombre }}
@@ -29,6 +31,7 @@
           />
         </svg>
       </a>
+      
     </div>
   </div>
 </a>

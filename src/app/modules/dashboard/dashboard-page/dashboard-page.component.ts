@@ -22,7 +22,6 @@ export class DashboardPageComponent implements OnInit {
       error: (errorData) => console.log(errorData),
       next: (data: any) => {
         this.courses = data.data;
-        console.log(this.courses, 'cursos');
       },
     });
   }
