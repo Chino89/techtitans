@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { courseRequest, courseResponse } from '../../interfaces/interfaces';
+import {
+  courseData,
+  courseRequest,
+  courseResponse,
+} from '../../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -20,5 +24,11 @@ export class CourseService {
 
   getAllCourses(): Observable<courseResponse[]> {
     return this.http.get<courseResponse[]>(`${environment.API_URL}/api/cursos`);
+  }
+
+  getCourseByIdOrSlug(identificator: number | string): Observable<courseData> {
+    return this.http.get<courseData>(
+      `${environment.API_URL}/api/curso/${identificator}`
+    );
   }
 }

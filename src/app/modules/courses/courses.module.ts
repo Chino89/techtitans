@@ -6,9 +6,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { CoursesPageComponent } from './courses-page/courses-page.component';
 import { CoursesRoutingModule } from './courses-routing.module';
 import { NewCourseComponent } from './new-course/new-course.component';
+import { CourseDetailComponent } from './course-detail/course-detail.component';
 
 @NgModule({
-  declarations: [CoursesPageComponent, NewCourseComponent],
-  imports: [CommonModule, CoursesRoutingModule, ReactiveFormsModule, HttpClientModule],
+  declarations: [
+    CoursesPageComponent,
+    NewCourseComponent,
+    CourseDetailComponent,
+  ],
+  imports: [
+    CommonModule,
+    CoursesRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
 })
 export class CoursesModule {}
