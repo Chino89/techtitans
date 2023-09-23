@@ -1,0 +1,20 @@
+<div
+  class="group relative flex items-center gap-x-6 rounded-lg p-2 text-sm leading-6 hover:bg-gray-50"
+>
+  <div
+    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white"
+  >
+    <svg-icon
+      src="{{ item.svg }}" 
+    ></svg-icon>
+  </div>
+  <div class="flex-auto">
+    <a
+      routerLink="{{item.routerLink}}"
+      class="block font-semibold text-gray-900"
+    >
+      {{ item.component }}
+    </a>
+    <p class="text-gray-600">{{ item.phrase }}</p>
+  </div>
+</div>

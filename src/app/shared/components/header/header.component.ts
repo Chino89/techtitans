@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/core/interfaces/interfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 
+import adminOptions from '../../../../assets/icons/adminDropdown.json';
+import institutionalOptions from '../../../../assets/icons/institutionalDropdown.json';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -11,9 +14,14 @@ import { LoginService } from 'src/app/core/services/auth/login.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   userIsLoged: boolean = false;
   userData?: User;
-  showInstitucional = false;
-  showMobileMenu = false;
-  dropdown = false;
+  showMobileMenu: boolean = false;
+  showInstitucional: boolean  = false;
+  showAdminGestion: boolean = false;
+  dropdown: boolean = false;
+  adminDropdown: boolean = false;
+  institutionalDropdown: boolean = false;
+  adminDropdownItems = adminOptions;
+  institutionalDropdownItems = institutionalOptions;
 
   constructor(private loginService: LoginService, private router: Router) {}
 
@@ -49,17 +57,39 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showMobileMenu = true;
   }
 
+  toggleAdminManagement() {
+    this.adminDropdown = !this.adminDropdown;
+    if (this.institutionalDropdown) {
+      this.institutionalDropdown = false;
+    } 
+  }
+
+  toggleInstitutional () {
+    this.institutionalDropdown = !this.institutionalDropdown;
+    if (this.adminDropdown) {
+      this.adminDropdown = false;
+    } 
+  }
+
   closeMobileMenu() {
     this.showMobileMenu = false;
     this.showInstitucional = false;
+    this.showAdminGestion = false;
+
   }
 
-  toggleInstitucional() {
+  mobileToggleInstitucional() {
     this.showInstitucional = !this.showInstitucional;
+    if (this.showAdminGestion) {
+      this.showAdminGestion = false;
+    } 
   }
 
-  action() {
-    this.dropdown = !this.dropdown;
+  mobileToggleAdminManagement() {
+    this.showAdminGestion = !this.showAdminGestion;
+    if (this.showInstitucional) {
+      this.showInstitucional = false;
+    } 
   }
 
   onLogOut() {
