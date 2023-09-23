@@ -1,0 +1,56 @@
+<section class="bg-gray-50">
+  <div
+    class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-auto lg:py-16"
+  >
+    <div
+      class="p-4 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:w-3/4 lg:w-1/2"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div class="md:w-1/2 lg:w-1/3 h:auto">
+          <img
+            class="object-cover h-full w-full md:h-full md:w-full"
+            src="{{ courseData.portada }}"
+            alt="{{ courseData.slug }}"
+            alt=""
+          />
+        </div>
+        <div
+          class="px-2 flex flex-col leading-normal md:w-2/3 md:px-4 lg:px-6 lg:w-2/3"
+        >
+          <div class="py-4 flex justify-between items-center md:py-1">
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+              {{ courseData.nombre }}
+            </h1>
+            <p class="font-bold text-2xl text-gray-700 md:hidden md:mb-3">
+              {{ courseData.precio | currency : "USD" : "symbol" : "1.0-0" }}
+            </p>
+          </div>
+          <div class="flex text-sm font-light justify-center md:justify-start">
+            <p>
+              Un curso de
+              <a class="hover:underline" href="">
+                {{ courseData.categoria.nombre }}
+              </a>
+            </p>
+          </div>
+          <p class="hidden font-bold text-gray-700 sm:block md:my-2">
+            {{ courseData.precio | currency : "USD" : "symbol" : "1.0-0" }}
+          </p>
+          <p class="my-3 font-normal text-gray-700 md:my-0 md:mb-3">
+            {{ courseData.descripcion }}
+          </p>
+          <div class="text-md">
+            <p>Duración: {{ courseData.duracion }}</p>
+            <p>
+              Dictado por:
+              <a class="hover:underline" href=""
+                >{{ courseData.docente.nombre }}
+                {{ courseData.docente.apellido }}</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
