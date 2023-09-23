@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { User } from 'src/app/core/interfaces/interfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 
@@ -26,6 +26,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.adminDropdown = false;
+        this.institutionalDropdown = false;
+      }
+    });
+
     this.loginService.currentUserLoginOn.subscribe({
       next: (userIsLoged) => {
         this.userIsLoged = userIsLoged;
