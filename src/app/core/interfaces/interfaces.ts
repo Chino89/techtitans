@@ -45,6 +45,13 @@ export type CarouselItem = {
   alt: string;
 };
 
+export type DropdownItem = {
+  svg: string;
+  routerLink: string,
+  component: string;
+  phrase: string;
+}
+
 export type LoginRequest = {
   email: string;
   password: string;
