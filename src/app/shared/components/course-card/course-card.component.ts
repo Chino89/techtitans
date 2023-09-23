@@ -13,13 +13,17 @@ export class CourseCardComponent implements OnInit {
     nombre: '',
     descripcion: '',
     portada: '',
+    public_id: '',
     dia_curso: '',
     hora_curso: '',
     duracion: '',
     precio: '',
     slug: '',
-    categoria: '',
-    docente: '',
+    categoria: { nombre: '' },
+    usuario: {
+      nombre: '', apellido: '', email: '', 
+    },
+    docente: { nombre: '', apellido: '' },
   };
 
   constructor() {}

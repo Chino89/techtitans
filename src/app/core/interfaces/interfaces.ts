@@ -18,14 +18,27 @@ export type courseResponse = {
   nombre: string;
   descripcion: string;
   portada: string;
+  public_id: string;
   dia_curso: string;
   hora_curso: string;
   duracion: string;
   precio: string;
   slug: string;
-  categoria: string;
-  docente: string;
+  categoria: {nombre: string}
+  usuario: {
+    nombre: string;
+    apellido: string;
+    email: string;
+  }
+  docente: {
+    nombre: string;
+    apellido: string;
+  }
 };
+
+export type courseData = {
+  data: courseResponse
+}
 
 export type CarouselItem = {
   img: string;
