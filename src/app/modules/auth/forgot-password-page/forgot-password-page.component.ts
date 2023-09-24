@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { ForgotPasswordService } from 'src/app/core/services/auth/forgot-password.service';
 import {
@@ -13,7 +14,7 @@ import {
   templateUrl: './forgot-password-page.component.html',
   styleUrls: ['./forgot-password-page.component.css'],
 })
-export class ForgotPasswordPageComponent implements OnInit {
+export class ForgotPasswordPageComponent implements OnInit, OnDestroy {
   greeting: string = 'Recuperemos tu clave';
   errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   emailToast: boolean = false;
@@ -23,6 +24,7 @@ export class ForgotPasswordPageComponent implements OnInit {
   recoveryForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
   });
+  subscriptions: Subscription[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,7 +36,7 @@ export class ForgotPasswordPageComponent implements OnInit {
 
   setPassword() {
     if (this.recoveryForm.valid) {
-      this.forgotService
+      const recoveryForgotServiceSubscription = this.forgotService
         .recovery(this.recoveryForm.value as ForgotPasswordRequest)
         .subscribe({
           error: (errorData) => {
@@ -51,6 +53,7 @@ export class ForgotPasswordPageComponent implements OnInit {
             }, 5000);
           },
         });
+      this.subscriptions.push(recoveryForgotServiceSubscription);
     } else {
       this.recoveryForm.markAllAsTouched();
     }
@@ -58,5 +61,11 @@ export class ForgotPasswordPageComponent implements OnInit {
 
   get email() {
     return this.recoveryForm.controls.email;
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }
