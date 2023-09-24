@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { User } from 'src/app/core/interfaces/interfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 
@@ -12,20 +12,28 @@ import institutionalOptions from '../../../../assets/icons/institutionalDropdown
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  userIsLoged: boolean = false;
+  userIsLoged = false;
   userData?: User;
-  showMobileMenu: boolean = false;
-  showInstitucional: boolean  = false;
-  showAdminGestion: boolean = false;
-  dropdown: boolean = false;
-  adminDropdown: boolean = false;
-  institutionalDropdown: boolean = false;
+  showMobileMenu = false;
+  showInstitucional = false;
+  showAdminGestion = false;
+  dropdown = false;
+  adminDropdown = false;
+  institutionalDropdown = false;
   adminDropdownItems = adminOptions;
   institutionalDropdownItems = institutionalOptions;
+  currentDropdown = '';
 
   constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.currentDropdown = '';
+        this.showMobileMenu = false;
+      }
+    });
+
     this.loginService.currentUserLoginOn.subscribe({
       next: (userIsLoged) => {
         this.userIsLoged = userIsLoged;
@@ -57,39 +65,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showMobileMenu = true;
   }
 
-  toggleAdminManagement() {
-    this.adminDropdown = !this.adminDropdown;
-    if (this.institutionalDropdown) {
-      this.institutionalDropdown = false;
-    } 
+  myToggleDropdown(dropdownName: string) {
+    this.currentDropdown =
+      this.currentDropdown === dropdownName ? '' : dropdownName;
   }
 
-  toggleInstitutional () {
-    this.institutionalDropdown = !this.institutionalDropdown;
-    if (this.adminDropdown) {
-      this.adminDropdown = false;
-    } 
+  navigateToPage(event: Event, link: string) {
+    this.router.navigate([link]);
   }
 
   closeMobileMenu() {
     this.showMobileMenu = false;
-    this.showInstitucional = false;
-    this.showAdminGestion = false;
-
   }
 
   mobileToggleInstitucional() {
     this.showInstitucional = !this.showInstitucional;
     if (this.showAdminGestion) {
       this.showAdminGestion = false;
-    } 
+    }
   }
 
   mobileToggleAdminManagement() {
     this.showAdminGestion = !this.showAdminGestion;
     if (this.showInstitucional) {
       this.showInstitucional = false;
-    } 
+    }
   }
 
   onLogOut() {
