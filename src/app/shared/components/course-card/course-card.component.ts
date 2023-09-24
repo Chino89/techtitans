@@ -11,12 +11,16 @@ export class CourseCardComponent implements OnInit {
     id: 0,
     title: '',
     content: '',
-    image: ''
+    image: '',
+    description: '',
+    category:''
+    
   };
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }
+
+

@@ -1,1 +1,39 @@
-<p>courses-page works!</p>
+<!-- Encabezado -->
+<header class="bg-white p-6 lg:px-8">
+    <!-- Contenido del encabezado -->
+</header>
+
+<main class="p-4">
+    <!-- Contenido principal -->
+</main>
+
+<section class="bg-gray-50">
+    <!-- Contenido de la sección -->
+    <header class="text-center text-xl font-bold mb-4">Cursos en Línea</header>
+    
+    <!-- Filtro de Categoría -->
+    <div class="text-center mb-4"> 
+        <label for="category">Categoría:</label>
+        <select id="category" [(ngModel)]="selectedCategory" (change)="filterCoursesByCategoryInSection()">
+            <option value="todos">Todos</option>
+            <option value="programacion">Programación</option>
+            <option value="diseno">Diseño</option>
+        </select>
+        <button type="button" (click)="filterCoursesByCategoryInSection()">Filtrar</button>
+    </div>
+
+    <!-- Contenido de la sección -->
+    <section class="flex flex-wrap justify-center gap-4">
+        <div class="max-w-5xl m-auto mb-16">
+            <h3 class="text-base lg:text-2xl font-semibold m-4">Nuestros nuevos Cursos</h3>
+            <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 px-14 lg:px-8">
+              <app-course-card *ngFor="let curso of filteredCoursesInSection" [courseContent]="curso"></app-course-card>
+            </div>
+          </div>
+          
+    </section>
+</section>
+
+
+
+
