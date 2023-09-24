@@ -62,27 +62,26 @@
           </svg>
         </a>
       </div>
-      <div
-        (click)="toggleInstitutional()"
-        class="flex items-center cursor-pointer"
-      >
-        <a class="text-sm font-semibold leading-6 text-gray-900"
-          >Institucional</a
-        >
-        <svg
-          class="h-5 w-5 flex-none text-noc-orange group-hover:text-noc-blue"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-            clip-rule="evenodd"
-          />
-        </svg>
+      <div (click)="myToggleDropdown('institutionalDropdown')">
+        <div class="group flex items-center cursor-pointer">
+          <a class="text-sm font-semibold leading-6 text-gray-900 group"
+            >Institucional</a
+          >
+          <svg
+            class="h-5 w-5 text-noc-orange group-hover:text-noc-blue"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
         <app-dropdown
-          *ngIf="institutionalDropdown"
+          *ngIf="currentDropdown === 'institutionalDropdown'"
           [items]="institutionalDropdownItems"
         ></app-dropdown>
       </div>
@@ -94,27 +93,27 @@
       <a routerLink="" class="text-sm font-semibold leading-6 text-gray-900"
         >Novedades</a
       >
-
       <div
-        (click)="toggleAdminManagement()"
-        class="flex items-center cursor-pointer"
+        (click)="myToggleDropdown('adminDropdown')"
         *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')"
       >
-        <a class="text-sm font-semibold leading-6 text-gray-900">Gestión</a>
-        <svg
-          class="h-5 w-5 flex-none text-noc-orange group-hover:text-noc-blue"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <div class="group flex items-center cursor-pointer">
+          <a class="text-sm font-semibold leading-6 text-gray-900">Gestión</a>
+          <svg
+            class="h-5 w-5 flex-none text-noc-orange group-hover:text-noc-blue"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
         <app-dropdown
-          *ngIf="adminDropdown"
+          *ngIf="currentDropdown === 'adminDropdown'"
           [items]="adminDropdownItems"
         ></app-dropdown>
       </div>
@@ -212,7 +211,7 @@
         <div class="-my-6 divide-y divide-gray-500/10">
           <div class="space-y-2 py-6">
             <a
-              (click)="mobileToggleInstitucional()"
+              (click)="myToggleDropdown('institutionalDropdown')"
               class="flex w-full items-center justify-between rounded-lg text-base font-semibold leading-7 text-gray-900"
               >Institucional
               <svg
@@ -228,7 +227,7 @@
                 />
               </svg>
             </a>
-            <div *ngIf="showInstitucional">
+            <div *ngIf="currentDropdown === 'institutionalDropdown'">
               <a
                 *ngFor="let link of institutionalDropdownItems"
                 routerLink="{{ link.routerLink }}"
@@ -247,7 +246,7 @@
               >Novedades</a
             >
             <a
-              (click)="mobileToggleAdminManagement()"
+              (click)="myToggleDropdown('adminDropdown')"
               class="flex w-full items-center justify-between rounded-lg text-base font-semibold leading-7 text-gray-900"
               >Gestión
               <svg
@@ -263,7 +262,7 @@
                 />
               </svg>
             </a>
-            <div *ngIf="showAdminGestion">
+            <div *ngIf="currentDropdown === 'adminDropdown'">
               <a
                 *ngFor="let link of adminDropdownItems"
                 routerLink="{{ link.routerLink }}"

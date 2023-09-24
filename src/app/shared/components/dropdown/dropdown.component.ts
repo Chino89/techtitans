@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DropdownItem } from 'src/app/core/interfaces/interfaces';
 
 @Component({
@@ -9,7 +10,12 @@ import { DropdownItem } from 'src/app/core/interfaces/interfaces';
 export class DropdownComponent implements OnInit {
   @Input() items: DropdownItem[] = [];
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
+
+  navigateToPage(event: Event, link: string) {
+    event.stopPropagation();
+    this.router.navigate([link]);
+  }
 }
