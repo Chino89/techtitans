@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { courseResponse } from 'src/app/core/interfaces/interfaces';
+import {
+  actionButton,
+  courseResponse,
+} from 'src/app/core/interfaces/interfaces';
+import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 
 @Component({
   selector: 'app-course-card',
@@ -21,10 +25,16 @@ export class CourseCardComponent implements OnInit {
     slug: '',
     categoria: { nombre: '' },
     usuario: {
-      nombre: '', apellido: '', email: '', 
+      nombre: '',
+      apellido: '',
+      email: '',
     },
     docente: { nombre: '', apellido: '' },
   };
+
+  buttons: {
+    [key: string]: actionButton;
+  } = buttonInteractions;
 
   constructor() {}
 
