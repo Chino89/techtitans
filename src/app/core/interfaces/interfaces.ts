@@ -52,6 +52,12 @@ export type DropdownItem = {
   phrase: string;
 }
 
+export type actionButton = {
+  svg: string;
+  action: string;
+  style: string;
+}
+
 export type LoginRequest = {
   email: string;
   password: string;
