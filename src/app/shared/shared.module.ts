@@ -10,6 +10,7 @@ import { CourseCardComponent } from './components/course-card/course-card.compon
 import { NewCoursesComponent } from './components/new-courses/new-courses.component';
 import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { SetOfButtonsComponent } from './components/set-of-buttons/set-of-buttons.component';
 
 const myModules = [
   HeaderComponent,
@@ -18,6 +19,7 @@ const myModules = [
   NewCoursesComponent,
   UserCoursesComponent,
   DropdownComponent,
+  SetOfButtonsComponent,
 ];
 
 @NgModule({

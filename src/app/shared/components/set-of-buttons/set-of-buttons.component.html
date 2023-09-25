@@ -1,0 +1,39 @@
+<div class="flex justify-center md:justify-end mt-6">
+  <div
+    class="flex"
+    *ngIf="!(userIsLoged && userData?.roles?.includes('ROLE_ADMIN'))"
+  >
+    <button
+      type="button"
+      class="{{
+        buttons['subscribe'].style
+      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+    >
+      <svg-icon src="{{ buttons['subscribe'].svg }}"></svg-icon>
+      <p class="px-2">{{ buttons["subscribe"].action }}</p>
+    </button>
+  </div>
+  <div
+    class="flex"
+    *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')"
+  >
+    <button
+      type="button"
+      class="{{
+        buttons['edit'].style
+      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+    >
+      <svg-icon src="{{ buttons['edit'].svg }}"></svg-icon>
+      <p class="px-2">{{ buttons["edit"].action }}</p>
+    </button>
+    <button
+      type="button"
+      class="{{
+        buttons['delete'].style
+      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+    >
+      <svg-icon src="{{ buttons['delete'].svg }}"></svg-icon>
+      <p class="px-2">{{ buttons["delete"].action }}</p>
+    </button>
+  </div>
+</div>
