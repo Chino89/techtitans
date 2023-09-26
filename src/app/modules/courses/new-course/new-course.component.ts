@@ -8,6 +8,10 @@ import { TeacherService } from 'src/app/core/services/users/teacher.service';
 import {
   BackEndError,
   CourseRequest,
+  CategoryData,
+  CategoryDataResponse,
+  TeacherData,
+  TeacherDataResponse,
 } from 'src/app/core/interfaces/interfaces';
 import { MyValidators } from 'src/app/utils/validators';
 
@@ -29,8 +33,8 @@ export class NewCourseComponent implements OnInit {
   file: Blob = new Blob();
   fileInputTouched = false;
   invalidType = false;
-  categories: any;
-  teachers: any;
+  categories: CategoryData[] = []
+  teachers: TeacherData[] = []
   forceExit = false;
   nextRoute = '';
   spinner = false;
@@ -54,11 +58,11 @@ export class NewCourseComponent implements OnInit {
 
   getData() {
     this.categoryService.getCategories().subscribe({
-      next: (data: any) => (this.categories = data.data),
+      next: (data: CategoryDataResponse) => (this.categories = data.data),
       error: (errorData) => console.log(errorData),
     });
     this.teacherService.getTeachers().subscribe({
-      next: (data: any) => (this.teachers = data.data),
+      next: (data: TeacherDataResponse) => (this.teachers = data.data),
       error: (errorData) => console.log(errorData),
     });
   }

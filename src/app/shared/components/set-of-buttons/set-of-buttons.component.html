@@ -18,7 +18,6 @@
     *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')"
   >
     <a
-      type="button"
       routerLink="/cursos/{{ courseData.id }}/editar-curso"
       class="{{
         buttons['edit'].style
@@ -28,7 +27,6 @@
       <p class="px-2">{{ buttons["edit"].action }}</p>
     </a>
     <a
-      type="button"
       routerLink="/cursos/{{ courseData.id }}/borrar-curso"
       class="{{
         buttons['delete'].style

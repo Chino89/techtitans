@@ -101,6 +101,29 @@ export type User = {
   accessToken: string;
 };
 
+export type TeacherDataResponse = {
+  data: [TeacherData];
+};
+
+export type TeacherData = {
+  id: Number;
+  docente: String;
+};
+
+export type CategoryDataResponse = {
+  data: [CategoryData];
+};
+
+export type CategoryData = {
+  id: Number;
+  nombre: String;
+  usuario: {
+    nombre: String;
+    apellido: String;
+    email: String;
+  };
+};
+
 export interface onExit {
   onExit: (
     nextRoute: RouterStateSnapshot | undefined

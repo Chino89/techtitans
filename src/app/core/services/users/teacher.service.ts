@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
+import { TeacherDataResponse } from '../../interfaces/interfaces';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,7 @@ import { environment } from 'src/environments/environment';
 export class TeacherService {
   constructor(private http: HttpClient) {}
 
-  getTeachers() {
-    return this.http.get(`${environment.API_URL}/api/usuarios/docentes`);
+  getTeachers(): Observable<TeacherDataResponse> {
+    return this.http.get<TeacherDataResponse>(`${environment.API_URL}/api/usuarios/docentes`);
   }
 }
