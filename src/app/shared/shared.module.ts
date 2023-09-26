@@ -11,6 +11,7 @@ import { NewCoursesComponent } from './components/new-courses/new-courses.compon
 import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { SetOfButtonsComponent } from './components/set-of-buttons/set-of-buttons.component';
+import { CustomToastComponent } from './components/custom-toast/custom-toast.component';
 
 const myModules = [
   HeaderComponent,
@@ -20,6 +21,7 @@ const myModules = [
   UserCoursesComponent,
   DropdownComponent,
   SetOfButtonsComponent,
+  CustomToastComponent,
 ];
 
 @NgModule({
