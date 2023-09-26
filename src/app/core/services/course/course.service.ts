@@ -35,6 +35,12 @@ export class CourseService {
     );
   }
 
+  editCourse(formData: FormData, id:Number): Observable<CourseRequest> {
+    return this.http.post<CourseRequest>(
+      `${environment.API_URL}/api/curso/${id}/editar`,
+      formData
+    );
+  }
   deleteCourse(id: number) {
     console.log(id);
     return this.http.delete<BackEndResponse>(
