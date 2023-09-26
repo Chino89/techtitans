@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PasswordRecoveryService } from 'src/app/core/services/auth/password-recovery.service';
 import {
   SetPasswordRequest,
-  backEndError,
+  BackEndError,
 } from 'src/app/core/interfaces/interfaces';
 import { MyValidators } from 'src/app/utils/validators';
 
@@ -15,10 +15,11 @@ import { MyValidators } from 'src/app/utils/validators';
   styleUrls: ['./recovery-password-page.component.css'],
 })
 export class RecoveryPasswordPageComponent implements OnInit {
-  greeting: string = 'Elige tu contraseña';
-  errorGreeting: string = 'Oops! Tuvimos algunos errores...';
-  passwordToast: boolean = false;
-  recoveryError: backEndError[] = [];
+  greeting= 'Elige tu contraseña';
+  errorGreeting = 'Oops! Tuvimos algunos errores...';
+  passwordToast = false;
+  recoveryError: BackEndError[] = [];
+  token = '';
   setForm = this.formBuilder.group(
     {
       password: [
@@ -35,7 +36,6 @@ export class RecoveryPasswordPageComponent implements OnInit {
       validators: MyValidators.matchPasswords,
     }
   );
-  token: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -60,7 +60,7 @@ export class RecoveryPasswordPageComponent implements OnInit {
             if (errorData.error.mensaje) {
               this.recoveryError = [{ mensaje: errorData.error.mensaje }];
             } else {
-              this.recoveryError = errorData.error.errors as backEndError[];
+              this.recoveryError = errorData.error.errors as BackEndError[];
             }
           },
           complete: () => {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { VerifyUserService } from 'src/app/core/services/auth/verify-user.service';
-import { backEndError } from 'src/app/core/interfaces/interfaces';
+import { BackEndError } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-verify-user',
@@ -12,7 +12,7 @@ import { backEndError } from 'src/app/core/interfaces/interfaces';
 export class VerifyUserComponent implements OnInit {
   token: string = '';
   greeting: string = 'Bienvenido a nuestro portal';
-  verifyError: backEndError[] = [];
+  verifyError: BackEndError[] = [];
   constructor(
     private route: ActivatedRoute,
     private verifyUserService: VerifyUserService,

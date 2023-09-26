@@ -5,8 +5,8 @@ import { CourseService } from 'src/app/core/services/course/course.service';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 import {
   User,
-  courseData,
-  courseResponse,
+  CourseResponse,
+  CourseDetailResponse,
 } from 'src/app/core/interfaces/interfaces';
 
 @Component({
@@ -15,7 +15,7 @@ import {
   styleUrls: ['./course-detail.component.css'],
 })
 export class CourseDetailComponent implements OnInit {
-  courseData: courseResponse = {
+  courseData: CourseResponse = {
     id: 0,
     nombre: '',
     descripcion: '',
@@ -34,6 +34,7 @@ export class CourseDetailComponent implements OnInit {
     },
     docente: { nombre: '', apellido: '' },
   };
+
   userIsLoged = false;
   userData: User = {
     id: 0,
@@ -71,8 +72,8 @@ export class CourseDetailComponent implements OnInit {
 
   getCourse(identificator: number | string) {
     this.courseService.getCourseByIdOrSlug(identificator).subscribe({
-      next: (data: courseData) => {
-        this.courseData = data.data as courseResponse;
+      next: (data: CourseDetailResponse) => {
+        this.courseData = data.data;
         console.log(this.courseData);
       },
       error: (errorData) => console.log(errorData),

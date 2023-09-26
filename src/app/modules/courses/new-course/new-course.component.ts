@@ -6,8 +6,8 @@ import { CategoryService } from 'src/app/core/services/category/category.service
 import { CourseService } from 'src/app/core/services/course/course.service';
 import { TeacherService } from 'src/app/core/services/users/teacher.service';
 import {
-  backEndError,
-  courseRequest,
+  BackEndError,
+  CourseRequest,
 } from 'src/app/core/interfaces/interfaces';
 import { MyValidators } from 'src/app/utils/validators';
 
@@ -20,20 +20,20 @@ interface HtmlInputEvent extends Event {
   styleUrls: ['./new-course.component.css'],
 })
 export class NewCourseComponent implements OnInit {
-  greeting: string = 'Crear un nuevo curso';
-  errorGreeting: string = 'Se encontraron errores';
-  newCourseToast: boolean = false;
-  hasCourse: boolean = false;
-  newCourseError: backEndError[] = [];
+  greeting = 'Crear un nuevo curso';
+  errorGreeting = 'Se encontraron errores';
+  newCourseToast = false;
+  hasCourse = false;
+  newCourseError: BackEndError[] = [];
   selectedPhoto: ArrayBuffer | string = '';
   file: Blob = new Blob();
   fileInputTouched = false;
-  invalidType: boolean = false;
+  invalidType = false;
   categories: any;
   teachers: any;
-  forceExit: boolean = false;
-  nextRoute: string = '';
-  spinner: boolean = false;
+  forceExit = false;
+  nextRoute = '';
+  spinner = false;
 
   newCourseForm = this.formBuilder.group(
     {
@@ -107,7 +107,7 @@ export class NewCourseComponent implements OnInit {
       precio,
       categoriaId,
       docenteId,
-    } = this.newCourseForm.value as courseRequest;
+    } = this.newCourseForm.value as CourseRequest;
 
     formData.append('nombre', nombre);
     formData.append('descripcion', descripcion);
@@ -125,7 +125,7 @@ export class NewCourseComponent implements OnInit {
           if (errorData.error.mensaje) {
             this.newCourseError = [{ mensaje: errorData.error.mensaje }];
           } else {
-            this.newCourseError = errorData.error.errors as backEndError[];
+            this.newCourseError = errorData.error.errors as BackEndError[];
           }
         },
         complete: () => {
