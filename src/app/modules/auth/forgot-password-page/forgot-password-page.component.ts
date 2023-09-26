@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { ForgotPasswordService } from 'src/app/core/services/auth/forgot-password.service';
 import {
   ForgotPasswordRequest,
-  backEndError,
+  BackEndError,
 } from 'src/app/core/interfaces/interfaces';
 
 @Component({
@@ -15,12 +15,12 @@ import {
   styleUrls: ['./forgot-password-page.component.css'],
 })
 export class ForgotPasswordPageComponent implements OnInit, OnDestroy {
-  greeting: string = 'Recuperemos tu clave';
-  errorGreeting: string = 'Oops! Tuvimos algunos errores...';
-  emailToast: boolean = false;
-  communication: string =
+  greeting = 'Recuperemos tu clave';
+  errorGreeting = 'Oops! Tuvimos algunos errores...';
+  emailToast = false;
+  communication =
     'Te hemos enviado un email, Chequea tu casilla por favor.';
-  recoveryError: backEndError[] = [];
+  recoveryError: BackEndError[] = [];
   recoveryForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
   });
@@ -43,7 +43,7 @@ export class ForgotPasswordPageComponent implements OnInit, OnDestroy {
             if (errorData.error.mensaje) {
               this.recoveryError = [{ mensaje: errorData.error.mensaje }];
             } else {
-              this.recoveryError = errorData.error.errors as backEndError[];
+              this.recoveryError = errorData.error.errors as BackEndError[];
             }
           },
           complete: () => {

@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import {
-  actionButton,
-  courseResponse,
-} from 'src/app/core/interfaces/interfaces';
+import { CourseResponse, Customizer } from 'src/app/core/interfaces/interfaces';
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-card',
@@ -12,7 +10,7 @@ import { buttonInteractions } from '../../../../assets/icons/buttonInteractions'
   styleUrls: ['./course-card.component.css'],
 })
 export class CourseCardComponent implements OnInit {
-  @Input() courseContent: courseResponse = {
+  @Input() courseContent: CourseResponse = {
     id: 0,
     nombre: '',
     descripcion: '',
@@ -33,10 +31,14 @@ export class CourseCardComponent implements OnInit {
   };
 
   buttons: {
-    [key: string]: actionButton;
+    [key: string]: Customizer;
   } = buttonInteractions;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
+
+  navigateTo(courseIdentification: string) {
+    this.router.navigate([`/cursos/${courseIdentification}`]);
+  }
 }

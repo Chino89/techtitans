@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import {
-  backEndError,
+  BackEndError,
   onExit,
   RegisterRequest,
 } from 'src/app/core/interfaces/interfaces';
@@ -17,7 +17,7 @@ export class RegisterPageComponent implements OnInit, onExit {
   greeting: string = 'Hola, Bienvenido!';
   errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   registerToast: boolean = false;
-  registerError: backEndError[] = [];
+  registerError: BackEndError[] = [];
   hasUser: boolean = false;
   nextRoute: string = '';
   forceExit: boolean = false;
@@ -52,7 +52,7 @@ export class RegisterPageComponent implements OnInit, onExit {
             if (errorData.error.mensaje) {
               this.registerError = [{ mensaje: errorData.error.mensaje }];
             } else {
-              this.registerError = errorData.error.errors as backEndError[];
+              this.registerError = errorData.error.errors as BackEndError[];
             }
           },
           complete: () => {

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { User, actionButton } from 'src/app/core/interfaces/interfaces';
+import { Component, Input, OnInit } from '@angular/core';
+import { User, Customizer, CourseResponse } from 'src/app/core/interfaces/interfaces';
 
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 import { LoginService } from 'src/app/core/services/auth/login.service';
@@ -11,7 +11,7 @@ import { LoginService } from 'src/app/core/services/auth/login.service';
 })
 export class SetOfButtonsComponent implements OnInit {
   buttons: {
-    [key: string]: actionButton;
+    [key: string]: Customizer;
   } = buttonInteractions;
   userIsLoged = false;
   userData: User = {
@@ -23,14 +23,36 @@ export class SetOfButtonsComponent implements OnInit {
     accessToken: '',
   };
 
-  constructor(private loginService: LoginService) {}
+  @Input() courseData: CourseResponse = {
+    id: 0,
+    nombre: '',
+    descripcion: '',
+    portada: '',
+    public_id: '',
+    dia_curso: '',
+    hora_curso: '',
+    duracion: '',
+    precio: '',
+    slug: '',
+    categoria: { nombre: '' },
+    usuario: {
+      nombre: '',
+      apellido: '',
+      email: '',
+    },
+    docente: { nombre: '', apellido: '' },
+  };
 
+  constructor(private loginService: LoginService) {}
+  
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
       next: (userIsLoged) => {
         this.userIsLoged = userIsLoged;
       },
     });
+
+    
 
     this.loginService.currentUserData.subscribe({
       next: (userData) => {

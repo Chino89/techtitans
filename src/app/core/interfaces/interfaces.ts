@@ -1,7 +1,7 @@
 import { RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-export type courseRequest = {
+export type CourseRequest = {
   nombre: string;
   descripcion: string;
   dia: string;
@@ -13,7 +13,7 @@ export type courseRequest = {
   file: Blob;
 };
 
-export type courseResponse = {
+export type CourseResponse = {
   id: number;
   nombre: string;
   descripcion: string;
@@ -24,21 +24,25 @@ export type courseResponse = {
   duracion: string;
   precio: string;
   slug: string;
-  categoria: {nombre: string}
+  categoria: { nombre: string };
   usuario: {
     nombre: string;
     apellido: string;
     email: string;
-  }
+  };
   docente: {
     nombre: string;
     apellido: string;
-  }
+  };
 };
 
-export type courseData = {
-  data: courseResponse
-}
+export type CourseData = {
+  data: CourseResponse[];
+};
+
+export type CourseDetailResponse = {
+  data: CourseResponse;
+};
 
 export type CarouselItem = {
   img: string;
@@ -47,16 +51,16 @@ export type CarouselItem = {
 
 export type DropdownItem = {
   svg: string;
-  routerLink: string,
+  routerLink: string;
   component: string;
   phrase: string;
-}
+};
 
-export type actionButton = {
+export type Customizer = {
   svg: string;
   action: string;
   style: string;
-}
+};
 
 export type LoginRequest = {
   email: string;
@@ -80,7 +84,11 @@ export type ForgotPasswordRequest = {
   email: string;
 };
 
-export type backEndError = {
+export type BackEndError = {
+  mensaje: string;
+};
+
+export type BackEndResponse = {
   mensaje: string;
 };
 
