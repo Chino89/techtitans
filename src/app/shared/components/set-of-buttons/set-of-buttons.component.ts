@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { User, Customizer, CourseResponse } from 'src/app/core/interfaces/interfaces';
+import {
+  User,
+  Customizer,
+  CourseResponse,
+} from 'src/app/core/interfaces/interfaces';
 
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 import { LoginService } from 'src/app/core/services/auth/login.service';
@@ -34,25 +38,24 @@ export class SetOfButtonsComponent implements OnInit {
     duracion: '',
     precio: '',
     slug: '',
-    categoria: { nombre: '' },
+    categoria: { id: 0, nombre: '' },
     usuario: {
+      id: 0,
       nombre: '',
       apellido: '',
       email: '',
     },
-    docente: { nombre: '', apellido: '' },
+    docente: { id: 0, nombre: '', apellido: '' },
   };
 
   constructor(private loginService: LoginService) {}
-  
+
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
       next: (userIsLoged) => {
         this.userIsLoged = userIsLoged;
       },
     });
-
-    
 
     this.loginService.currentUserData.subscribe({
       next: (userData) => {

@@ -26,13 +26,18 @@ export class CourseDetailComponent implements OnInit {
     duracion: '',
     precio: '',
     slug: '',
-    categoria: { nombre: '' },
+    categoria: { id: 0, nombre: '' },
     usuario: {
+      id: 0,
       nombre: '',
       apellido: '',
       email: '',
     },
-    docente: { nombre: '', apellido: '' },
+    docente: {
+      id: 0,
+      nombre: '',
+      apellido: '',
+    },
   };
 
   userIsLoged = false;

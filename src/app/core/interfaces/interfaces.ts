@@ -24,13 +24,15 @@ export type CourseResponse = {
   duracion: string;
   precio: string;
   slug: string;
-  categoria: { nombre: string };
+  categoria: { id: number; nombre: string };
   usuario: {
+    id: number;
     nombre: string;
     apellido: string;
     email: string;
   };
   docente: {
+    id: number;
     nombre: string;
     apellido: string;
   };

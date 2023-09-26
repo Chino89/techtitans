@@ -33,7 +33,6 @@ export class EditCourseComponent implements OnInit {
   fileInputTouched = false;
   spinner = false;
 
-
   oldCourseData: CourseResponse = {
     id: 0,
     nombre: '',
@@ -46,19 +45,41 @@ export class EditCourseComponent implements OnInit {
     precio: '',
     slug: '',
     categoria: {
+      id: 0,
       nombre: '',
     },
     usuario: {
+      id: 0,
       nombre: '',
       apellido: '',
       email: '',
     },
     docente: {
+      id: 0,
       nombre: '',
       apellido: '',
     },
   };
-  
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private categoryService: CategoryService,
+    private teacherService: TeacherService,
+    private courseService: CourseService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    const identificator = this.route.snapshot.paramMap.get('identificator') as
+      | number
+      | string;
+
+    this.getCourse(identificator);
+
+    this.getData();
+  }
+
   getData() {
     this.categoryService.getCategories().subscribe({
       next: (data: CategoryDataResponse) => (this.categories = data.data),
@@ -74,8 +95,14 @@ export class EditCourseComponent implements OnInit {
     this.courseService.getCourseByIdOrSlug(identificator).subscribe({
       next: (data: CourseDetailResponse) => {
         this.oldCourseData = data.data;
-        console.log(this.oldCourseData)
-        
+        this.editCourseForm.patchValue(data.data);
+        this.editCourseForm.controls.dia.setValue(data.data.dia_curso);
+        this.editCourseForm.controls.hora.setValue(data.data.hora_curso);
+        this.editCourseForm.controls.categoriaId.setValue(
+          data.data.categoria.id
+        );
+        this.editCourseForm.controls.docenteId.setValue(data.data.docente.id);
+        this.selectedPhoto = data.data.portada;
       },
       error: (errorData) => console.log(errorData),
     });
@@ -93,31 +120,13 @@ export class EditCourseComponent implements OnInit {
         this.oldCourseData.precio,
         [Validators.required, Validators.min(0)],
       ],
-      categoriaId: [this.oldCourseData.categoria.nombre, [Validators.required]],
-      docenteId: [this.oldCourseData.docente, [Validators.required]],
+      categoriaId: [this.oldCourseData.categoria.id, [Validators.required]],
+      docenteId: [this.oldCourseData.docente.id, [Validators.required]],
     },
     {
       validators: [MyValidators.validDate],
     }
   );
-
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private categoryService: CategoryService,
-    private teacherService: TeacherService,
-    private courseService: CourseService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
-
-  ngOnInit(): void {
-    const identificator = this.route.snapshot.paramMap.get('identificator') as
-      | number
-      | string;
-
-    this.getCourse(identificator);
-  }
 
   selectPhoto(event: any): void {
     if (event.target.files && event.target.files[0]!) {
@@ -141,7 +150,6 @@ export class EditCourseComponent implements OnInit {
 
   onEditCourse() {
     this.spinner = true;
-    
 
     console.log('estoy editando el curso');
   }

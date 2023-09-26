@@ -13,7 +13,7 @@ import { CourseService } from 'src/app/core/services/course/course.service';
   styleUrls: ['./delete-course.component.css'],
 })
 export class DeleteCourseComponent implements OnInit {
-  message= 'Estás eliminando el siguiente curso';
+  message = 'Estás eliminando el siguiente curso';
   courseDeleteToast = false;
   toastKey = 'error';
   errorResponse: BackEndError[] = [];
@@ -28,13 +28,14 @@ export class DeleteCourseComponent implements OnInit {
     duracion: '',
     precio: '',
     slug: '',
-    categoria: { nombre: '' },
+    categoria: { id: 0, nombre: '' },
     usuario: {
+      id: 0,
       nombre: '',
       apellido: '',
       email: '',
     },
-    docente: { nombre: '', apellido: '' },
+    docente: { id: 0, nombre: '', apellido: '' },
   };
 
   constructor(
