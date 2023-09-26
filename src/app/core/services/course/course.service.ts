@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import {
-  courseData,
-  courseRequest,
-  courseResponse,
+  CourseRequest,
+  CourseData,
+  CourseDetailResponse,
+  BackEndResponse,
 } from '../../interfaces/interfaces';
 
 @Injectable({
@@ -15,20 +16,29 @@ import {
 export class CourseService {
   constructor(private http: HttpClient) {}
 
-  createCourse(formData: FormData): Observable<courseRequest> {
-    return this.http.post<courseRequest>(
+  createCourse(formData: FormData): Observable<CourseRequest> {
+    return this.http.post<CourseRequest>(
       `${environment.API_URL}/api/curso/nuevo`,
       formData
     );
   }
 
-  getAllCourses(): Observable<courseResponse[]> {
-    return this.http.get<courseResponse[]>(`${environment.API_URL}/api/cursos`);
+  getAllCourses(): Observable<CourseData> {
+    return this.http.get<CourseData>(`${environment.API_URL}/api/cursos`);
   }
 
-  getCourseByIdOrSlug(identificator: number | string): Observable<courseData> {
-    return this.http.get<courseData>(
+  getCourseByIdOrSlug(
+    identificator: number | string
+  ): Observable<CourseDetailResponse> {
+    return this.http.get<CourseDetailResponse>(
       `${environment.API_URL}/api/curso/${identificator}`
+    );
+  }
+
+  deleteCourse(id: number) {
+    console.log(id);
+    return this.http.delete<BackEndResponse>(
+      `${environment.API_URL}/api/curso/${id}/borrar`
     );
   }
 }

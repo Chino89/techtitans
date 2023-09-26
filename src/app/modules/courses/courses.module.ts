@@ -9,12 +9,16 @@ import { CoursesRoutingModule } from './courses-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NewCourseComponent } from './new-course/new-course.component';
 import { CourseDetailComponent } from './course-detail/course-detail.component';
+import { DeleteCourseComponent } from './delete-course/delete-course.component';
+import { EditCourseComponent } from './edit-course/edit-course.component';
 
 @NgModule({
   declarations: [
     CoursesPageComponent,
     NewCourseComponent,
     CourseDetailComponent,
+    DeleteCourseComponent,
+    EditCourseComponent,
   ],
   imports: [
     CommonModule,
