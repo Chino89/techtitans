@@ -35,8 +35,8 @@ export class CourseService {
     );
   }
 
-  editCourse(formData: FormData, id:Number): Observable<CourseRequest> {
-    return this.http.post<CourseRequest>(
+  editCourse(formData: FormData, id: Number): Observable<CourseRequest> {
+    return this.http.put<CourseRequest>(
       `${environment.API_URL}/api/curso/${id}/editar`,
       formData
     );
