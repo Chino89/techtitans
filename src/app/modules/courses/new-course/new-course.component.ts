@@ -33,8 +33,8 @@ export class NewCourseComponent implements OnInit {
   file: Blob = new Blob();
   fileInputTouched = false;
   invalidType = false;
-  categories: CategoryData[] = []
-  teachers: TeacherData[] = []
+  categories: CategoryData[] = [];
+  teachers: TeacherData[] = [];
   forceExit = false;
   nextRoute = '';
   spinner = false;
@@ -126,6 +126,7 @@ export class NewCourseComponent implements OnInit {
     if (this.newCourseForm.valid) {
       this.courseService.createCourse(formData).subscribe({
         error: (errorData) => {
+          this.spinner = false;
           if (errorData.error.mensaje) {
             this.newCourseError = [{ mensaje: errorData.error.mensaje }];
           } else {

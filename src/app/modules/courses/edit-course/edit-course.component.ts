@@ -9,6 +9,7 @@ import {
   CategoryData,
   TeacherData,
   CourseDetailResponse,
+  CourseRequest,
 } from 'src/app/core/interfaces/interfaces';
 import { CategoryService } from 'src/app/core/services/category/category.service';
 import { CourseService } from 'src/app/core/services/course/course.service';
@@ -24,6 +25,10 @@ export class EditCourseComponent implements OnInit {
   greeting = 'Editando curso: ';
   errorGreeting = 'Se encontraron errores';
   editCourseToast = false;
+  hasChange = false;
+  hasCourse = false;
+  forceExit = false;
+  nextRoute = '';
   editCourseErrors: BackEndError[] = [];
   categories: CategoryData[] = [];
   teachers: TeacherData[] = [];
@@ -70,13 +75,11 @@ export class EditCourseComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+  identificator = this.route.snapshot.paramMap.get('identificator') as
+    | number
+    | string;
   ngOnInit(): void {
-    const identificator = this.route.snapshot.paramMap.get('identificator') as
-      | number
-      | string;
-
-    this.getCourse(identificator);
-
+    this.getCourse(this.identificator);
     this.getData();
   }
 
@@ -96,13 +99,13 @@ export class EditCourseComponent implements OnInit {
       next: (data: CourseDetailResponse) => {
         this.oldCourseData = data.data;
         this.editCourseForm.patchValue(data.data);
+        this.selectedPhoto = data.data.portada;
         this.editCourseForm.controls.dia.setValue(data.data.dia_curso);
         this.editCourseForm.controls.hora.setValue(data.data.hora_curso);
         this.editCourseForm.controls.categoriaId.setValue(
           data.data.categoria.id
         );
         this.editCourseForm.controls.docenteId.setValue(data.data.docente.id);
-        this.selectedPhoto = data.data.portada;
       },
       error: (errorData) => console.log(errorData),
     });
@@ -110,18 +113,15 @@ export class EditCourseComponent implements OnInit {
 
   editCourseForm = this.formBuilder.group(
     {
-      nombre: [this.oldCourseData.nombre, [Validators.required]],
-      descripcion: [this.oldCourseData.descripcion, [Validators.required]],
-      hasImage: [false, [Validators.requiredTrue]],
-      dia: [this.oldCourseData.dia_curso, [Validators.required]],
-      hora: [this.oldCourseData.hora_curso, [Validators.required]],
-      duracion: [this.oldCourseData.duracion, [Validators.required]],
-      precio: [
-        this.oldCourseData.precio,
-        [Validators.required, Validators.min(0)],
-      ],
-      categoriaId: [this.oldCourseData.categoria.id, [Validators.required]],
-      docenteId: [this.oldCourseData.docente.id, [Validators.required]],
+      nombre: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
+      hasImage: [true, [Validators.requiredTrue]],
+      dia: ['', [Validators.required]],
+      hora: ['', [Validators.required]],
+      duracion: ['', [Validators.required]],
+      precio: ['', [Validators.required, Validators.min(0)]],
+      categoriaId: [0, [Validators.required]],
+      docenteId: [0, [Validators.required]],
     },
     {
       validators: [MyValidators.validDate],
@@ -149,9 +149,62 @@ export class EditCourseComponent implements OnInit {
   }
 
   onEditCourse() {
+    const param = this.oldCourseData.id;
     this.spinner = true;
+    const formData = new FormData();
+    const {
+      nombre,
+      descripcion,
+      dia,
+      hora,
+      duracion,
+      precio,
+      categoriaId,
+      docenteId,
+    } = this.editCourseForm.value as any;
 
-    console.log('estoy editando el curso');
+    formData.append('nombre', nombre);
+    formData.append('descripcion', descripcion);
+    formData.append('dia', dia);
+    formData.append('hora', hora);
+    formData.append('duracion', duracion);
+    formData.append('precio', precio);
+    formData.append('categoriaId', categoriaId);
+    formData.append('docenteId', docenteId);
+    formData.append('imageFile', this.file);
+
+    console.log(this.editCourseForm.controls, 'DATA2')
+
+    if (this.editCourseForm.valid) {
+      this.courseService.editCourse(formData, param).subscribe({
+        error: (errorData) => {
+          this.spinner = false;
+          if (errorData.error.mensaje) {
+            this.editCourseErrors = [{ mensaje: errorData.error.mensaje }];
+          } else {
+            this.editCourseErrors = errorData.error.errors as BackEndError[];
+          }
+        },
+        complete: () => {
+          console.info('Curso editado');
+          this.editCourseToast = true;
+          this.hasCourse = true;
+          this.spinner = false;
+          setTimeout(() => {
+            this.router.navigateByUrl('/cursos');
+          }, 3000);
+        },
+      });
+    }
+  }
+
+  navigate() {
+    this.forceExit = true;
+    this.router.navigateByUrl(this.nextRoute);
+  }
+
+  closeToast() {
+    this.editCourseToast = false;
   }
 
   get nombre() {
