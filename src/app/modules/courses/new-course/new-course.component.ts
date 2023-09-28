@@ -8,12 +8,11 @@ import { TeacherService } from 'src/app/core/services/users/teacher.service';
 import {
   BackEndError,
   CourseRequest,
-  CategoryData,
-  CategoryDataResponse,
   TeacherData,
   TeacherDataResponse,
 } from 'src/app/core/interfaces/interfaces';
 import { MyValidators } from 'src/app/utils/validators';
+import { CategoryData, CategoryDataResponse } from 'src/app/core/interfaces/categoryInterfaces';
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
