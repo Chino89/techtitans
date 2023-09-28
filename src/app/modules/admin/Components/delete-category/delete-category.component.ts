@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { CategoryService } from 'src/app/core/services/category/category.service
   templateUrl: './delete-category.component.html',
   styleUrls: ['./delete-category.component.css'],
 })
-export class DeleteCategoryComponent implements OnInit {
+export class DeleteCategoryComponent implements OnInit, OnDestroy {
   deleteCategoryToast = false;
   toastKey = '';
   message = 'Borrar categoría';
@@ -59,7 +59,7 @@ export class DeleteCategoryComponent implements OnInit {
             this.toastKey = 'check';
             setTimeout(() => {
               this.router.navigateByUrl('');
-            }, 5000);
+            }, 3000);
           },
         });
       this.subscriptions.push(recoveryForgotServiceSubscription);
@@ -70,5 +70,11 @@ export class DeleteCategoryComponent implements OnInit {
 
   get categoriaId() {
     return this.deleteCategoryForm.controls.categoriaId;
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }
