@@ -30,6 +30,12 @@ const routes: Routes = [
       import('./modules/user/user.module').then((m) => m.UserModule),
   },
   {
+    path: 'admin',
+    canActivate: [AdminGuard], // You can't access this path if you aren't logged
+    loadChildren: () =>
+      import('./modules/admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },

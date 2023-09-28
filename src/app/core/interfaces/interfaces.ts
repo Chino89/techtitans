@@ -112,20 +112,6 @@ export type TeacherData = {
   docente: String;
 };
 
-export type CategoryDataResponse = {
-  data: [CategoryData];
-};
-
-export type CategoryData = {
-  id: Number;
-  nombre: String;
-  usuario: {
-    nombre: String;
-    apellido: String;
-    email: String;
-  };
-};
-
 export interface onExit {
   onExit: (
     nextRoute: RouterStateSnapshot | undefined

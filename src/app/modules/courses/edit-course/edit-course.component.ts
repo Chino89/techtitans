@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  BackEndError,
-  CourseResponse,
-  CategoryDataResponse,
-  TeacherDataResponse,
-  CategoryData,
-  TeacherData,
-  CourseDetailResponse,
-  CourseRequest,
-} from 'src/app/core/interfaces/interfaces';
+
 import { CategoryService } from 'src/app/core/services/category/category.service';
 import { CourseService } from 'src/app/core/services/course/course.service';
 import { TeacherService } from 'src/app/core/services/users/teacher.service';
+import { CategoryData, CategoryDataResponse } from 'src/app/core/interfaces/categoryInterfaces';
+import {
+  BackEndError,
+  CourseResponse,
+  TeacherDataResponse,
+  TeacherData,
+  CourseDetailResponse,
+} from 'src/app/core/interfaces/interfaces';
 import { MyValidators } from 'src/app/utils/validators';
 
 @Component({
