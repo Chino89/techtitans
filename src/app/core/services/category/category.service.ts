@@ -27,9 +27,9 @@ export class CategoryService {
     );
   }
 
-  createCategory(): Observable<BackEndResponse> {
-    return this.http.get<BackEndResponse>(
-      `${environment.API_URL}/api/categoria/nuevo`
+  createCategory(data: CategoryName): Observable<BackEndResponse> {
+    return this.http.post<BackEndResponse>(
+      `${environment.API_URL}/api/categoria/nuevo`, data
     );
   }
 
