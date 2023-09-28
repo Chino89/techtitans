@@ -29,13 +29,15 @@ export class CategoryService {
 
   createCategory(data: CategoryName): Observable<BackEndResponse> {
     return this.http.post<BackEndResponse>(
-      `${environment.API_URL}/api/categoria/nuevo`, data
+      `${environment.API_URL}/api/categoria/nuevo`,
+      { data }
     );
   }
 
-  editCategory(id: Number, data:CategoryName): Observable<BackEndResponse> {
+  editCategory(id: Number, nombre: String): Observable<BackEndResponse> {
     return this.http.put<BackEndResponse>(
-      `${environment.API_URL}/api/categoria/${id}/editar`, data
+      `${environment.API_URL}/api/categoria/${id}/editar`,
+      { nombre }
     );
   }
 

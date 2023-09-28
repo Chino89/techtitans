@@ -9,7 +9,7 @@ import { CategoryService } from 'src/app/core/services/category/category.service
 @Component({
   selector: 'app-create-category',
   templateUrl: './create-category.component.html',
-  styleUrls: ['./create-category.component.css']
+  styleUrls: ['./create-category.component.css'],
 })
 export class CreateCategoryComponent implements OnInit, OnDestroy {
   newCategoryToast = false;
@@ -19,15 +19,14 @@ export class CreateCategoryComponent implements OnInit, OnDestroy {
   newCategoryError: BackEndError[] = [];
   subscriptions: Subscription[] = [];
   newCategoryForm = this.formBuilder.group({
-    nombre: ['', [Validators.required]]
-  })
-
+    nombre: ['', [Validators.required]],
+  });
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private categoryService: CategoryService,
-  ) { }
+    private categoryService: CategoryService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -50,7 +49,7 @@ export class CreateCategoryComponent implements OnInit, OnDestroy {
             this.toastKey = 'check';
             setTimeout(() => {
               this.router.navigateByUrl('');
-            }, 5000);
+            }, 3000);
           },
         });
       this.subscriptions.push(recoveryForgotServiceSubscription);
@@ -68,5 +67,4 @@ export class CreateCategoryComponent implements OnInit, OnDestroy {
       subscription.unsubscribe();
     }
   }
-
 }

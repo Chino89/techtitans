@@ -10,20 +10,21 @@ import { BackEndError } from 'src/app/core/interfaces/interfaces';
 import { CategoryService } from 'src/app/core/services/category/category.service';
 
 @Component({
-  selector: 'app-delete-category',
-  templateUrl: './delete-category.component.html',
-  styleUrls: ['./delete-category.component.css'],
+  selector: 'app-edit-category',
+  templateUrl: './edit-category.component.html',
+  styleUrls: ['./edit-category.component.css'],
 })
-export class DeleteCategoryComponent implements OnInit, OnDestroy {
-  deleteCategoryToast = false;
+export class EditCategoryComponent implements OnInit, OnDestroy {
+  editCategoryToast = false;
   toastKey = '';
-  message = 'Borrar categoría';
+  message = 'Editar categoría';
   errorMessage = 'Oops, hubieron algunos errores';
-  newCategoryError: BackEndError[] = [];
+  editCategoryError: BackEndError[] = [];
   subscriptions: Subscription[] = [];
   categories: CategoryData[] = [];
-  deleteCategoryForm = this.formBuilder.group({
-    categoriaId: ['', [Validators.required]],
+  editCategoryForm = this.formBuilder.group({
+    nombre: ['', [Validators.required]],
+    nuevoNombre: ['', [Validators.required]],
   });
 
   constructor(
@@ -39,23 +40,24 @@ export class DeleteCategoryComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDeleteCategory() {
-    const id = Number(this.deleteCategoryForm.value.categoriaId);
-    if (this.deleteCategoryForm.valid) {
+  onEditCategory() {
+    const id = Number(this.editCategoryForm.value.nombre);
+    const newName = this.editCategoryForm.value.nuevoNombre;
+    if (this.editCategoryForm.valid) {
       const recoveryForgotServiceSubscription = this.categoryService
-        .deleteCategory(id)
+        .editCategory(id, newName as string)
         .subscribe({
           error: (errorData) => {
-            this.deleteCategoryToast = true;
+            this.editCategoryToast = true;
             this.toastKey = 'error';
             if (errorData.error.mensaje) {
-              this.newCategoryError = [{ mensaje: errorData.error.mensaje }];
+              this.editCategoryError = [{ mensaje: errorData.error.mensaje }];
             } else {
-              this.newCategoryError = errorData.error.errors as BackEndError[];
+              this.editCategoryError = errorData.error.errors as BackEndError[];
             }
           },
           complete: () => {
-            this.deleteCategoryToast = true;
+            this.editCategoryToast = true;
             this.toastKey = 'check';
             setTimeout(() => {
               this.router.navigateByUrl('');
@@ -64,12 +66,16 @@ export class DeleteCategoryComponent implements OnInit, OnDestroy {
         });
       this.subscriptions.push(recoveryForgotServiceSubscription);
     } else {
-      this.deleteCategoryForm.markAllAsTouched();
+      this.editCategoryForm.markAllAsTouched();
     }
   }
 
-  get categoriaId() {
-    return this.deleteCategoryForm.controls.categoriaId;
+  get oldName() {
+    return this.editCategoryForm.controls.nombre;
+  }
+
+  get newName() {
+    return this.editCategoryForm.controls.nuevoNombre;
   }
 
   ngOnDestroy(): void {
