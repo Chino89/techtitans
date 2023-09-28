@@ -22,5 +22,11 @@
         "routerLink": "admin/eliminar-categoria",
         "component": "Eliminar categoría",
         "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/add.svg",
+        "routerLink": "admin/nuevo-docente",
+        "component": "Nuevo Docente",
+        "phrase": ""
     }
 ]
