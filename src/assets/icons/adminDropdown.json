@@ -10,5 +10,11 @@
         "routerLink": "admin/crear-categoria",
         "component": "Crear categoría",
         "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/delete.svg",
+        "routerLink": "admin/eliminar-categoria",
+        "component": "Eliminar categoría",
+        "phrase": ""
     }
 ]
