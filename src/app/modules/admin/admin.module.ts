@@ -8,12 +8,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { CreateCategoryComponent } from './Components/create-category/create-category.component';
 import { DeleteCategoryComponent } from './Components/delete-category/delete-category.component';
-
+import { EditCategoryComponent } from './Components/edit-category/edit-category.component';
 
 @NgModule({
   declarations: [
     CreateCategoryComponent,
-    DeleteCategoryComponent
+    DeleteCategoryComponent,
+    EditCategoryComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +23,6 @@ import { DeleteCategoryComponent } from './Components/delete-category/delete-cat
     HttpClientModule,
     AngularSvgIconModule,
     SharedModule,
-  ]
+  ],
 })
-export class AdminModule { }
+export class AdminModule {}

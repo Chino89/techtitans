@@ -12,6 +12,12 @@
         "phrase": ""
     },
     {
+        "svg": "/assets/icons/editCourse.svg",
+        "routerLink": "admin/editar-categoria",
+        "component": "Editar categoría",
+        "phrase": ""
+    },
+    {
         "svg": "/assets/icons/delete.svg",
         "routerLink": "admin/eliminar-categoria",
         "component": "Eliminar categoría",
