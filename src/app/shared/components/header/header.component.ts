@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { User } from 'src/app/core/interfaces/interfaces';
+import { User } from 'src/app/core/interfaces/userInterfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 
 import adminOptions from '../../../../assets/icons/adminDropdown.json';

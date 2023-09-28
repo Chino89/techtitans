@@ -6,7 +6,8 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 import { TokenService } from './token.service';
-import { LoginRequest, User } from '../../interfaces/interfaces';
+import { User } from '../../interfaces/userInterfaces';
+import { LoginRequest } from '../../interfaces/authInterfaces';
 
 const helper = new JwtHelperService();
 

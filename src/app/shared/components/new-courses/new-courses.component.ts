@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 
-import { CourseResponse } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-new-courses',

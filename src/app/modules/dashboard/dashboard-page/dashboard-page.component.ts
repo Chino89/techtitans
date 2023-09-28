@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import carouselContent from '../../../../assets/carousel/carousel.json';
 import { CourseService } from 'src/app/core/services/course/course.service';
 
-import { CourseData, CourseResponse } from 'src/app/core/interfaces/interfaces';
+import { CourseData, CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 
 @Component({
   selector: 'app-dashboard-page',

@@ -2,18 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { MyValidators } from 'src/app/utils/validators';
 import { CategoryService } from 'src/app/core/services/category/category.service';
 import { CourseService } from 'src/app/core/services/course/course.service';
-import { TeacherService } from 'src/app/core/services/users/teacher.service';
-import { CategoryData, CategoryDataResponse } from 'src/app/core/interfaces/categoryInterfaces';
+import { UserService } from 'src/app/core/services/users/user.service';
+import { BackEndError } from 'src/app/core/interfaces/interfaces';
 import {
-  BackEndError,
-  CourseResponse,
-  TeacherDataResponse,
   TeacherData,
-  CourseDetailResponse,
-} from 'src/app/core/interfaces/interfaces';
-import { MyValidators } from 'src/app/utils/validators';
+  TeacherDataResponse,
+} from 'src/app/core/interfaces/userInterfaces';
+import { CourseDetailResponse, CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
+import {
+  CategoryData,
+  CategoryDataResponse,
+} from 'src/app/core/interfaces/categoryInterfaces';
 
 @Component({
   selector: 'app-edit-course',
@@ -68,7 +70,7 @@ export class EditCourseComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
-    private teacherService: TeacherService,
+    private userService: UserService,
     private courseService: CourseService,
     private router: Router,
     private route: ActivatedRoute
@@ -87,7 +89,7 @@ export class EditCourseComponent implements OnInit {
       next: (data: CategoryDataResponse) => (this.categories = data.data),
       error: (errorData) => console.log(errorData),
     });
-    this.teacherService.getTeachers().subscribe({
+    this.userService.getTeachers().subscribe({
       next: (data: TeacherDataResponse) => (this.teachers = data.data),
       error: (errorData) => console.log(errorData),
     });
@@ -172,7 +174,7 @@ export class EditCourseComponent implements OnInit {
     formData.append('docenteId', docenteId);
     formData.append('imageFile', this.file);
 
-    console.log(this.editCourseForm.controls, 'DATA2')
+    console.log(this.editCourseForm.controls, 'DATA2');
 
     if (this.editCourseForm.valid) {
       this.courseService.editCourse(formData, param).subscribe({

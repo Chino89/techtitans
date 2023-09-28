@@ -4,10 +4,8 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { ForgotPasswordService } from 'src/app/core/services/auth/forgot-password.service';
-import {
-  ForgotPasswordRequest,
-  BackEndError,
-} from 'src/app/core/interfaces/interfaces';
+import { BackEndError } from 'src/app/core/interfaces/interfaces';
+import { ForgotPasswordRequest } from 'src/app/core/interfaces/authInterfaces';
 
 @Component({
   selector: 'app-forgot-password-page',
@@ -18,8 +16,7 @@ export class ForgotPasswordPageComponent implements OnInit, OnDestroy {
   greeting = 'Recuperemos tu clave';
   errorGreeting = 'Oops! Tuvimos algunos errores...';
   emailToast = false;
-  communication =
-    'Te hemos enviado un email, Chequea tu casilla por favor.';
+  communication = 'Te hemos enviado un email, Chequea tu casilla por favor.';
   recoveryError: BackEndError[] = [];
   recoveryForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
