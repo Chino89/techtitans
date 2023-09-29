@@ -22,5 +22,11 @@
         "routerLink": "admin/eliminar-categoria",
         "component": "Eliminar categoría",
         "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/add.svg",
+        "routerLink": "admin/gestion-de-rol",
+        "component": "Gestión de Roles",
+        "phrase": ""
     }
 ]

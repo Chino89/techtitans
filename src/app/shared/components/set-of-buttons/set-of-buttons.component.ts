@@ -1,12 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  User,
-  Customizer,
-  CourseResponse,
-} from 'src/app/core/interfaces/interfaces';
+import { Customizer } from 'src/app/core/interfaces/interfaces';
 
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 import { LoginService } from 'src/app/core/services/auth/login.service';
+import { User } from 'src/app/core/interfaces/userInterfaces';
+import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 
 @Component({
   selector: 'app-set-of-buttons',

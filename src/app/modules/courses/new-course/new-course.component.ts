@@ -3,16 +3,15 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterStateSnapshot } from '@angular/router';
 
 import { CategoryService } from 'src/app/core/services/category/category.service';
+import { UserService } from 'src/app/core/services/users/user.service';
 import { CourseService } from 'src/app/core/services/course/course.service';
-import { TeacherService } from 'src/app/core/services/users/teacher.service';
 import {
-  BackEndError,
-  CourseRequest,
-  TeacherData,
-  TeacherDataResponse,
+  BackEndError
 } from 'src/app/core/interfaces/interfaces';
+import { CourseRequest } from 'src/app/core/interfaces/courseInterfaces';
 import { MyValidators } from 'src/app/utils/validators';
 import { CategoryData, CategoryDataResponse } from 'src/app/core/interfaces/categoryInterfaces';
+import { TeacherData, TeacherDataResponse } from 'src/app/core/interfaces/userInterfaces';
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -60,7 +59,7 @@ export class NewCourseComponent implements OnInit {
       next: (data: CategoryDataResponse) => (this.categories = data.data),
       error: (errorData) => console.log(errorData),
     });
-    this.teacherService.getTeachers().subscribe({
+    this.userService.getTeachers().subscribe({
       next: (data: TeacherDataResponse) => (this.teachers = data.data),
       error: (errorData) => console.log(errorData),
     });
@@ -69,7 +68,7 @@ export class NewCourseComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
-    private teacherService: TeacherService,
+    private userService: UserService,
     private courseService: CourseService,
     private router: Router
   ) {}

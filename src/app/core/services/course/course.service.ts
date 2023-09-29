@@ -4,11 +4,9 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import {
-  CourseRequest,
-  CourseData,
-  CourseDetailResponse,
   BackEndResponse,
 } from '../../interfaces/interfaces';
+import { CourseData, CourseDetailResponse, CourseRequest } from '../../interfaces/courseInterfaces';
 
 @Injectable({
   providedIn: 'root',

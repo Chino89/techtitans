@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  BackEndError,
-  CourseDetailResponse,
-  CourseResponse,
-} from 'src/app/core/interfaces/interfaces';
 import { CourseService } from 'src/app/core/services/course/course.service';
+import { CourseDetailResponse, CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
+import {
+  BackEndError
+} from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-delete-course',

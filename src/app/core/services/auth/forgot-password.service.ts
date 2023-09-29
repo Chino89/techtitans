@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { ForgotPasswordRequest, User } from '../../interfaces/interfaces';
+import { User } from '../../interfaces/userInterfaces';
+import { ForgotPasswordRequest } from '../../interfaces/authInterfaces';
 
 @Injectable({
   providedIn: 'root'

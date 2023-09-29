@@ -4,10 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { CourseService } from 'src/app/core/services/course/course.service';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 import {
-  User,
   CourseResponse,
   CourseDetailResponse,
-} from 'src/app/core/interfaces/interfaces';
+} from 'src/app/core/interfaces/courseInterfaces';
+import { User } from 'src/app/core/interfaces/userInterfaces';
 
 @Component({
   selector: 'app-course-detail',

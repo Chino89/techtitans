@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-
-import { CourseResponse, Customizer } from 'src/app/core/interfaces/interfaces';
-import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 import { Router } from '@angular/router';
+
+import { Customizer } from 'src/app/core/interfaces/interfaces';
+import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
+import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 
 @Component({
   selector: 'app-course-card',

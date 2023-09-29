@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterStateSnapshot } from '@angular/router';
+import { RegisterRequest } from 'src/app/core/interfaces/authInterfaces';
 import {
   BackEndError,
   onExit,
-  RegisterRequest,
 } from 'src/app/core/interfaces/interfaces';
 import { RegisterService } from 'src/app/core/services/auth/register.service';
 

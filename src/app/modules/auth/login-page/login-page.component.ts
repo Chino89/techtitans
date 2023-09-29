@@ -3,7 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LoginService } from 'src/app/core/services/auth/login.service';
-import { LoginRequest, BackEndError } from 'src/app/core/interfaces/interfaces';
+import { BackEndError } from 'src/app/core/interfaces/interfaces';
+import { LoginRequest } from 'src/app/core/interfaces/authInterfaces';
 
 @Component({
   selector: 'app-login-page',
