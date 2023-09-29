@@ -1,25 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TeacherDataResponse, UserDataResponse } from '../../interfaces/userInterfaces';
+import {
+  TeacherDataResponse,
+  UserDataResponse,
+} from '../../interfaces/userInterfaces';
 
 import { environment } from 'src/environments/environment';
+import { BackEndResponse } from '../../interfaces/interfaces';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   getUsers(): Observable<UserDataResponse> {
-    return this.http.get<UserDataResponse>(`${environment.API_URL}/api/usuarios`);
-  };
+    return this.http.get<UserDataResponse>(
+      `${environment.API_URL}/api/usuarios`
+    );
+  }
 
   getTeachers(): Observable<TeacherDataResponse> {
-    return this.http.get<TeacherDataResponse>(`${environment.API_URL}/api/usuarios/docentes`);
-  };
-  
+    return this.http.get<TeacherDataResponse>(
+      `${environment.API_URL}/api/usuarios/docentes`
+    );
+  }
+
+  patchRole(userID: number, roles: string[]): Observable<BackEndResponse> {
+    return this.http.post<BackEndResponse>(
+      `${environment.API_URL}/api/usuarios/roles`,
+      { userID, roles }
+    );
+  }
 }

@@ -13,13 +13,13 @@ export type UserResponse = {
 };
 
 export type User = {
-    id: number;
-    nombre: string;
-    apellido: string;
-    email: string;
-    roles: string[];
-    accessToken: string;
-  };
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  roles: string[];
+  accessToken: string;
+};
 
 // USER-ROLE = 2 (Docente)
 

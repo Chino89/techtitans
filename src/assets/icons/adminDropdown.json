@@ -25,8 +25,8 @@
     },
     {
         "svg": "/assets/icons/add.svg",
-        "routerLink": "admin/nuevo-docente",
-        "component": "Nuevo Docente",
+        "routerLink": "admin/gestion-de-rol",
+        "component": "Gestión de Roles",
         "phrase": ""
     }
 ]
