@@ -7,11 +7,11 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 
 const routes: Routes = [
   {
-    path: 'perfil/:id',
+    path: 'perfil',
     component: UserPageComponent,
     children: [
       {
-        path: 'perfil',
+        path: '',
         component: UserProfileComponent,
         children: [],
       },
