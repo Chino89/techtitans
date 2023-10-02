@@ -2,6 +2,10 @@ export type UserDataResponse = {
   data: [UserResponse];
 };
 
+export type GetUser = {
+  data: UserResponse;
+};
+
 export type UserResponse = {
   id: Number;
   nombre: String;
@@ -19,6 +23,12 @@ export type User = {
   email: string;
   roles: string[];
   accessToken: string;
+};
+
+export type UserEditRequest = {
+  nombre: String;
+  apellido: String;
+  imageFile: Blob;
 };
 
 // USER-ROLE = 2 (Docente)
