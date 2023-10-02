@@ -42,8 +42,8 @@ export class LoginService {
       .post<User>(`${environment.API_URL}/auth/iniciarsesion`, credentials)
       .pipe(
         tap((response) => {
-          this.getUserData(response.accessToken);
           this.tokenService.saveToken(response.accessToken);
+          this.getUserData(response.accessToken);
           this.currentUserLoginOn.next(true);
         })
       );
@@ -58,6 +58,7 @@ export class LoginService {
 
   logOut() {
     this.tokenService.removeToken();
+    localStorage.removeItem('userData');
     this.currentUserLoginOn.next(false);
   }
 
