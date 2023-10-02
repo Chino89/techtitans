@@ -30,7 +30,7 @@ export class CategoryService {
   createCategory(data: CategoryName): Observable<BackEndResponse> {
     return this.http.post<BackEndResponse>(
       `${environment.API_URL}/api/categoria/nuevo`,
-      { data }
+       data 
     );
   }
 
