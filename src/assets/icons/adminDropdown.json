@@ -1,0 +1,20 @@
+[
+    {
+        "svg": "/assets/icons/newCourse.svg",
+        "routerLink": "cursos/crear-curso", 
+        "component": "Crear curso",
+        "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/editCourse.svg",
+        "routerLink": "",
+        "component": "Editar curso",
+        "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/deleteCourse.svg",
+        "routerLink": "",
+        "component": "Eliminar curso",
+        "phrase": ""
+    }
+]

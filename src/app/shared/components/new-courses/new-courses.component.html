@@ -1,6 +1,11 @@
 <div class="max-w-5xl m-auto mb-16">
-  <h3 class="text-base lg:text-2xl font-semibold m-4">Nuestros nuevos Cursos</h3>
+  <h3 class="text-base lg:text-2xl font-semibold m-4">
+    Nuestros nuevos Cursos
+  </h3>
   <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 px-14 lg:px-8">
-    <app-course-card *ngFor="let curso of coursesContent" [courseContent] = "curso"></app-course-card>
+    <app-course-card
+      *ngFor="let course of coursesContent"
+      [courseContent]="course"
+    ></app-course-card>
   </div>
 </div>

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { ForgotPasswordService } from 'src/app/core/services/auth/forgot-password.service';
 import {
@@ -13,15 +14,17 @@ import {
   templateUrl: './forgot-password-page.component.html',
   styleUrls: ['./forgot-password-page.component.css'],
 })
-export class ForgotPasswordPageComponent implements OnInit {
+export class ForgotPasswordPageComponent implements OnInit, OnDestroy {
   greeting: string = 'Recuperemos tu clave';
   errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   emailToast: boolean = false;
-  communication: string = 'Mail enviado, Chequea tu casilla.';
+  communication: string =
+    'Te hemos enviado un email, Chequea tu casilla por favor.';
   recoveryError: backEndError[] = [];
   recoveryForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
   });
+  subscriptions: Subscription[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,11 +36,10 @@ export class ForgotPasswordPageComponent implements OnInit {
 
   setPassword() {
     if (this.recoveryForm.valid) {
-      this.forgotService
+      const recoveryForgotServiceSubscription = this.forgotService
         .recovery(this.recoveryForm.value as ForgotPasswordRequest)
         .subscribe({
           error: (errorData) => {
-            console.log('estoy en el error', errorData);
             if (errorData.error.mensaje) {
               this.recoveryError = [{ mensaje: errorData.error.mensaje }];
             } else {
@@ -45,21 +47,25 @@ export class ForgotPasswordPageComponent implements OnInit {
             }
           },
           complete: () => {
-            console.info('Mail enviado');
             this.emailToast = true;
+            setTimeout(() => {
+              this.router.navigateByUrl('');
+            }, 5000);
           },
         });
+      this.subscriptions.push(recoveryForgotServiceSubscription);
     } else {
-      console.log('Error al recuperar contraseña');
       this.recoveryForm.markAllAsTouched();
     }
   }
 
-  closeToast() {
-    this.emailToast = false;
-  }
-
   get email() {
     return this.recoveryForm.controls.email;
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }

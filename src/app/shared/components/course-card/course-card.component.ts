@@ -1,26 +1,44 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Course } from 'src/app/core/interfaces/interfaces';
+
+import {
+  actionButton,
+  courseResponse,
+} from 'src/app/core/interfaces/interfaces';
+import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 
 @Component({
   selector: 'app-course-card',
   templateUrl: './course-card.component.html',
-  styleUrls: ['./course-card.component.css']
+  styleUrls: ['./course-card.component.css'],
 })
 export class CourseCardComponent implements OnInit {
-  @Input() courseContent: Course = {
+  @Input() courseContent: courseResponse = {
     id: 0,
-    title: '',
-    content: '',
-    image: '',
-    description: '',
-    category:''
-    
+    nombre: '',
+    descripcion: '',
+    portada: '',
+    public_id: '',
+    dia_curso: '',
+    hora_curso: '',
+    duracion: '',
+    precio: '',
+    slug: '',
+    categoria: { nombre: '' },
+    usuario: {
+      nombre: '',
+      apellido: '',
+      email: '',
+    },
+    docente: { nombre: '', apellido: '' },
   };
 
-  constructor() { }
+  buttons: {
+    [key: string]: actionButton;
+  } = buttonInteractions;
 
-  ngOnInit(): void {
-  }
+  constructor() {}
+
+  ngOnInit(): void {}
 }
 
 

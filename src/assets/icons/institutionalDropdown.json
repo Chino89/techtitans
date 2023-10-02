@@ -1,0 +1,26 @@
+[
+    {
+        "svg": "/assets/icons/user.svg",
+        "routerLink": "",
+        "component": "Nuestro staff",
+        "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/services.svg",
+        "routerLink": "",
+        "component": "Nuestros servicios",
+        "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/location.svg",
+        "routerLink": "",
+        "component": "Encontranos",
+        "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/contact.svg",
+        "routerLink": "",
+        "component": "Contacto",
+        "phrase": ""
+    }
+]

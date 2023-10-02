@@ -1,27 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importa FormsModule y/o ReactiveFormsModule
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { CoursesPageComponent } from './courses-page/courses-page.component';
 import { CoursesRoutingModule } from './courses-routing.module';
-import { SharedModule } from "../../shared/shared.module";
-import { HttpClientModule } from '@angular/common/http';
-import { FeatureModule } from 'src/app/feature/feature.module';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { NewCourseComponent } from './new-course/new-course.component';
+import { CourseDetailComponent } from './course-detail/course-detail.component';
 
 @NgModule({
-    declarations: [CoursesPageComponent],
-    imports: [
-        CommonModule, 
-        CoursesRoutingModule, 
-        SharedModule, 
-        FeatureModule, 
-        HttpClientModule,
-        FormsModule, 
-        ReactiveFormsModule 
-    ],
-    exports: [
-        CoursesPageComponent
-    ],
-    providers: [],
+  declarations: [
+    CoursesPageComponent,
+    NewCourseComponent,
+    CourseDetailComponent,
+  ],
+  imports: [
+    CommonModule,
+    CoursesRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    AngularSvgIconModule,
+    SharedModule,
+  ],
 })
 export class CoursesModule {}

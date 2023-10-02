@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { User } from 'src/app/core/interfaces/interfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
+
+import adminOptions from '../../../../assets/icons/adminDropdown.json';
+import institutionalOptions from '../../../../assets/icons/institutionalDropdown.json';
 
 @Component({
   selector: 'app-header',
@@ -9,15 +12,28 @@ import { LoginService } from 'src/app/core/services/auth/login.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  userIsLoged: boolean = false;
+  userIsLoged = false;
   userData?: User;
-  showInstitucional = false;
   showMobileMenu = false;
+  showInstitucional = false;
+  showAdminGestion = false;
   dropdown = false;
+  adminDropdown = false;
+  institutionalDropdown = false;
+  adminDropdownItems = adminOptions;
+  institutionalDropdownItems = institutionalOptions;
+  currentDropdown = '';
 
   constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.currentDropdown = '';
+        this.showMobileMenu = false;
+      }
+    });
+
     this.loginService.currentUserLoginOn.subscribe({
       next: (userIsLoged) => {
         this.userIsLoged = userIsLoged;
@@ -49,17 +65,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showMobileMenu = true;
   }
 
+  myToggleDropdown(dropdownName: string) {
+    this.currentDropdown =
+      this.currentDropdown === dropdownName ? '' : dropdownName;
+  }
+
+  navigateToPage(event: Event, link: string) {
+    this.router.navigate([link]);
+  }
+
   closeMobileMenu() {
     this.showMobileMenu = false;
-    this.showInstitucional = false;
   }
 
-  toggleInstitucional() {
+  mobileToggleInstitucional() {
     this.showInstitucional = !this.showInstitucional;
+    if (this.showAdminGestion) {
+      this.showAdminGestion = false;
+    }
   }
 
-  action() {
-    this.dropdown = !this.dropdown;
+  mobileToggleAdminManagement() {
+    this.showAdminGestion = !this.showAdminGestion;
+    if (this.showInstitucional) {
+      this.showInstitucional = false;
+    }
   }
 
   onLogOut() {

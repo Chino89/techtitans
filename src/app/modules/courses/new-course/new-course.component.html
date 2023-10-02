@@ -1,0 +1,483 @@
+<section class="bg-gray-50 px-6 py-8 mx-auto h-auto lg:py-16">
+  <div class="flex justify-center pt-4" *ngIf="newCourseToast">
+    <div
+      class="flex items-center max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
+      role="alert"
+    >
+      <div
+        *ngIf="!hasCourse"
+        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg"
+      >
+        <svg
+          class="w-5 h-5"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"
+          />
+        </svg>
+        <span class="sr-only">Error icon</span>
+      </div>
+      <div
+        *ngIf="hasCourse"
+        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg"
+      >
+        <svg
+          class="w-5 h-5"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+          />
+        </svg>
+        <span class="sr-only">Check icon</span>
+      </div>
+      <div class="flex items-center flex-col" *ngIf="hasCourse">
+        <p class="ml-3 text-sm font-normal block">El curso ha sido creado</p>
+      </div>
+      <div class="flex items-center flex-col" *ngIf="!hasCourse">
+        <p class="ml-3 text-sm font-normal">
+          El curso aún no fue creado ¿Estás seguro de que quieres abandonar el
+          formulario?
+        </p>
+        <div class="flex justify-between">
+          <div
+            (click)="navigate()"
+            class="px-2 flex items-center hover:bg-gray-100 rounded-lg group hover:cursor-pointer"
+          >
+            <button
+              type="button"
+              class="text-gray-400 group-hover:text-gray-900 focus:ring-2 focus:ring-gray-300 p-1.5 h-8 w-8 flex justify-center items-center"
+              aria-label="Close"
+            >
+              <svg
+                class="w-4 h-4"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 16 12"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M1 5.917 5.724 10.5 15 1.5"
+                />
+              </svg>
+              <span class="sr-only">Accept</span>
+            </button>
+            <p class="text-xs">Aceptar</p>
+          </div>
+          <div
+            (click)="closeToast()"
+            class="px-2 flex items-center hover:bg-gray-100 rounded-lg group hover:cursor-pointer"
+          >
+            <button
+              type="button"
+              class="text-gray-400 group-hover:text-gray-900 focus:ring-2 focus:ring-gray-300 p-1.5 h-8 w-8 flex justify-center items-center"
+              aria-label="Close"
+            >
+              <span class="sr-only">Close</span>
+              <svg
+                class="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+            </button>
+            <p class="text-sm">Cerrar</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col items-center justify-center">
+    <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+      <div class="p-6 space-y-4 md:space-y-8 sm:p-8">
+        <h1
+          *ngIf="newCourseError.length === 0"
+          class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+        >
+          {{ greeting }}
+        </h1>
+        <h1
+          *ngIf="newCourseError.length > 0"
+          class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+        >
+          {{ errorGreeting }}
+        </h1>
+        <form [formGroup]="newCourseForm" (ngSubmit)="createCourse()">
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <input
+                type="text"
+                formControlName="nombre"
+                name="courseName"
+                id="courseName"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="courseName"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Nombre del curso</label
+              >
+            </div>
+            <div
+              *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)"
+              class="alert alert-danger"
+            >
+              <p
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="nombre.errors?.['required']"
+              >
+                Ingresa el nombre del curso
+              </p>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <textarea
+                id="courseDescription"
+                formControlName="descripcion"
+                rows="4"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-r-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=""
+              ></textarea>
+              <label
+                for="courseDescription"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Descripción del curso</label
+              >
+            </div>
+            <div
+              *ngIf="
+                descripcion?.invalid &&
+                (descripcion?.dirty || descripcion?.touched)
+              "
+              class="alert alert-danger"
+            >
+              <p
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="descripcion.errors?.['required']"
+              >
+                Ingresa una breve descripción
+              </p>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <label
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                for="file_input"
+                >Foto</label
+              >
+              <input
+                (change)="selectPhoto($event)"
+                class="hidden w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                aria-describedby="file_input_help"
+                type="file"
+                accept=".jpeg, .jpg, .png, .gif, .webp, .avif, .svg, .bmp"
+                #file_input
+              />
+              <img
+                (click)="setFileInputTouched(); file_input.click()"
+                class="w-[200px] m-auto my-4"
+                [src]="selectedPhoto || 'assets/no-img.png'"
+                [alt]="selectedPhoto ? 'preview' : 'No image'"
+              />
+            </div>
+            <div
+              *ngIf="fileInputTouched && hasImage?.invalid"
+              class="alert alert-danger"
+            >
+              <p class="-mt-2 text-sm text-red-600">Selecciona una imagen</p>
+            </div>
+            <div *ngIf="invalidType" class="alert alert-danger">
+              <p class="-mt-2 text-sm text-red-600">
+                Las extensiones validas son: 'jpg', 'jpeg', 'png', 'gif',
+                'webp', 'avif', 'svg' y 'bmp'
+              </p>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="mb-4">
+              <div class="relative z-0 w-full mb-6 group">
+                <input
+                  type="date"
+                  name="courseDate"
+                  id="courseDate"
+                  formControlName="dia"
+                  class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="courseDate"
+                  class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                  >Dia</label
+                >
+              </div>
+              <div
+                *ngIf="dia?.invalid && (dia?.dirty || dia?.touched)"
+                class="alert alert-danger"
+              >
+                <p
+                  class="-mt-2 text-sm text-red-600"
+                  *ngIf="dia.errors?.['required']"
+                >
+                  Ingresa una fecha
+                </p>
+              </div>
+              <div
+                *ngIf="
+                  newCourseForm.get('dia')?.touched && newCourseForm.errors
+                "
+                class="alert alert-danger"
+              >
+                <p
+                  class="mt-2 text-sm text-red-600"
+                  *ngIf="newCourseForm.hasError('invalid_date')"
+                >
+                  La fecha debe ser válida.
+                </p>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="relative z-0 w-full mb-6 group">
+                <input
+                  type="time"
+                  name="courseStartTime"
+                  id="courseStartTime"
+                  formControlName="hora"
+                  class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="courseStartTime"
+                  class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                  >Hora</label
+                >
+              </div>
+              <div
+                *ngIf="hora?.invalid && (hora?.dirty || hora?.touched)"
+                class="alert alert-danger"
+              >
+                <p
+                  class="-mt-2 text-sm text-red-600"
+                  *ngIf="hora.errors?.['required']"
+                >
+                  Ingresa un horario
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="mb-4">
+              <div class="relative z-0 w-full mb-6 group">
+                <input
+                  type="text"
+                  name="courseDuration"
+                  id="courseDuration"
+                  formControlName="duracion"
+                  class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="courseDuration"
+                  class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                  >Duración</label
+                >
+              </div>
+              <div
+                *ngIf="
+                  duracion?.invalid && (duracion?.dirty || duracion?.touched)
+                "
+                class="alert alert-danger"
+              >
+                <p
+                  class="-mt-2 text-sm text-red-600"
+                  *ngIf="duracion.errors?.['required']"
+                >
+                  Ingresa la duración
+                </p>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="relative z-0 w-full mb-6 group">
+                <input
+                  type="number"
+                  name="coursePrice"
+                  id="coursePrice"
+                  formControlName="precio"
+                  class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="coursePrice"
+                  class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                  >Precio</label
+                >
+              </div>
+              <div
+                *ngIf="precio?.invalid && (precio?.dirty || precio?.touched)"
+                class="alert alert-danger"
+              >
+                <p
+                  class="-mt-2 text-sm text-red-600"
+                  *ngIf="precio.errors?.['required']"
+                >
+                  Ingresa el costo
+                </p>
+              </div>
+              <div
+                *ngIf="precio?.invalid && (precio?.dirty || precio?.touched)"
+                class="alert alert-danger"
+              >
+                <p
+                  class="-mt-2 text-sm text-red-600"
+                  *ngIf="precio.errors?.['min']"
+                >
+                  Debe ser un número positivo
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <label
+                for="underline_select"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Categoría</label
+              >
+              <select
+                formControlName="categoriaId"
+                id="underline_select"
+                class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+              >
+                <option value="" selected disabled>
+                  Selecciona una categoría
+                </option>
+                <option
+                  *ngFor="let category of categories"
+                  value="{{ category.id }}"
+                >
+                  {{ category.nombre }}
+                </option>
+              </select>
+            </div>
+            <div
+              *ngIf="
+                categoriaId?.invalid &&
+                (categoriaId?.dirty || categoriaId?.touched)
+              "
+              class="alert alert-danger"
+            >
+              <p
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="categoriaId.errors?.['required']"
+              >
+                Selecciona una categoría
+              </p>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <label
+                for="underline_select"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Docente</label
+              >
+              <select
+                formControlName="docenteId"
+                id="underline_select"
+                class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+              >
+                <option value="" selected disabled>
+                  Selecciona un docente
+                </option>
+                <option
+                  *ngFor="let teacher of teachers"
+                  value="{{ teacher.id }}"
+                >
+                  {{ teacher.docente }}
+                </option>
+              </select>
+            </div>
+            <div
+              *ngIf="
+                docenteId?.invalid && (docenteId?.dirty || docenteId?.touched)
+              "
+              class="alert alert-danger"
+            >
+              <p
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="docenteId.errors?.['required']"
+              >
+                Selecciona un docente
+              </p>
+            </div>
+          </div>
+          <div
+            class="mx-auto my-6 text-sm"
+            *ngIf="!(newCourseError.length === 0)"
+          >
+            <p
+              *ngFor="let error of newCourseError"
+              class="text-center mt-2 text-sm text-red-600"
+            >
+              {{ error.mensaje }}
+            </p>
+          </div>
+          <button
+            [disabled]="newCourseForm.invalid"
+            type="submit"
+            class="text-white {{
+              newCourseForm.invalid ? 'bg-gray-300' : 'bg-blue-600'
+            }} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
+          >
+            <svg
+              *ngIf="spinner"
+              role="status"
+              class="inline w-4 h-4 mr-3 text-white animate-spin"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="#E5E7EB"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentColor"
+              />
+            </svg>
+            Crear curso
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
