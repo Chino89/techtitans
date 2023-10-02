@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { User } from 'src/app/core/interfaces/interfaces';
+import { User, UserResponse } from 'src/app/core/interfaces/userInterfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 
 import adminOptions from '../../../../assets/icons/adminDropdown.json';
 import institutionalOptions from '../../../../assets/icons/institutionalDropdown.json';
-
+import { UserService } from 'src/app/core/services/users/user.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,6 +14,7 @@ import institutionalOptions from '../../../../assets/icons/institutionalDropdown
 export class HeaderComponent implements OnInit, OnDestroy {
   userIsLoged = false;
   userData?: User;
+  userDetail?: UserResponse;
   showMobileMenu = false;
   showInstitucional = false;
   showAdminGestion = false;
@@ -24,7 +25,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   institutionalDropdownItems = institutionalOptions;
   currentDropdown = '';
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
@@ -45,6 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userData = userData;
         if (userData.nombre !== '') {
           localStorage.setItem('userData', JSON.stringify(userData));
+          this.getUserDetail(userData.id);
         }
       },
     });
@@ -56,9 +62,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.loginService.currentUserLoginOn.unsubscribe();
-    this.loginService.currentUserData.unsubscribe();
+  getUserDetail(userId: number) {
+    this.userService.getUser(userId).subscribe({
+      next: (response) => {
+        this.userDetail = response.data;
+      },
+    });
   }
 
   openMobileMenu() {
@@ -92,9 +101,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnDestroy(): void {
+    this.loginService.currentUserLoginOn.unsubscribe();
+    this.loginService.currentUserData.unsubscribe();
+  }
+
   onLogOut() {
-    this.loginService.logOut();
-    localStorage.removeItem('userData');
-    this.router.navigateByUrl('');
+    //   this.loginService.logOut();
+    //   localStorage.removeItem('userData');
+    //   this.router.navigateByUrl('');
   }
 }

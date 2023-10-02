@@ -1,0 +1,91 @@
+<section class="bg-gray-50">
+    <div
+      class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-auto lg:py-16"
+    >
+      <app-custom-toast
+        *ngIf="deleteCategoryToast"
+        [toastType]="toastKey"
+      ></app-custom-toast>
+      <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+          <h1
+            *ngIf="newCategoryError.length === 0"
+            class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+          >
+            {{ message }}
+          </h1>
+          <h1
+            *ngIf="newCategoryError.length > 0"
+            class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+          >
+            {{ errorMessage }}
+          </h1>
+          <form
+            [formGroup]="deleteCategoryForm"
+            (ngSubmit)="onDeleteCategory()"
+            class="space-y-4 md:space-y-6"
+          >
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <label
+                for="courseName"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Categoría</label
+              >
+              <select
+                formControlName="categoriaId"
+                id="courseName"
+                class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+              >
+                <option value="" selected disabled>
+                  Selecciona una categoría
+                </option>
+                <option
+                  *ngFor="let category of categories"
+                  value="{{ category.id }}"
+                >
+                  {{ category.nombre }}
+                </option>
+              </select>
+            </div>
+            <div
+              *ngIf="
+                categoriaId?.invalid &&
+                (categoriaId?.dirty || categoriaId?.touched)
+              "
+              class="alert alert-danger"
+            >
+              <p
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="categoriaId.errors?.['required']"
+              >
+                Selecciona una categoría
+              </p>
+            </div>
+          </div>
+            <div
+              class="mx-auto my-6 text-sm"
+              *ngIf="!(newCategoryError.length === 0)"
+            >
+              <p
+                *ngFor="let error of newCategoryError"
+                class="text-center mt-2 text-sm text-red-600"
+              >
+                {{ error.mensaje }}
+              </p>
+            </div>
+            <button
+              [disabled]="deleteCategoryForm.invalid"
+              type="submit"
+              class="w-full text-white {{
+                deleteCategoryForm.invalid ? 'bg-gray-300' : 'bg-blue-600'
+              }} hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              Borrar categoría
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  

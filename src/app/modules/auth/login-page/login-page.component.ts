@@ -3,7 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LoginService } from 'src/app/core/services/auth/login.service';
-import { LoginRequest, backEndError } from 'src/app/core/interfaces/interfaces';
+import { BackEndError } from 'src/app/core/interfaces/interfaces';
+import { LoginRequest } from 'src/app/core/interfaces/authInterfaces';
 
 @Component({
   selector: 'app-login-page',
@@ -11,10 +12,9 @@ import { LoginRequest, backEndError } from 'src/app/core/interfaces/interfaces';
   styleUrls: ['./login-page.component.css'],
 })
 export class LoginPageComponent implements OnInit {
-  hide: boolean = true;
-  greeting: string = 'Hola! Qué bueno verte otra vez';
-  errorGreeting: string = 'Oops! Tuvimos algunos errores...';
-  loginError: backEndError[] = [];
+  greeting = 'Hola! Qué bueno verte otra vez';
+  errorGreeting = 'Oops! Tuvimos algunos errores...';
+  loginError: BackEndError[] = [];
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -33,7 +33,7 @@ export class LoginPageComponent implements OnInit {
           if (errorData.error.mensaje) {
             this.loginError = [{ mensaje: errorData.error.mensaje }];
           } else {
-            this.loginError = errorData.error.errors as backEndError[];
+            this.loginError = errorData.error.errors as BackEndError[];
           }
         },
         complete: () => {

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import carouselContent from '../../../../assets/carousel/carousel.json';
 import { CourseService } from 'src/app/core/services/course/course.service';
 
-import { courseResponse } from 'src/app/core/interfaces/interfaces';
+import { CourseData, CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -12,7 +12,7 @@ import { courseResponse } from 'src/app/core/interfaces/interfaces';
   styleUrls: ['./dashboard-page.component.css'],
 })
 export class DashboardPageComponent implements OnInit {
-  courses: courseResponse[] = [];
+  courses: CourseResponse[] = [];
 
   items = carouselContent;
   constructor(private http: HttpClient, private courseService: CourseService) {}
@@ -20,7 +20,7 @@ export class DashboardPageComponent implements OnInit {
   ngOnInit(): void {
     this.courseService.getAllCourses().subscribe({
       error: (errorData) => console.log(errorData),
-      next: (data: any) => {
+      next: (data: CourseData) => {
         this.courses = data.data;
       },
     });

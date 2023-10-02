@@ -3,13 +3,15 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterStateSnapshot } from '@angular/router';
 
 import { CategoryService } from 'src/app/core/services/category/category.service';
+import { UserService } from 'src/app/core/services/users/user.service';
 import { CourseService } from 'src/app/core/services/course/course.service';
-import { TeacherService } from 'src/app/core/services/users/teacher.service';
 import {
-  backEndError,
-  courseRequest,
+  BackEndError
 } from 'src/app/core/interfaces/interfaces';
+import { CourseRequest } from 'src/app/core/interfaces/courseInterfaces';
 import { MyValidators } from 'src/app/utils/validators';
+import { CategoryData, CategoryDataResponse } from 'src/app/core/interfaces/categoryInterfaces';
+import { TeacherData, TeacherDataResponse } from 'src/app/core/interfaces/userInterfaces';
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -20,20 +22,20 @@ interface HtmlInputEvent extends Event {
   styleUrls: ['./new-course.component.css'],
 })
 export class NewCourseComponent implements OnInit {
-  greeting: string = 'Crear un nuevo curso';
-  errorGreeting: string = 'Se encontraron errores';
-  newCourseToast: boolean = false;
-  hasCourse: boolean = false;
-  newCourseError: backEndError[] = [];
+  greeting = 'Crear un nuevo curso';
+  errorGreeting = 'Se encontraron errores';
+  newCourseToast = false;
+  hasCourse = false;
+  newCourseError: BackEndError[] = [];
   selectedPhoto: ArrayBuffer | string = '';
   file: Blob = new Blob();
   fileInputTouched = false;
-  invalidType: boolean = false;
-  categories: any;
-  teachers: any;
-  forceExit: boolean = false;
-  nextRoute: string = '';
-  spinner: boolean = false;
+  invalidType = false;
+  categories: CategoryData[] = [];
+  teachers: TeacherData[] = [];
+  forceExit = false;
+  nextRoute = '';
+  spinner = false;
 
   newCourseForm = this.formBuilder.group(
     {
@@ -54,11 +56,11 @@ export class NewCourseComponent implements OnInit {
 
   getData() {
     this.categoryService.getCategories().subscribe({
-      next: (data: any) => (this.categories = data.data),
+      next: (data: CategoryDataResponse) => (this.categories = data.data),
       error: (errorData) => console.log(errorData),
     });
-    this.teacherService.getTeachers().subscribe({
-      next: (data: any) => (this.teachers = data.data),
+    this.userService.getTeachers().subscribe({
+      next: (data: TeacherDataResponse) => (this.teachers = data.data),
       error: (errorData) => console.log(errorData),
     });
   }
@@ -66,7 +68,7 @@ export class NewCourseComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
-    private teacherService: TeacherService,
+    private userService: UserService,
     private courseService: CourseService,
     private router: Router
   ) {}
@@ -107,7 +109,7 @@ export class NewCourseComponent implements OnInit {
       precio,
       categoriaId,
       docenteId,
-    } = this.newCourseForm.value as courseRequest;
+    } = this.newCourseForm.value as CourseRequest;
 
     formData.append('nombre', nombre);
     formData.append('descripcion', descripcion);
@@ -122,10 +124,11 @@ export class NewCourseComponent implements OnInit {
     if (this.newCourseForm.valid) {
       this.courseService.createCourse(formData).subscribe({
         error: (errorData) => {
+          this.spinner = false;
           if (errorData.error.mensaje) {
             this.newCourseError = [{ mensaje: errorData.error.mensaje }];
           } else {
-            this.newCourseError = errorData.error.errors as backEndError[];
+            this.newCourseError = errorData.error.errors as BackEndError[];
           }
         },
         complete: () => {

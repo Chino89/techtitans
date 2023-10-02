@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { User, actionButton } from 'src/app/core/interfaces/interfaces';
+import { Component, Input, OnInit } from '@angular/core';
+import { Customizer } from 'src/app/core/interfaces/interfaces';
 
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 import { LoginService } from 'src/app/core/services/auth/login.service';
+import { User } from 'src/app/core/interfaces/userInterfaces';
+import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 
 @Component({
   selector: 'app-set-of-buttons',
@@ -11,7 +13,7 @@ import { LoginService } from 'src/app/core/services/auth/login.service';
 })
 export class SetOfButtonsComponent implements OnInit {
   buttons: {
-    [key: string]: actionButton;
+    [key: string]: Customizer;
   } = buttonInteractions;
   userIsLoged = false;
   userData: User = {
@@ -21,6 +23,27 @@ export class SetOfButtonsComponent implements OnInit {
     email: '',
     roles: [''],
     accessToken: '',
+  };
+
+  @Input() courseData: CourseResponse = {
+    id: 0,
+    nombre: '',
+    descripcion: '',
+    portada: '',
+    public_id: '',
+    dia_curso: '',
+    hora_curso: '',
+    duracion: '',
+    precio: '',
+    slug: '',
+    categoria: { id: 0, nombre: '' },
+    usuario: {
+      id: 0,
+      nombre: '',
+      apellido: '',
+      email: '',
+    },
+    docente: { id: 0, nombre: '', apellido: '' },
   };
 
   constructor(private loginService: LoginService) {}

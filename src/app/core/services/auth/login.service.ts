@@ -6,7 +6,8 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 import { TokenService } from './token.service';
-import { LoginRequest, User } from '../../interfaces/interfaces';
+import { User } from '../../interfaces/userInterfaces';
+import { LoginRequest } from '../../interfaces/authInterfaces';
 
 const helper = new JwtHelperService();
 
@@ -41,8 +42,8 @@ export class LoginService {
       .post<User>(`${environment.API_URL}/auth/iniciarsesion`, credentials)
       .pipe(
         tap((response) => {
-          this.getUserData(response.accessToken);
           this.tokenService.saveToken(response.accessToken);
+          this.getUserData(response.accessToken);
           this.currentUserLoginOn.next(true);
         })
       );
@@ -57,6 +58,7 @@ export class LoginService {
 
   logOut() {
     this.tokenService.removeToken();
+    localStorage.removeItem('userData');
     this.currentUserLoginOn.next(false);
   }
 

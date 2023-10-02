@@ -1,0 +1,116 @@
+<section class="bg-gray-50">
+  <div
+    class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-auto lg:py-16"
+  >
+    <app-custom-toast
+      *ngIf="roleToast"
+      [toastType]="toastKey"
+    ></app-custom-toast>
+    <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1
+          *ngIf="rolesError.length === 0"
+          class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+        >
+          {{ message }}
+        </h1>
+        <h1
+          *ngIf="rolesError.length > 0"
+          class="flex justify-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+        >
+          {{ errorMessage }}
+        </h1>
+        <form
+          [formGroup]="roleManagementForm"
+          (ngSubmit)="onPatchRole()"
+          class="space-y-4 md:space-y-6"
+        >
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-6 group">
+              <label
+                for="userName"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                >Usuario</label
+              >
+              <select
+                formControlName="usuario"
+                id="userName"
+                class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+              >
+                <option value="" selected disabled>
+                  Selecciona un usuario
+                </option>
+                <option *ngFor="let user of users" value="{{ user.id }}">
+                  {{ user.nombre }} {{ user.apellido }}
+                </option>
+              </select>
+            </div>
+            <div
+              *ngIf="user && (user?.dirty || user?.touched)"
+              class="alert alert-danger"
+            >
+              <p
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="user.errors?.['required']"
+              >
+                Selecciona el usuario al cual quieres editar su rol
+              </p>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="relative z-0 w-full mb-4 group">
+              <ul
+                class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex"
+              >
+                <li class="w-full" *ngFor="let rol of roleList">
+                  <div class="flex items-center pl-3">
+                    <input
+                      id="horizontal-list-radio-rol"
+                      type="radio"
+                      value="{{ rol }}"
+                      formControlName="rolRadio"
+                      class="w-3 h-3 text-noc-orange bg-gray-100 border-gray-300 focus:ring-noc-orange focus:ring-1"
+                    />
+                    <label
+                      for="horizontal-list-radio-rol"
+                      class="w-full py-3 ml-2 text-sm font-medium text-gray-900"
+                      >{{ rol }}</label
+                    >
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div
+              *ngIf="rolRadio && (rolRadio?.dirty || rolRadio?.touched)"
+              class="alert alert-danger"
+            >
+              <p
+                class="-mt-2 text-sm text-red-600"
+                *ngIf="rolRadio.errors?.['required']"
+              >
+                Debes elegir un rol
+              </p>
+            </div>
+          </div>
+          <div class="mx-auto my-6 text-sm" *ngIf="!(rolesError.length === 0)">
+            <p
+              *ngFor="let error of rolesError"
+              class="text-center mt-2 text-sm text-red-600"
+            >
+              {{ error.mensaje }}
+            </p>
+          </div>
+          <button
+            [disabled]="roleManagementForm.invalid"
+            type="submit"
+            class="w-full text-white {{
+              roleManagementForm.invalid ? 'bg-gray-300' : 'bg-blue-600'
+            }} hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          >
+            Cambiar rol
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

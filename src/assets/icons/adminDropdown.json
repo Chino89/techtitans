@@ -1,20 +1,32 @@
 [
     {
         "svg": "/assets/icons/newCourse.svg",
-        "routerLink": "cursos/crear-curso", 
+        "routerLink": "cursos/crear-curso",
         "component": "Crear curso",
         "phrase": ""
     },
     {
-        "svg": "/assets/icons/editCourse.svg",
-        "routerLink": "",
-        "component": "Editar curso",
+        "svg": "/assets/icons/add.svg",
+        "routerLink": "admin/crear-categoria",
+        "component": "Crear categoría",
         "phrase": ""
     },
     {
-        "svg": "/assets/icons/deleteCourse.svg",
-        "routerLink": "",
-        "component": "Eliminar curso",
+        "svg": "/assets/icons/editCourse.svg",
+        "routerLink": "admin/editar-categoria",
+        "component": "Editar categoría",
+        "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/delete.svg",
+        "routerLink": "admin/eliminar-categoria",
+        "component": "Eliminar categoría",
+        "phrase": ""
+    },
+    {
+        "svg": "/assets/icons/add.svg",
+        "routerLink": "admin/gestion-de-rol",
+        "component": "Gestión de Roles",
         "phrase": ""
     }
 ]

@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import {
-  courseData,
-  courseRequest,
-  courseResponse,
+  BackEndResponse,
 } from '../../interfaces/interfaces';
+import { CourseData, CourseDetailResponse, CourseRequest } from '../../interfaces/courseInterfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -15,20 +14,35 @@ import {
 export class CourseService {
   constructor(private http: HttpClient) {}
 
-  createCourse(formData: FormData): Observable<courseRequest> {
-    return this.http.post<courseRequest>(
+  createCourse(formData: FormData): Observable<CourseRequest> {
+    return this.http.post<CourseRequest>(
       `${environment.API_URL}/api/curso/nuevo`,
       formData
     );
   }
 
-  getAllCourses(): Observable<courseResponse[]> {
-    return this.http.get<courseResponse[]>(`${environment.API_URL}/api/cursos`);
+  getAllCourses(): Observable<CourseData> {
+    return this.http.get<CourseData>(`${environment.API_URL}/api/cursos`);
   }
 
-  getCourseByIdOrSlug(identificator: number | string): Observable<courseData> {
-    return this.http.get<courseData>(
+  getCourseByIdOrSlug(
+    identificator: number | string
+  ): Observable<CourseDetailResponse> {
+    return this.http.get<CourseDetailResponse>(
       `${environment.API_URL}/api/curso/${identificator}`
+    );
+  }
+
+  editCourse(formData: FormData, id: Number): Observable<CourseRequest> {
+    return this.http.put<CourseRequest>(
+      `${environment.API_URL}/api/curso/${id}/editar`,
+      formData
+    );
+  }
+  deleteCourse(id: number) {
+    console.log(id);
+    return this.http.delete<BackEndResponse>(
+      `${environment.API_URL}/api/curso/${id}/borrar`
     );
   }
 }

@@ -194,6 +194,7 @@
                 class="hidden w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                 aria-describedby="file_input_help"
                 type="file"
+                id="file_input"
                 accept=".jpeg, .jpg, .png, .gif, .webp, .avif, .svg, .bmp"
                 #file_input
               />
@@ -363,17 +364,16 @@
               </div>
             </div>
           </div>
-
           <div class="mb-4">
             <div class="relative z-0 w-full mb-6 group">
               <label
-                for="underline_select"
+                for="courseCategory"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
                 >Categoría</label
               >
               <select
                 formControlName="categoriaId"
-                id="underline_select"
+                id="courseCategory"
                 class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
                 <option value="" selected disabled>
@@ -405,13 +405,13 @@
           <div class="mb-4">
             <div class="relative z-0 w-full mb-6 group">
               <label
-                for="underline_select"
+                for="courseTeacher"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
                 >Docente</label
               >
               <select
                 formControlName="docenteId"
-                id="underline_select"
+                id="courseTeacher"
                 class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
                 <option value="" selected disabled>

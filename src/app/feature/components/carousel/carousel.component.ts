@@ -8,13 +8,11 @@ import { CarouselItem } from 'src/app/core/interfaces/interfaces';
 })
 export class CarouselComponent implements OnInit {
   @Input() carouselContent: CarouselItem[] = [];
-  emptyArray: any[] = [];
+  emptyArray: CarouselItem[] = [];
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.emptyArray = new Array(this.carouselContent.length);
   }
-
 }
