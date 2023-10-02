@@ -12,6 +12,7 @@ import { UserCoursesComponent } from './components/user-courses/user-courses.com
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { SetOfButtonsComponent } from './components/set-of-buttons/set-of-buttons.component';
 import { CustomToastComponent } from './components/custom-toast/custom-toast.component';
+import { UserModule } from '../modules/user/user.module';
 
 const myModules = [
   HeaderComponent,
@@ -26,7 +27,13 @@ const myModules = [
 
 @NgModule({
   declarations: myModules,
-  imports: [CommonModule, RouterModule, NglrxPipesModule, AngularSvgIconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NglrxPipesModule,
+    AngularSvgIconModule,
+    UserModule,
+  ],
   exports: myModules,
   providers: [],
 })
