@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userData = userData;
         if (userData.nombre !== '') {
           localStorage.setItem('userData', JSON.stringify(userData));
-          this.getUserDetail(userData.id);
+          this.getUserDetail();
         }
       },
     });
@@ -62,8 +62,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUserDetail(userId: number) {
-    this.userService.getUser(userId).subscribe({
+  getUserDetail() {
+    this.userService.getUserData().subscribe({
       next: (response) => {
         this.userDetail = response.data;
       },

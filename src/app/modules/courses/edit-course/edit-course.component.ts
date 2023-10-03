@@ -26,7 +26,6 @@ export class EditCourseComponent implements OnInit {
   greeting = 'Editando curso: ';
   errorGreeting = 'Se encontraron errores';
   editCourseToast = false;
-  hasChange = false;
   hasCourse = false;
   forceExit = false;
   nextRoute = '';
@@ -173,8 +172,6 @@ export class EditCourseComponent implements OnInit {
     formData.append('categoriaId', categoriaId);
     formData.append('docenteId', docenteId);
     formData.append('imageFile', this.file);
-
-    console.log(this.editCourseForm.controls, 'DATA2');
 
     if (this.editCourseForm.valid) {
       this.courseService.editCourse(formData, param).subscribe({

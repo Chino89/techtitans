@@ -142,19 +142,18 @@
       </div>
       <button
         (click)="myToggleDropdown('userDropdown')"
+        #dropdownAvatarNameButton
         *ngIf="userIsLoged"
-        id="dropdownAvatarNameButton"
-        data-dropdown-toggle="dropdownAvatarName"
         class="absolute flex items-center text-sm font-medium text-gray-900 rounded-full group md:mr-0 hover:ring-2 hover:ring-noc-orange p-1 focus:ring-noc-orange"
         type="button"
       >
         <span class="sr-only">Abrir menú</span>
         <img
           class="w-8 h-8 mr-2 rounded-full"
-          src="{{ userDetail!.avatar }}"
+          src="{{ userDetail?.avatar }}"
           alt="user photo"
         />
-        {{ userDetail!.nombre }}
+        {{ userDetail?.nombre }}
         <svg
           class="w-2.5 h-2.5 ml-2.5 group-hover:text-noc-orange"
           aria-hidden="true"

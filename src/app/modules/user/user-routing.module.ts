@@ -7,16 +7,16 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 
 const routes: Routes = [
   {
-    path: 'perfil',
+    path: '',
     component: UserPageComponent,
     children: [
       {
-        path: '',
+        path: 'perfil',
         component: UserProfileComponent,
         children: [],
       },
       {
-        path: 'cursos',
+        path: 'mis-cursos',
         component: UserCoursesComponent,
         children: [],
       },
@@ -27,6 +27,7 @@ const routes: Routes = [
       },
     ],
   },
+  
 ];
 
 @NgModule({

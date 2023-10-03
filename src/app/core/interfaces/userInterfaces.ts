@@ -7,11 +7,11 @@ export type GetUser = {
 };
 
 export type UserResponse = {
-  id: Number;
-  nombre: String;
-  apellido: String;
-  email: String;
-  avatar: String;
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  avatar: string;
   public_id: null;
   status: boolean;
 };
@@ -26,9 +26,12 @@ export type User = {
 };
 
 export type UserEditRequest = {
-  nombre: String;
-  apellido: String;
+  nombre: string;
+  apellido: string;
+  email: string
   imageFile: Blob;
+  password: string;
+  confirm_password: string;
 };
 
 // USER-ROLE = 2 (Docente)
