@@ -48,16 +48,15 @@ export class UserEditComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.minLength(2)]],
       apellido: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      hasImage: [false, [Validators.requiredTrue]],
+      hasImage: [true, [Validators.requiredTrue]],
       password: [
         '',
         [
-          Validators.required,
           Validators.minLength(6),
           Validators.maxLength(20),
         ],
       ],
-      confirm_password: ['', Validators.required],
+      confirm_password: ['', ],
     },
     {
       validators: MyValidators.matchPasswords,
