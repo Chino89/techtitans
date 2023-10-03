@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { UserRoutingModule } from './user-routing.module';
 import { UserPageComponent } from './components/user-page/user-page.component';
@@ -17,7 +18,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     UserProfileComponent,
   ],
 
-  imports: [CommonModule, UserRoutingModule],
+  imports: [CommonModule, UserRoutingModule, ReactiveFormsModule],
   exports: [UserDropdownComponent],
 })
 export class UserModule {}

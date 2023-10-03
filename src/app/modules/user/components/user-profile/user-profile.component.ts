@@ -40,7 +40,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   getUserDetail(userId: number) {
-    this.userService.getUser(userId).subscribe({
+    this.userService.getUserData().subscribe({
       next: (response) => {
         this.userDetail = response.data;
       },
