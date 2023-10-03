@@ -16,6 +16,7 @@ export class RecoveryPasswordPageComponent implements OnInit {
   greeting = 'Elige tu contraseña';
   errorGreeting = 'Oops! Tuvimos algunos errores...';
   passwordToast = false;
+  toastKey = '';
   recoveryError: BackEndError[] = [];
   token = '';
   setForm = this.formBuilder.group(
@@ -55,6 +56,8 @@ export class RecoveryPasswordPageComponent implements OnInit {
             console.log(userData);
           },
           error: (errorData) => {
+            this.passwordToast = true;
+            this.toastKey = 'error';
             if (errorData.error.mensaje) {
               this.recoveryError = [{ mensaje: errorData.error.mensaje }];
             } else {
@@ -64,6 +67,7 @@ export class RecoveryPasswordPageComponent implements OnInit {
           complete: () => {
             console.info('Password seteado con éxito');
             this.passwordToast = true;
+            this.toastKey = 'check';
             setTimeout(() => {
               this.router.navigateByUrl('/iniciar-sesion');
             }, 3000);

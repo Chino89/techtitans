@@ -17,6 +17,7 @@ export class RegisterPageComponent implements OnInit, onExit {
   greeting: string = 'Hola, Bienvenido!';
   errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   registerToast: boolean = false;
+  toastKey = '';
   registerError: BackEndError[] = [];
   hasUser: boolean = false;
   nextRoute: string = '';
@@ -49,6 +50,8 @@ export class RegisterPageComponent implements OnInit, onExit {
             console.log(userData);
           },
           error: (errorData) => {
+            this.registerToast = true;
+            this.toastKey = 'error';
             if (errorData.error.mensaje) {
               this.registerError = [{ mensaje: errorData.error.mensaje }];
             } else {
@@ -58,6 +61,7 @@ export class RegisterPageComponent implements OnInit, onExit {
           complete: () => {
             console.info('Registro exitoso');
             this.registerToast = true;
+            this.toastKey = 'check';
             this.hasUser = true;
             setTimeout(() => {
               this.router.navigateByUrl('/iniciar-sesion');

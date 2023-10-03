@@ -10,6 +10,7 @@ import { RegisterPageComponent } from './register-page/register-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { RecoveryPasswordPageComponent } from './recovery-password-page/recovery-password-page.component';
 import { VerifyUserComponent } from './verify-user/verify-user.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { VerifyUserComponent } from './verify-user/verify-user.component';
     AuthRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    SharedModule
   ],
 })
 export class AuthModule {}
