@@ -40,15 +40,32 @@
             {{ courseData.descripcion }}
           </p>
           <div class="text-md">
-            <p>Duración: {{ courseData.duracion }}</p>
-            <p>
-              Dictado por:
+            <div class="flex">
+              <p class="font-medium mr-1">Fecha:</p>
+              <p>
+                {{ courseData.dia_curso | date : "dd/MM/yyyy" }}
+              </p>
+            </div>
+            <div class="flex">
+              <p class="font-medium mr-1">Hora:</p>
+              <p>
+                {{ courseData.hora_curso }}
+              </p>
+            </div>
+            <div class="flex">
+              <p class="font-medium mr-1">Duración:</p>
+              <p>
+                {{ courseData.duracion }}
+              </p>
+            </div>
+            <div class="flex">
+              <p class="font-medium mr-1">Dictado por:</p>
               <a class="hover:underline" href=""
                 >{{ courseData.docente.nombre }}
                 {{ courseData.docente.apellido }}</a
               >
-            </p>
-          </div>
+            </div>
+            </div>
         </div>
       </div>
       <app-set-of-buttons [courseData]="courseData"></app-set-of-buttons>

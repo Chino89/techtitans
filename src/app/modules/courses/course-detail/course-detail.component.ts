@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { CourseService } from 'src/app/core/services/course/course.service';
@@ -8,13 +8,14 @@ import {
   CourseDetailResponse,
 } from 'src/app/core/interfaces/courseInterfaces';
 import { User } from 'src/app/core/interfaces/userInterfaces';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-course-detail',
   templateUrl: './course-detail.component.html',
   styleUrls: ['./course-detail.component.css'],
 })
-export class CourseDetailComponent implements OnInit {
+export class CourseDetailComponent implements OnInit, OnDestroy {
   courseData: CourseResponse = {
     id: 0,
     nombre: '',
@@ -49,6 +50,7 @@ export class CourseDetailComponent implements OnInit {
     roles: [''],
     accessToken: '',
   };
+  subscriptions: Subscription[] = [];
 
   constructor(
     private courseService: CourseService,
@@ -62,26 +64,41 @@ export class CourseDetailComponent implements OnInit {
       | string;
     this.getCourse(identificator);
 
-    this.loginService.currentUserLoginOn.subscribe({
-      next: (userIsLoged) => {
-        this.userIsLoged = userIsLoged;
-      },
-    });
+    const currentUserLoginOnServiceSubscription =
+      this.loginService.currentUserLoginOn.subscribe({
+        next: (userIsLoged) => {
+          this.userIsLoged = userIsLoged;
+        },
+      });
 
-    this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-      },
-    });
+    const currentUserDataServiceSubscription =
+      this.loginService.currentUserData.subscribe({
+        next: (userData) => {
+          this.userData = userData;
+        },
+      });
+    this.subscriptions.push(
+      currentUserDataServiceSubscription,
+      currentUserLoginOnServiceSubscription
+    );
   }
 
   getCourse(identificator: number | string) {
-    this.courseService.getCourseByIdOrSlug(identificator).subscribe({
-      next: (data: CourseDetailResponse) => {
-        this.courseData = data.data;
-        console.log(this.courseData);
-      },
-      error: (errorData) => console.log(errorData),
-    });
+    const getCoursesByIdOrSlugServiceSubscription = this.courseService
+      .getCourseByIdOrSlug(identificator)
+      .subscribe({
+        next: (data: CourseDetailResponse) => {
+          this.courseData = data.data;
+          console.log(this.courseData);
+        },
+        error: (errorData) => console.log(errorData),
+      });
+    this.subscriptions.push(getCoursesByIdOrSlugServiceSubscription);
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }

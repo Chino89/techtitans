@@ -67,7 +67,10 @@
             >
               <p class="-mt-2 text-sm text-red-600">Selecciona una imagen</p>
             </div>
-            <div *ngIf="invalidType" class="alert alert-danger mt-2 text-center">
+            <div
+              *ngIf="invalidType"
+              class="alert alert-danger mt-2 text-center"
+            >
               <p class="-mt-2 text-sm text-red-600">
                 Las extensiones validas son: 'jpg', 'jpeg', 'png', 'gif',
                 'webp', 'avif', 'svg' y 'bmp'
@@ -85,6 +88,7 @@
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
+              (change)="formHasChange('nombre')"
             />
             <label
               for="user-firstName"
@@ -118,6 +122,7 @@
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
+              (change)="formHasChange('apellido')"
             />
             <label
               for="user-lastName"
@@ -148,9 +153,9 @@
               type="email"
               name="userEmail"
               id="floating_userEmail"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
-              required
+              readonly
             />
             <label
               for="floating_userEmail"
@@ -183,7 +188,7 @@
               id="floating_password"
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
-              required
+              (change)="formHasChange('password')"
             />
             <label
               for="floating_password"
@@ -216,7 +221,7 @@
               id="floating_repeat_password"
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
-              required
+              (change)="formHasChange('confirm_password')"
             />
             <label
               for="floating_repeat_password"
@@ -239,11 +244,9 @@
             </div>
           </div>
           <button
-            [disabled]="editUserForm.invalid"
+            [disabled]="checkFormHasChanged()"
             type="submit"
-            class="text-white {{
-              editUserForm.invalid ? 'bg-gray-300' : 'bg-blue-600'
-            }} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
+            class="text-white bg-blue-600 disabled:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
           >
             <svg
               *ngIf="spinner"

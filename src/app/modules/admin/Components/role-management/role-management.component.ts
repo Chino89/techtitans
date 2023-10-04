@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { UserService } from 'src/app/core/services/users/user.service';
   templateUrl: './role-management.component.html',
   styleUrls: ['./role-management.component.css'],
 })
-export class RoleManagementComponent implements OnInit {
+export class RoleManagementComponent implements OnInit, OnDestroy {
   roleToast = false;
   toastKey = '';
   message = 'Gestión de roles de usuario';
@@ -35,10 +35,11 @@ export class RoleManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe({
+    const getUsersServiceSubscription = this.userService.getUsers().subscribe({
       next: (data: UserDataResponse) => (this.users = data.data),
       error: (errorData) => console.log(errorData),
     });
+    this.subscriptions.push(getUsersServiceSubscription);
   }
 
   onPatchRole() {
@@ -46,7 +47,7 @@ export class RoleManagementComponent implements OnInit {
     const roles = [this.roleManagementForm.value.rolRadio];
 
     if (this.roleManagementForm.valid) {
-      const recoveryForgotServiceSubscription = this.userService
+      const patchRoleServiceSubscription = this.userService
         .patchRole(id as number, roles as string[])
         .subscribe({
           error: (errorData) => {
@@ -66,15 +67,9 @@ export class RoleManagementComponent implements OnInit {
             }, 3000);
           },
         });
-      this.subscriptions.push(recoveryForgotServiceSubscription);
+      this.subscriptions.push(patchRoleServiceSubscription);
     } else {
       this.roleManagementForm.markAllAsTouched();
-    }
-  }
-
-  ngOnDestroy(): void {
-    for (let subscription of this.subscriptions) {
-      subscription.unsubscribe();
     }
   }
 
@@ -84,5 +79,11 @@ export class RoleManagementComponent implements OnInit {
 
   get rolRadio() {
     return this.roleManagementForm.controls.rolRadio;
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }

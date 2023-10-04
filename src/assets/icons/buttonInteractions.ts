@@ -1,7 +1,7 @@
 export const buttonInteractions = {
   subscribe: {
     svg: '/assets/icons/arrow.svg',
-    action: 'Quiero suscribirme!',
+    action: 'Quiero inscribirme!',
     style: 'bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300',
   },
   edit: {

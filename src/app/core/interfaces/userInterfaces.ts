@@ -7,6 +7,7 @@ export type GetUser = {
 };
 
 export type UserResponse = {
+  [key: string]: string | number | boolean | null;
   id: number;
   nombre: string;
   apellido: string;
@@ -26,9 +27,10 @@ export type User = {
 };
 
 export type UserEditRequest = {
+  [key: string]: string | number | boolean | null | Blob;
   nombre: string;
   apellido: string;
-  email: string
+  email: string;
   imageFile: Blob;
   password: string;
   confirm_password: string;

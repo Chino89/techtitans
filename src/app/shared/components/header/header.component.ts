@@ -6,6 +6,7 @@ import { LoginService } from 'src/app/core/services/auth/login.service';
 import adminOptions from '../../../../assets/icons/adminDropdown.json';
 import institutionalOptions from '../../../../assets/icons/institutionalDropdown.json';
 import { UserService } from 'src/app/core/services/users/user.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   adminDropdownItems = adminOptions;
   institutionalDropdownItems = institutionalOptions;
   currentDropdown = '';
+  subscriptions: Subscription[] = [];
 
   constructor(
     private loginService: LoginService,
@@ -32,28 +34,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((event) => {
+    const routerEventSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.currentDropdown = '';
         this.showMobileMenu = false;
       }
+      this.subscriptions.push(routerEventSubscription);
     });
 
-    this.loginService.currentUserLoginOn.subscribe({
-      next: (userIsLoged) => {
-        this.userIsLoged = userIsLoged;
-      },
-    });
+    const currentUserLoginOnServiceSubscription =
+      this.loginService.currentUserLoginOn.subscribe({
+        next: (userIsLoged) => {
+          this.userIsLoged = userIsLoged;
+        },
+      });
+    this.subscriptions.push(currentUserLoginOnServiceSubscription);
 
-    this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-        if (userData.nombre !== '') {
-          localStorage.setItem('userData', JSON.stringify(userData));
-          this.getUserDetail();
-        }
-      },
-    });
+    const currentUserDataServiceSubscription =
+      this.loginService.currentUserData.subscribe({
+        next: (userData) => {
+          this.userData = userData;
+          if (userData.nombre !== '') {
+            localStorage.setItem('userData', JSON.stringify(userData));
+            this.getUserDetail();
+          }
+        },
+      });
+    this.subscriptions.push(currentUserDataServiceSubscription);
 
     const _userData = localStorage.getItem('userData');
     const _userDataObj = JSON.parse(_userData ?? '{}');
@@ -63,11 +70,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   getUserDetail() {
-    this.userService.getUserData().subscribe({
-      next: (response) => {
-        this.userDetail = response.data;
-      },
-    });
+    const getUserDataServiceSubscription = this.userService
+      .getUserData()
+      .subscribe({
+        next: (response) => {
+          this.userDetail = response.data;
+        },
+      });
+    this.subscriptions.push(getUserDataServiceSubscription);
   }
 
   openMobileMenu() {
@@ -102,13 +112,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.loginService.currentUserLoginOn.unsubscribe();
-    this.loginService.currentUserData.unsubscribe();
-  }
-
-  onLogOut() {
-    //   this.loginService.logOut();
-    //   localStorage.removeItem('userData');
-    //   this.router.navigateByUrl('');
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }
