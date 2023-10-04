@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { BackEndError } from 'src/app/core/interfaces/interfaces';
 import {
   User,
@@ -16,7 +17,7 @@ import { MyValidators } from 'src/app/utils/validators';
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.css'],
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent implements OnInit, OnDestroy {
   user: User = {
     id: 0,
     nombre: '',
@@ -35,33 +36,28 @@ export class UserEditComponent implements OnInit {
     status: false,
   };
   userEditErrors: BackEndError[] = [];
+  subscriptions: Subscription[] = [];
   userEditToast = false;
-  file: Blob = new Blob();
+  file: Blob | null = null;
   selectedPhoto: ArrayBuffer | string = '';
   invalidType = false;
   fileInputTouched = false;
   spinner = false;
   userEdited = false;
-
   editUserForm = this.formBuilder.group(
     {
       nombre: ['', [Validators.required, Validators.minLength(2)]],
       apellido: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       hasImage: [true, [Validators.requiredTrue]],
-      password: [
-        '',
-        [
-          Validators.minLength(6),
-          Validators.maxLength(20),
-        ],
-      ],
-      confirm_password: ['', ],
+      password: ['', [Validators.minLength(6), Validators.maxLength(20)]],
+      confirm_password: [''],
     },
     {
       validators: MyValidators.matchPasswords,
     }
   );
+  hasChange = false;
 
   constructor(
     private loginService: LoginService,
@@ -71,14 +67,16 @@ export class UserEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loginService.currentUserData.subscribe((data) => {
-      this.user = data;
-      this.getUserDetail(this.user.id);
-    });
+    const currentUserDataSubscription =
+      this.loginService.currentUserData.subscribe((data) => {
+        this.user = data;
+        this.getUserDetail(this.user.id);
+      });
+    this.subscriptions.push(currentUserDataSubscription);
   }
 
   getUserDetail(userId: number) {
-    this.userService.getUserData().subscribe({
+    const getUserDetailSubscription = this.userService.getUserData().subscribe({
       next: (response) => {
         this.oldUserDetail = response.data;
         this.editUserForm.controls.nombre.setValue(response.data.nombre);
@@ -87,6 +85,7 @@ export class UserEditComponent implements OnInit {
         this.selectedPhoto = response.data.avatar;
       },
     });
+    this.subscriptions.push(getUserDetailSubscription);
   }
 
   selectPhoto(event: any): void {
@@ -105,6 +104,19 @@ export class UserEditComponent implements OnInit {
     }
   }
 
+  formHasChange(field: string) {
+    const currentValue = (this.editUserForm.value as UserEditRequest)[field];
+    const initialValue = this.oldUserDetail[field];
+    this.hasChange = currentValue !== initialValue;
+  }
+
+  checkFormHasChanged() {
+    return (
+      this.editUserForm.invalid ||
+      (this.editUserForm.valid && !this.hasChange && this.file === null)
+    );
+  }
+
   setFileInputTouched() {
     this.fileInputTouched = true;
   }
@@ -118,34 +130,34 @@ export class UserEditComponent implements OnInit {
 
     formData.append('nombre', nombre);
     formData.append('apellido', apellido);
-    formData.append('email', email);
     formData.append('password', password);
     formData.append('confirm_password', confirm_password);
-    formData.append('imageFile', this.file);
-
-    console.log(formData, param);
+    this.file && formData.append('imageFile', this.file);
 
     if (this.editUserForm.valid) {
-      this.userService.editUser(param, formData).subscribe({
-        error: (errorData) => {
-          this.spinner = false;
-          this.userEditToast = true;
-          if (errorData.error.mensaje) {
-            this.userEditErrors = [{ mensaje: errorData.error.mensaje }];
-          } else {
-            this.userEditErrors = errorData.error.errors as BackEndError[];
-          }
-        },
-        complete: () => {
-          this.userEditToast = true;
-          this.userEdited = true;
-          this.spinner = false;
-          console.info('Usuario editado');
-          setTimeout(() => {
-            this.router.navigateByUrl('/usuario/perfil');
-          }, 3000);
-        },
-      });
+      const editUserSubscription = this.userService
+        .editUser(param, formData)
+        .subscribe({
+          error: (errorData) => {
+            this.spinner = false;
+            this.userEditToast = true;
+            if (errorData.error.mensaje) {
+              this.userEditErrors = [{ mensaje: errorData.error.mensaje }];
+            } else {
+              this.userEditErrors = errorData.error.errors as BackEndError[];
+            }
+          },
+          complete: () => {
+            this.userEditToast = true;
+            this.userEdited = true;
+            this.spinner = false;
+            console.info('Usuario editado');
+            setTimeout(() => {
+              this.router.navigateByUrl('/usuario/perfil');
+            }, 3000);
+          },
+        });
+      this.subscriptions.push(editUserSubscription);
     }
   }
 
@@ -171,5 +183,11 @@ export class UserEditComponent implements OnInit {
 
   get confirm_password() {
     return this.editUserForm.controls.confirm_password;
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }
