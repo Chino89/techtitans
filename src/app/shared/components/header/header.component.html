@@ -280,24 +280,55 @@
               >
             </div>
           </div>
-          <div *ngIf="!userIsLoged" class="py-6 flex justify-center">
+          <div class="py-6 flex justify-center">
             <a
+              *ngIf="!userIsLoged"
               routerLink="iniciar-sesion"
               class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Iniciar Sesión</a
             >
-          </div>
-          <div *ngIf="userIsLoged" class="flex flex-col items-center py-6">
-            <div>
-              <span class="text-sm">Bienvenido</span>
-              <span class="text-sm ml-2">{{ userData?.nombre }}</span>
+            <div *ngIf="userIsLoged">
+              <a
+                (click)="myToggleDropdown('userDropdown')"
+                class="flex w-full items-center justify-between text-base font-semibold leading-7 text-gray-900"
+              >
+                <div class="flex pr-2">
+                  <p>{{ userDetail?.nombre }}</p>
+                  <img
+                    class="w-8 h-8 ml-2 rounded-full object-cover"
+                    src="{{ userDetail?.avatar }}"
+                    alt="user photo"
+                  />
+                </div>
+                <svg
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </a>
+              <div
+                *ngIf="currentDropdown == 'userDropdown'"
+                class="flex flex-col items-center py-6"
+              >
+                <div class="text-xs text-center">{{ userData!.roles }}</div>
+                <a routerLink="/usuario/perfil" class="text-md text-center pt-2"
+                  >Mi perfil</a
+                >
+                <button
+                  (click)="onLogOut()"
+                  class="py-2 text-md"
+                >
+                  Cerrar sesión
+                </button>
+              </div>
             </div>
-            <a
-              (click)="onLogOut()"
-              routerLink=""
-              class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-              >Cerrar sesión</a
-            >
           </div>
         </div>
       </div>

@@ -111,6 +111,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  onLogOut() {
+    this.loginService.logOut();
+    this.router.navigateByUrl('');
+    this.showMobileMenu = false;
+  }
+
   ngOnDestroy(): void {
     for (let subscription of this.subscriptions) {
       subscription.unsubscribe();
