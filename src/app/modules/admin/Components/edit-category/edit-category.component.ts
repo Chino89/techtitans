@@ -34,17 +34,20 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.categoryService.getCategories().subscribe({
-      next: (data: CategoryDataResponse) => (this.categories = data.data),
-      error: (errorData) => console.log(errorData),
-    });
+    const getCategoriesServiceSubscription = this.categoryService
+      .getCategories()
+      .subscribe({
+        next: (data: CategoryDataResponse) => (this.categories = data.data),
+        error: (errorData) => console.log(errorData),
+      });
+    this.subscriptions.push(getCategoriesServiceSubscription);
   }
 
   onEditCategory() {
     const id = Number(this.editCategoryForm.value.nombre);
     const newName = this.editCategoryForm.value.nuevoNombre;
     if (this.editCategoryForm.valid) {
-      const recoveryForgotServiceSubscription = this.categoryService
+      const editCategoryServiceSubscription = this.categoryService
         .editCategory(id, newName as string)
         .subscribe({
           error: (errorData) => {
@@ -64,7 +67,7 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
             }, 3000);
           },
         });
-      this.subscriptions.push(recoveryForgotServiceSubscription);
+      this.subscriptions.push(editCategoryServiceSubscription);
     } else {
       this.editCategoryForm.markAllAsTouched();
     }

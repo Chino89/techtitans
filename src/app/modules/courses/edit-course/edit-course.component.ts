@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -11,18 +11,22 @@ import {
   TeacherData,
   TeacherDataResponse,
 } from 'src/app/core/interfaces/userInterfaces';
-import { CourseDetailResponse, CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
+import {
+  CourseDetailResponse,
+  CourseResponse,
+} from 'src/app/core/interfaces/courseInterfaces';
 import {
   CategoryData,
   CategoryDataResponse,
 } from 'src/app/core/interfaces/categoryInterfaces';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-course',
   templateUrl: './edit-course.component.html',
   styleUrls: ['./edit-course.component.css'],
 })
-export class EditCourseComponent implements OnInit {
+export class EditCourseComponent implements OnInit, OnDestroy {
   greeting = 'Editando curso: ';
   errorGreeting = 'Se encontraron errores';
   editCourseToast = false;
@@ -30,9 +34,10 @@ export class EditCourseComponent implements OnInit {
   forceExit = false;
   nextRoute = '';
   editCourseErrors: BackEndError[] = [];
+  subscriptions: Subscription[] = [];
   categories: CategoryData[] = [];
   teachers: TeacherData[] = [];
-  file: Blob = new Blob();
+  file: Blob | null = null;
   selectedPhoto: ArrayBuffer | string = '';
   invalidType = false;
   fileInputTouched = false;
@@ -84,31 +89,42 @@ export class EditCourseComponent implements OnInit {
   }
 
   getData() {
-    this.categoryService.getCategories().subscribe({
-      next: (data: CategoryDataResponse) => (this.categories = data.data),
-      error: (errorData) => console.log(errorData),
-    });
-    this.userService.getTeachers().subscribe({
-      next: (data: TeacherDataResponse) => (this.teachers = data.data),
-      error: (errorData) => console.log(errorData),
-    });
+    const getCategoriesServiceSubscription = this.categoryService
+      .getCategories()
+      .subscribe({
+        next: (data: CategoryDataResponse) => (this.categories = data.data),
+        error: (errorData) => console.log(errorData),
+      });
+    const getTeachersServiceSubscription = this.userService
+      .getTeachers()
+      .subscribe({
+        next: (data: TeacherDataResponse) => (this.teachers = data.data),
+        error: (errorData) => console.log(errorData),
+      });
+    this.subscriptions.push(
+      getTeachersServiceSubscription,
+      getCategoriesServiceSubscription
+    );
   }
 
   getCourse(identificator: number | string) {
-    this.courseService.getCourseByIdOrSlug(identificator).subscribe({
-      next: (data: CourseDetailResponse) => {
-        this.oldCourseData = data.data;
-        this.editCourseForm.patchValue(data.data);
-        this.selectedPhoto = data.data.portada;
-        this.editCourseForm.controls.dia.setValue(data.data.dia_curso);
-        this.editCourseForm.controls.hora.setValue(data.data.hora_curso);
-        this.editCourseForm.controls.categoriaId.setValue(
-          data.data.categoria.id
-        );
-        this.editCourseForm.controls.docenteId.setValue(data.data.docente.id);
-      },
-      error: (errorData) => console.log(errorData),
-    });
+    const getCourseByIdOrSlugServiceSubscription = this.courseService
+      .getCourseByIdOrSlug(identificator)
+      .subscribe({
+        next: (data: CourseDetailResponse) => {
+          this.oldCourseData = data.data;
+          this.editCourseForm.patchValue(data.data);
+          this.selectedPhoto = data.data.portada;
+          this.editCourseForm.controls.dia.setValue(data.data.dia_curso);
+          this.editCourseForm.controls.hora.setValue(data.data.hora_curso);
+          this.editCourseForm.controls.categoriaId.setValue(
+            data.data.categoria.id
+          );
+          this.editCourseForm.controls.docenteId.setValue(data.data.docente.id);
+        },
+        error: (errorData) => console.log(errorData),
+      });
+    this.subscriptions.push(getCourseByIdOrSlugServiceSubscription);
   }
 
   editCourseForm = this.formBuilder.group(
@@ -171,28 +187,31 @@ export class EditCourseComponent implements OnInit {
     formData.append('precio', precio);
     formData.append('categoriaId', categoriaId);
     formData.append('docenteId', docenteId);
-    formData.append('imageFile', this.file);
+    this.file && formData.append('imageFile', this.file);
 
     if (this.editCourseForm.valid) {
-      this.courseService.editCourse(formData, param).subscribe({
-        error: (errorData) => {
-          this.spinner = false;
-          if (errorData.error.mensaje) {
-            this.editCourseErrors = [{ mensaje: errorData.error.mensaje }];
-          } else {
-            this.editCourseErrors = errorData.error.errors as BackEndError[];
-          }
-        },
-        complete: () => {
-          console.info('Curso editado');
-          this.editCourseToast = true;
-          this.hasCourse = true;
-          this.spinner = false;
-          setTimeout(() => {
-            this.router.navigateByUrl('/cursos');
-          }, 3000);
-        },
-      });
+      const editCourseServiceSubscription = this.courseService
+        .editCourse(formData, param)
+        .subscribe({
+          error: (errorData) => {
+            this.spinner = false;
+            if (errorData.error.mensaje) {
+              this.editCourseErrors = [{ mensaje: errorData.error.mensaje }];
+            } else {
+              this.editCourseErrors = errorData.error.errors as BackEndError[];
+            }
+          },
+          complete: () => {
+            console.info('Curso editado');
+            this.editCourseToast = true;
+            this.hasCourse = true;
+            this.spinner = false;
+            setTimeout(() => {
+              this.router.navigateByUrl('/cursos');
+            }, 3000);
+          },
+        });
+      this.subscriptions.push(editCourseServiceSubscription);
     }
   }
 
@@ -231,5 +250,11 @@ export class EditCourseComponent implements OnInit {
   }
   get docenteId() {
     return this.editCourseForm.controls.docenteId;
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }

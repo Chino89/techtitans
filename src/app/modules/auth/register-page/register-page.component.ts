@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterStateSnapshot } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { RegisterRequest } from 'src/app/core/interfaces/authInterfaces';
-import {
-  BackEndError,
-  onExit,
-} from 'src/app/core/interfaces/interfaces';
+import { BackEndError, onExit } from 'src/app/core/interfaces/interfaces';
 import { RegisterService } from 'src/app/core/services/auth/register.service';
 
 @Component({
@@ -13,7 +11,7 @@ import { RegisterService } from 'src/app/core/services/auth/register.service';
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.css'],
 })
-export class RegisterPageComponent implements OnInit, onExit {
+export class RegisterPageComponent implements OnInit, onExit, OnDestroy {
   greeting: string = 'Hola, Bienvenido!';
   errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   registerToast: boolean = false;
@@ -22,6 +20,7 @@ export class RegisterPageComponent implements OnInit, onExit {
   hasUser: boolean = false;
   nextRoute: string = '';
   forceExit: boolean = false;
+  subscriptions: Subscription[] = [];
   registerForm = this.formBuilder.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
     apellido: ['', [Validators.required, Validators.minLength(2)]],
@@ -43,7 +42,7 @@ export class RegisterPageComponent implements OnInit, onExit {
 
   register() {
     if (this.registerForm.valid) {
-      this.registerService
+      const registerServiceSubscription = this.registerService
         .register(this.registerForm.value as RegisterRequest)
         .subscribe({
           next: (userData) => {
@@ -68,6 +67,7 @@ export class RegisterPageComponent implements OnInit, onExit {
             }, 3000);
           },
         });
+      this.subscriptions.push(registerServiceSubscription);
     } else {
       console.log('Error al registrar nuevo usuario');
       this.registerForm.markAllAsTouched();
@@ -109,5 +109,11 @@ export class RegisterPageComponent implements OnInit, onExit {
   }
   get terms() {
     return this.registerForm.controls.terms;
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }
