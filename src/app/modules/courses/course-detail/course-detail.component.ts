@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { CourseService } from 'src/app/core/services/course/course.service';
 import { LoginService } from 'src/app/core/services/auth/login.service';
@@ -40,6 +40,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       apellido: '',
     },
   };
+  userSuscribed = false;
+  setKey = '';
 
   userIsLoged = false;
   userData: User = {
@@ -55,7 +57,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   constructor(
     private courseService: CourseService,
     private loginService: LoginService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -89,12 +92,20 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (data: CourseDetailResponse) => {
           this.courseData = data.data;
-          console.log(this.courseData);
         },
         error: (errorData) => console.log(errorData),
       });
     this.subscriptions.push(getCoursesByIdOrSlugServiceSubscription);
   }
+
+  
+    showToast(key: string) {
+      this.userSuscribed = true;
+      this.setKey = key;
+      setTimeout(() => {
+        this.router.navigateByUrl('/usuario/mis-cursos');
+      }, 3000);
+    }
 
   ngOnDestroy(): void {
     for (let subscription of this.subscriptions) {

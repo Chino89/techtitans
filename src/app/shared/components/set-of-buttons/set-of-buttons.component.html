@@ -4,6 +4,7 @@
     *ngIf="!(userIsLoged && userData?.roles?.includes('ROLE_ADMIN'))"
   >
     <a
+    (click)="onSubscribe()"
       type="button"
       class="{{
         buttons['subscribe'].style
