@@ -1,7 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import {
+  UserEnrollment,
+  UserEnrollmentData,
+} from 'src/app/core/interfaces/enrollmentInterfaces';
 import { User, UserResponse } from 'src/app/core/interfaces/userInterfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
+import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
 import { UserService } from 'src/app/core/services/users/user.service';
 
 @Component({
@@ -28,29 +33,44 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
     status: false,
   };
   subscriptions: Subscription[] = [];
+  userCoursesResponse: UserEnrollmentData[] = [];
 
   constructor(
     private loginService: LoginService,
-    private userService: UserService
+    private userService: UserService,
+    private enrollmentService: EnrollmentService
   ) {}
   ngOnInit(): void {
     const currentUserDataServiceSubscription =
       this.loginService.currentUserData.subscribe((data) => {
         this.user = data;
-        this.getUserDetail(this.user.id);
+        this.getUserDetail();
+        this.getUserCourses();
       });
     this.subscriptions.push(currentUserDataServiceSubscription);
   }
 
-  getUserDetail(userId: number) {
-    const getUserServiceSubscription = this.userService
-      .getUser(userId)
+  getUserDetail() {
+    const getUserDataServiceSubscription = this.userService
+      .getUserData()
       .subscribe({
         next: (response) => {
           this.userDetail = response.data;
         },
       });
-    this.subscriptions.push(getUserServiceSubscription);
+    this.subscriptions.push(getUserDataServiceSubscription);
+  }
+
+  getUserCourses() {
+    const getMyCoursesServiceSubscription = this.enrollmentService
+      .getMyCourses()
+      .subscribe({
+        next: (response: UserEnrollment) => {
+          console.log(response);
+          this.userCoursesResponse = response.data;
+        },
+      });
+    this.subscriptions.push(getMyCoursesServiceSubscription);
   }
 
   ngOnDestroy(): void {
@@ -58,5 +78,4 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
       subscription.unsubscribe();
     }
   }
-
 }

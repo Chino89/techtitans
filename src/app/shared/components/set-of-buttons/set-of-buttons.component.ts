@@ -1,11 +1,23 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Customizer } from 'src/app/core/interfaces/interfaces';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 import { LoginService } from 'src/app/core/services/auth/login.service';
+import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
+import { Subscription } from 'rxjs';
+import {
+  BackEndResponse,
+  Customizer,
+} from 'src/app/core/interfaces/interfaces';
 import { User } from 'src/app/core/interfaces/userInterfaces';
 import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
-import { Subscription } from 'rxjs';
+import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
 
 @Component({
   selector: 'app-set-of-buttons',
@@ -27,6 +39,7 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
   };
   subscriptions: Subscription[] = [];
 
+  @Output() showToast = new EventEmitter<string>();
   @Input() courseData: CourseResponse = {
     id: 0,
     nombre: '',
@@ -48,7 +61,11 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     docente: { id: 0, nombre: '', apellido: '' },
   };
 
-  constructor(private loginService: LoginService) {}
+  constructor(
+    private loginService: LoginService,
+    private route: ActivatedRoute,
+    private enrollmentService: EnrollmentService
+  ) {}
 
   ngOnInit(): void {
     const currentUserLoginOnServiceSubscription =
@@ -66,6 +83,23 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
         },
       });
     this.subscriptions.push(currentUserDataServiceSubscription);
+  }
+
+  onSubscribe() {
+    const param = this.route.snapshot.paramMap.get('identificator') as string;
+    const id = Number(this.userData.id);
+
+    const courseEnrollmentServiceSubscription = this.enrollmentService
+      .courseEnrollment(param, id)
+      .subscribe({
+        error: (error: BackEndResponse) => {
+          this.showToast.emit('error' as string);
+        },
+        complete: () => {
+          this.showToast.emit('check' as string);
+        },
+      });
+    this.subscriptions.push(courseEnrollmentServiceSubscription);
   }
 
   ngOnDestroy(): void {

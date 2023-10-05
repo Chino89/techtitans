@@ -7,8 +7,7 @@ export const buttonInteractions = {
   edit: {
     svg: '/assets/icons/pencil.svg',
     action: 'Editar',
-    style:
-      'bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300',
+    style: 'bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300',
   },
   delete: {
     svg: '/assets/icons/trashBin.svg',
