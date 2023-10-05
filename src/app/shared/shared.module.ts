@@ -13,8 +13,12 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { SetOfButtonsComponent } from './components/set-of-buttons/set-of-buttons.component';
 import { CustomToastComponent } from './components/custom-toast/custom-toast.component';
 import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.component';
+import { TimeCustomizerPipe } from './pipes/timeCustomizerPipe/time-customizer.pipe';
+import { RoleCustomizerPipe } from './pipes/roleCustomizerPipe/role-customizer.pipe';
 
 const myModules = [
+  TimeCustomizerPipe,
+  RoleCustomizerPipe,
   HeaderComponent,
   FooterComponent,
   CourseCardComponent,
@@ -23,17 +27,12 @@ const myModules = [
   DropdownComponent,
   SetOfButtonsComponent,
   CustomToastComponent,
-  UserDropdownComponent
+  UserDropdownComponent,
 ];
 
 @NgModule({
   declarations: myModules,
-  imports: [
-    CommonModule,
-    RouterModule,
-    NglrxPipesModule,
-    AngularSvgIconModule,
-  ],
+  imports: [CommonModule, RouterModule, NglrxPipesModule, AngularSvgIconModule],
   exports: myModules,
   providers: [],
 })

@@ -15,7 +15,7 @@
         {{ courseContent.dia_curso | date : "dd/MM/yyyy" }}
       </p>
       <p>
-        {{ courseContent.hora_curso }}
+        {{ courseContent.hora_curso | timeCustomizer }}
       </p>
     </div>
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
