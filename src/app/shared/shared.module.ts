@@ -8,7 +8,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { CourseCardComponent } from './components/course-card/course-card.component';
 import { NewCoursesComponent } from './components/new-courses/new-courses.component';
-import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { SetOfButtonsComponent } from './components/set-of-buttons/set-of-buttons.component';
 import { CustomToastComponent } from './components/custom-toast/custom-toast.component';
@@ -23,7 +22,6 @@ const myModules = [
   FooterComponent,
   CourseCardComponent,
   NewCoursesComponent,
-  UserCoursesComponent,
   DropdownComponent,
   SetOfButtonsComponent,
   CustomToastComponent,
