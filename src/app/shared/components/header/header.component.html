@@ -317,14 +317,16 @@
                 *ngIf="currentDropdown == 'userDropdown'"
                 class="flex flex-col items-center py-6"
               >
-                <div class="text-xs text-center">{{ userData!.roles }}</div>
+                <div class="flex">
+                  <p class="mr-1">Rol:</p>
+                  <p class="font-medium">
+                    {{ userData!.roles | roleCustomizer }}
+                  </p>
+                </div>
                 <a routerLink="/usuario/perfil" class="text-md text-center pt-2"
                   >Mi perfil</a
                 >
-                <button
-                  (click)="onLogOut()"
-                  class="py-2 text-md"
-                >
+                <button (click)="onLogOut()" class="py-2 text-md">
                   Cerrar sesión
                 </button>
               </div>
