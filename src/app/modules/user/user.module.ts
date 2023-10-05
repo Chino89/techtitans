@@ -4,21 +4,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { UserRoutingModule } from './user-routing.module';
 import { UserPageComponent } from './components/user-page/user-page.component';
-import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.component';
 import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
     UserPageComponent,
-    UserDropdownComponent,
     UserCoursesComponent,
     UserEditComponent,
     UserProfileComponent,
   ],
 
-  imports: [CommonModule, UserRoutingModule, ReactiveFormsModule],
-  exports: [UserDropdownComponent],
+  imports: [CommonModule, UserRoutingModule, ReactiveFormsModule, SharedModule],
+  exports: [],
 })
 export class UserModule {}
