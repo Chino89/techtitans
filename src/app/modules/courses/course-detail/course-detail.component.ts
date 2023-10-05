@@ -58,7 +58,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     private courseService: CourseService,
     private loginService: LoginService,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -80,6 +80,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
           this.userData = userData;
         },
       });
+
     this.subscriptions.push(
       currentUserDataServiceSubscription,
       currentUserLoginOnServiceSubscription
@@ -98,14 +99,13 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(getCoursesByIdOrSlugServiceSubscription);
   }
 
-  
-    showToast(key: string) {
-      this.userSuscribed = true;
-      this.setKey = key;
-      setTimeout(() => {
-        this.router.navigateByUrl('/usuario/mis-cursos');
-      }, 3000);
-    }
+  showToast(key: string) {
+    this.userSuscribed = true;
+    this.setKey = key;
+    setTimeout(() => {
+      this.router.navigateByUrl('/usuario/mis-cursos');
+    }, 3000);
+  }
 
   ngOnDestroy(): void {
     for (let subscription of this.subscriptions) {

@@ -1,10 +1,20 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { LoginService } from 'src/app/core/services/auth/login.service';
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 import { Subscription } from 'rxjs';
-import { BackEndResponse, Customizer } from 'src/app/core/interfaces/interfaces';
+import {
+  BackEndResponse,
+  Customizer,
+} from 'src/app/core/interfaces/interfaces';
 import { User } from 'src/app/core/interfaces/userInterfaces';
 import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
@@ -78,16 +88,15 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
   onSubscribe() {
     const param = this.route.snapshot.paramMap.get('identificator') as string;
     const id = Number(this.userData.id);
-    
-    const courseEnrollmentServiceSubscription =
-      this.enrollmentService.courseEnrollment(param, id).subscribe({
+
+    const courseEnrollmentServiceSubscription = this.enrollmentService
+      .courseEnrollment(param, id)
+      .subscribe({
         error: (error: BackEndResponse) => {
           this.showToast.emit('error' as string);
-          console.log(error, 'no se inscribio');
         },
         complete: () => {
           this.showToast.emit('check' as string);
-          
         },
       });
     this.subscriptions.push(courseEnrollmentServiceSubscription);
