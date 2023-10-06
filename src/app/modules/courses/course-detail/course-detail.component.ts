@@ -9,6 +9,7 @@ import {
 } from 'src/app/core/interfaces/courseInterfaces';
 import { User } from 'src/app/core/interfaces/userInterfaces';
 import { Subscription } from 'rxjs';
+import { BackEndResponse } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-course-detail',
@@ -53,6 +54,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     accessToken: '',
   };
   subscriptions: Subscription[] = [];
+  courseEnrollmentErrors = '';
 
   constructor(
     private courseService: CourseService,
@@ -104,7 +106,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.setKey = key;
     setTimeout(() => {
       this.router.navigateByUrl('/usuario/mis-cursos');
-    }, 3000);
+    }, 5000);
+  }
+
+  showErrors(errors: BackEndResponse) {
+    this.courseEnrollmentErrors = errors.mensaje;
   }
 
   ngOnDestroy(): void {
