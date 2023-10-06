@@ -14,6 +14,8 @@
       <h3 class="mb-1 text-md font-medium text-gray-900">{{userDetail.nombre}} {{userDetail.apellido}}</h3>
       <h3>Email:</h3>
       <h3 class="mb-1 text-md font-medium text-gray-900">{{userDetail.email}}</h3>
+      <h3>Rol:</h3>
+      <h3 class="mb-1 text-md font-medium text-gray-900">{{user.roles | roleCustomizer}}</h3>
     </div>
   </div>
 </section>
