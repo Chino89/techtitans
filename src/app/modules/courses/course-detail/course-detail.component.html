@@ -72,9 +72,16 @@
           </div>
         </div>
       </div>
+      <div
+        *ngIf="courseEnrollmentErrors !== ''"
+        class="flex justify-center py-4"
+      >
+        <p class="text-sm text-red-600">{{ courseEnrollmentErrors }}</p>
+      </div>
       <app-set-of-buttons
         [courseData]="courseData"
         (showToast)="showToast($event)"
+        (backEndErrors)="showErrors($event)"
       ></app-set-of-buttons>
     </div>
   </div>

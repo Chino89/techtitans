@@ -40,6 +40,8 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   @Output() showToast = new EventEmitter<string>();
+  @Output() backEndErrors = new EventEmitter<BackEndResponse>();
+
   @Input() courseData: CourseResponse = {
     id: 0,
     nombre: '',
@@ -92,8 +94,9 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     const courseEnrollmentServiceSubscription = this.enrollmentService
       .courseEnrollment(param, id)
       .subscribe({
-        error: (error: BackEndResponse) => {
+        error: (error) => {
           this.showToast.emit('error' as string);
+          this.backEndErrors.emit(error.error);
         },
         complete: () => {
           this.showToast.emit('check' as string);
