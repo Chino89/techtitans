@@ -62,7 +62,13 @@ export class FindCourseComponent implements OnInit {
       .getCoursesByCategory(category as string)
       .subscribe({
         next: (data: CourseData) => (this.courses = data.data),
-        error: (errorData) => console.log(errorData),
+        error: (errorData) => {
+          if (errorData.error.mensaje) {
+            this.backendErrors = [{ mensaje: errorData.error.mensaje }];
+          } else {
+            this.backendErrors = errorData.error.errors as BackEndError[];
+          }
+        },
       });
     this.subscriptions.push(getCoursesByCategoryServiceSubscription);
   }
