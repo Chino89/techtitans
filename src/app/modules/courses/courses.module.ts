@@ -12,6 +12,7 @@ import { CourseDetailComponent } from './course-detail/course-detail.component';
 import { DeleteCourseComponent } from './delete-course/delete-course.component';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { FindCourseComponent } from './find-course/find-course.component';
+import { FindSomeCoursesComponent } from './find-some-courses/find-some-courses.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FindCourseComponent } from './find-course/find-course.component';
     DeleteCourseComponent,
     EditCourseComponent,
     FindCourseComponent,
+    FindSomeCoursesComponent,
   ],
   imports: [
     CommonModule,

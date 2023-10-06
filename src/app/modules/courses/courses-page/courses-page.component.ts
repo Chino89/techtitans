@@ -22,7 +22,6 @@ export class CoursesPageComponent implements OnInit, OnDestroy {
         error: (errorData) => console.log(errorData),
         next: (data: CourseData) => {
           this.courses = data.data;
-          console.log(this.courses)
         },
       });
     this.subscriptions.push(getAllCoursesServiceSubscription);
