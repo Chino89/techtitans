@@ -27,6 +27,10 @@ export class CourseService {
     return this.http.get<CourseData>(`${environment.API_URL}/api/cursos`);
   }
 
+  getAllTeacherCourses(): Observable<CourseData> {
+    return this.http.get<CourseData>(`${environment.API_URL}/api/cursos/all`);
+  }
+
   getCourseByIdOrSlug(
     identificator: number | string
   ): Observable<CourseDetailResponse> {
