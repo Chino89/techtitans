@@ -25,7 +25,11 @@
       {{ courseContent!.descripcion | truncate : 100 }}
     </p>
     <div class="flex justify-center">
-      <app-set-of-buttons [courseData]="courseContent"></app-set-of-buttons>
+      <app-set-of-buttons
+        [courseData]="courseContent"
+        [inscriptionCode]="inscriptionCode"
+        [paymentToken]="paymentToken"
+      ></app-set-of-buttons>
     </div>
   </div>
 </div>

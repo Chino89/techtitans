@@ -10,6 +10,8 @@ import {
 import { User } from 'src/app/core/interfaces/userInterfaces';
 import { Subscription } from 'rxjs';
 import { BackEndResponse } from 'src/app/core/interfaces/interfaces';
+import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
+import { UserEnrollment, UserEnrollmentData } from 'src/app/core/interfaces/enrollmentInterfaces';
 
 @Component({
   selector: 'app-course-detail',
@@ -55,10 +57,38 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   };
   subscriptions: Subscription[] = [];
   courseEnrollmentErrors = '';
+  userCoursesResponse: UserEnrollmentData[] = [];
+  inscriptionCode = '';
+  paymentToken = '';
+  
+  getCourse(identificator: number | string) {
+    const getCoursesByIdOrSlugServiceSubscription = this.courseService
+    .getCourseByIdOrSlug(identificator)
+    .subscribe({
+      next: (data: CourseDetailResponse) => {
+        this.courseData = data.data;
+      },
+        error: (errorData) => console.log(errorData),
+      });
+      this.subscriptions.push(getCoursesByIdOrSlugServiceSubscription);
+  }
+
+  showToast(key: string) {
+    this.userSuscribed = true;
+    this.setKey = key;
+    setTimeout(() => {
+      this.router.navigateByUrl('/usuario/mis-cursos');
+    }, 5000);
+  }
+  
+  showErrors(errors: BackEndResponse) {
+    this.courseEnrollmentErrors = errors.mensaje;
+  }
 
   constructor(
     private courseService: CourseService,
     private loginService: LoginService,
+    private enrollmentService: EnrollmentService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -82,35 +112,27 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
           this.userData = userData;
         },
       });
+    
+      const getMyCoursesServiceSubscription = this.enrollmentService
+      .getMyCourses()
+      .subscribe({
+        next: (response: UserEnrollment) => {
+          this.userCoursesResponse = response.data;
+          for (const course of this.userCoursesResponse) {
+            const enrollmentCourse = course.curso.nombre;
+            if (enrollmentCourse === this.courseData.nombre) {
+              this.inscriptionCode = course.codigoInscripcion;
+              this.paymentToken = course.pago.tokenPago;
+            }
+          }
+        },
+      });
 
     this.subscriptions.push(
       currentUserDataServiceSubscription,
-      currentUserLoginOnServiceSubscription
+      currentUserLoginOnServiceSubscription,
+      getMyCoursesServiceSubscription
     );
-  }
-
-  getCourse(identificator: number | string) {
-    const getCoursesByIdOrSlugServiceSubscription = this.courseService
-      .getCourseByIdOrSlug(identificator)
-      .subscribe({
-        next: (data: CourseDetailResponse) => {
-          this.courseData = data.data;
-        },
-        error: (errorData) => console.log(errorData),
-      });
-    this.subscriptions.push(getCoursesByIdOrSlugServiceSubscription);
-  }
-
-  showToast(key: string) {
-    this.userSuscribed = true;
-    this.setKey = key;
-    setTimeout(() => {
-      this.router.navigateByUrl('/usuario/mis-cursos');
-    }, 5000);
-  }
-
-  showErrors(errors: BackEndResponse) {
-    this.courseEnrollmentErrors = errors.mensaje;
   }
 
   ngOnDestroy(): void {
