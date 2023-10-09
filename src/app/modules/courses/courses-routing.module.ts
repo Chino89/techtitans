@@ -9,6 +9,7 @@ import { NewCourseComponent } from './new-course/new-course.component';
 import { CourseDetailComponent } from './course-detail/course-detail.component';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { DeleteCourseComponent } from './delete-course/delete-course.component';
+import { CoursePaymentComponent } from './course-payment/course-payment.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,11 @@ const routes: Routes = [
     canActivate: [AdminGuard],
     canDeactivate: [ExitGuard],
     component: NewCourseComponent,
+    children: [],
+  },
+  {
+    path: 'realizar-pago',
+    component: CoursePaymentComponent,
     children: [],
   },
   {
