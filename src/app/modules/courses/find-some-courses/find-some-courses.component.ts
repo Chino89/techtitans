@@ -30,7 +30,6 @@ export class FindSomeCoursesComponent implements OnInit {
         error: (errorData) => console.log(errorData),
         next: (data: CourseData) => {
           this.allCourses = data.data;
-          console.log(this.allCourses, 'la data');
         },
       });
     this.subscriptions.push(getAllCoursesServiceSubscription);
