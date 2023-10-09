@@ -38,10 +38,8 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     accessToken: '',
   };
   subscriptions: Subscription[] = [];
-
-  @Output() showToast = new EventEmitter<string>();
-  @Output() backEndErrors = new EventEmitter<BackEndResponse>();
-
+  @Input() inscriptionCode: string = '';
+  @Input() paymentToken: string = '';
   @Input() courseData: CourseResponse = {
     id: 0,
     nombre: '',
@@ -62,6 +60,27 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     },
     docente: { id: 0, nombre: '', apellido: '' },
   };
+
+  @Output() showToast = new EventEmitter<string>();
+  @Output() backEndErrors = new EventEmitter<BackEndResponse>();
+
+  onSubscribe() {
+    const param = this.route.snapshot.paramMap.get('identificator') as string;
+    const id = Number(this.userData.id);
+
+    const courseEnrollmentServiceSubscription = this.enrollmentService
+      .courseEnrollment(param, id)
+      .subscribe({
+        error: (error) => {
+          this.showToast.emit('error' as string);
+          this.backEndErrors.emit(error.error);
+        },
+        complete: () => {
+          this.showToast.emit('check' as string);
+        },
+      });
+    this.subscriptions.push(courseEnrollmentServiceSubscription);
+  }
 
   constructor(
     private loginService: LoginService,
@@ -85,24 +104,6 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
         },
       });
     this.subscriptions.push(currentUserDataServiceSubscription);
-  }
-
-  onSubscribe() {
-    const param = this.route.snapshot.paramMap.get('identificator') as string;
-    const id = Number(this.userData.id);
-
-    const courseEnrollmentServiceSubscription = this.enrollmentService
-      .courseEnrollment(param, id)
-      .subscribe({
-        error: (error) => {
-          this.showToast.emit('error' as string);
-          this.backEndErrors.emit(error.error);
-        },
-        complete: () => {
-          this.showToast.emit('check' as string);
-        },
-      });
-    this.subscriptions.push(courseEnrollmentServiceSubscription);
   }
 
   ngOnDestroy(): void {
