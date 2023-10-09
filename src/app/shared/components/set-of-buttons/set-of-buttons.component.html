@@ -1,4 +1,4 @@
-<div class="flex justify-center md:justify-end mt-6">
+<div class="flex justify-center items-center md:justify-end mt-6">
   <div class="flex" *ngIf="!userIsLoged">
     <a
       routerLink="/iniciar-sesion"
@@ -12,7 +12,7 @@
     </a>
   </div>
   <div
-    class="flex"
+    class="flex flex-col"
     *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')"
   >
     <a
@@ -54,7 +54,7 @@
     </a>
   </div>
   <div
-    class="flex"
+    class="flex flex-col"
     *ngIf="
       userIsLoged &&
       userData?.roles?.includes('ROLE_ESTUDIANTE') &&
