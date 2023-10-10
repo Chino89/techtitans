@@ -1,9 +1,39 @@
-<section class="bg-white">
-  <div class="flex border p-8 border-gray-200 rounded-lg shadow">
-    <h3 class="mb-1 text-xl font-medium text-gray-900">
-      Hola {{ userDetail.nombre }} estos son tus Cursos
+<section class="py-2">
+  <div
+  *ngIf="userIsLoged && user?.roles?.includes('ROLE_ESTUDIANTE')"
+    class="bg-white flex flex-col border p-8 border-gray-200 rounded-lg shadow"
+  >
+    <h3 class="mb-4 text-xl font-medium text-gray-900">
+      Estás inscripto a estos cursos...
     </h3>
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 md:px-14 lg:px-8">
+      <app-course-card
+        *ngFor="let courseResponse of userCoursesResponse"
+        [courseContent]="courseResponse.curso"
+      ></app-course-card>
+    </div>
   </div>
-  <div>
+  <div
+  *ngIf="userIsLoged && user?.roles?.includes('ROLE_DOCENTE')"
+
+    class="bg-white flex flex-col border p-8 border-gray-200 rounded-lg shadow"
+  >
+    <h3 class="mb-4 text-xl font-medium text-gray-900">
+      Estos son tus cursos
+    </h3>
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 md:px-14 lg:px-8">
+      <app-course-card
+        *ngFor="let courseResponse of teacherCoursesResponse"
+        [courseContent]="courseResponse"
+      ></app-course-card>
+      <div class="mx-auto text-sm" *ngIf="!(backendErrors.length === 0)">
+        <p
+          *ngFor="let error of backendErrors"
+          class="text-center mt-2 text-sm text-red-600"
+        >
+          {{ error.mensaje }}
+        </p>
+      </div>
+    </div>
   </div>
 </section>

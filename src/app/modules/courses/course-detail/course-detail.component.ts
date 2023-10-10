@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { CourseService } from 'src/app/core/services/course/course.service';
 import { LoginService } from 'src/app/core/services/auth/login.service';
@@ -8,13 +8,17 @@ import {
   CourseDetailResponse,
 } from 'src/app/core/interfaces/courseInterfaces';
 import { User } from 'src/app/core/interfaces/userInterfaces';
+import { Subscription } from 'rxjs';
+import { BackEndResponse } from 'src/app/core/interfaces/interfaces';
+import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
+import { UserEnrollment, UserEnrollmentData } from 'src/app/core/interfaces/enrollmentInterfaces';
 
 @Component({
   selector: 'app-course-detail',
   templateUrl: './course-detail.component.html',
   styleUrls: ['./course-detail.component.css'],
 })
-export class CourseDetailComponent implements OnInit {
+export class CourseDetailComponent implements OnInit, OnDestroy {
   courseData: CourseResponse = {
     id: 0,
     nombre: '',
@@ -39,6 +43,8 @@ export class CourseDetailComponent implements OnInit {
       apellido: '',
     },
   };
+  userSuscribed = false;
+  setKey = '';
 
   userIsLoged = false;
   userData: User = {
@@ -49,11 +55,42 @@ export class CourseDetailComponent implements OnInit {
     roles: [''],
     accessToken: '',
   };
+  subscriptions: Subscription[] = [];
+  courseEnrollmentErrors = '';
+  userCoursesResponse: UserEnrollmentData[] = [];
+  inscriptionCode = '';
+  paymentToken = '';
+  
+  getCourse(identificator: number | string) {
+    const getCoursesByIdOrSlugServiceSubscription = this.courseService
+    .getCourseByIdOrSlug(identificator)
+    .subscribe({
+      next: (data: CourseDetailResponse) => {
+        this.courseData = data.data;
+      },
+        error: (errorData) => console.log(errorData),
+      });
+      this.subscriptions.push(getCoursesByIdOrSlugServiceSubscription);
+  }
+
+  showToast(key: string) {
+    this.userSuscribed = true;
+    this.setKey = key;
+    setTimeout(() => {
+      this.router.navigateByUrl('/usuario/mis-cursos');
+    }, 5000);
+  }
+  
+  showErrors(errors: BackEndResponse) {
+    this.courseEnrollmentErrors = errors.mensaje;
+  }
 
   constructor(
     private courseService: CourseService,
     private loginService: LoginService,
-    private route: ActivatedRoute
+    private enrollmentService: EnrollmentService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -62,26 +99,45 @@ export class CourseDetailComponent implements OnInit {
       | string;
     this.getCourse(identificator);
 
-    this.loginService.currentUserLoginOn.subscribe({
-      next: (userIsLoged) => {
-        this.userIsLoged = userIsLoged;
-      },
-    });
+    const currentUserLoginOnServiceSubscription =
+      this.loginService.currentUserLoginOn.subscribe({
+        next: (userIsLoged) => {
+          this.userIsLoged = userIsLoged;
+        },
+      });
 
-    this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-      },
-    });
+    const currentUserDataServiceSubscription =
+      this.loginService.currentUserData.subscribe({
+        next: (userData) => {
+          this.userData = userData;
+        },
+      });
+    
+      const getMyCoursesServiceSubscription = this.enrollmentService
+      .getMyCourses()
+      .subscribe({
+        next: (response: UserEnrollment) => {
+          this.userCoursesResponse = response.data;
+          for (const course of this.userCoursesResponse) {
+            const enrollmentCourse = course.curso.nombre;
+            if (enrollmentCourse === this.courseData.nombre) {
+              this.inscriptionCode = course.codigoInscripcion;
+              this.paymentToken = course.pago.tokenPago;
+            }
+          }
+        },
+      });
+
+    this.subscriptions.push(
+      currentUserDataServiceSubscription,
+      currentUserLoginOnServiceSubscription,
+      getMyCoursesServiceSubscription
+    );
   }
 
-  getCourse(identificator: number | string) {
-    this.courseService.getCourseByIdOrSlug(identificator).subscribe({
-      next: (data: CourseDetailResponse) => {
-        this.courseData = data.data;
-        console.log(this.courseData);
-      },
-      error: (errorData) => console.log(errorData),
-    });
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }

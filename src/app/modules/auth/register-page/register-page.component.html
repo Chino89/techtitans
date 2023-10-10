@@ -1,141 +1,9 @@
 <section class="bg-gray-50 px-6 py-8 mx-auto h-auto lg:py-16">
-  <div class="flex justify-center pt-4" *ngIf="registerToast">
-    <div
-      class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
-      role="alert"
-    >
-      <div
-        *ngIf="!hasUser"
-        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg"
-      >
-        <svg
-          class="w-5 h-5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"
-          />
-        </svg>
-        <span class="sr-only">Error icon</span>
-      </div>
-      <div
-        *ngIf="hasUser"
-        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg"
-      >
-        <svg
-          class="w-5 h-5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
-          />
-        </svg>
-        <span class="sr-only">Check icon</span>
-      </div>
-      <div class="flex items-center flex-col" *ngIf="hasUser">
-        <p class="ml-3 text-sm font-normal block">
-          Tu cuenta ha sido creada con éxito!
-        </p>
-        <div class="flex items-center">
-          <button
-            type="button"
-            (click)="closeToast()"
-            class="ml-4 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
-            aria-label="Close"
-          >
-            <span class="sr-only">Close</span>
-            <svg
-              class="w-3 h-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-              />
-            </svg>
-          </button>
-          <p class="text-xs">Cerrar</p>
-        </div>
-      </div>
-      <div class="flex items-center flex-col" *ngIf="!hasUser">
-        <p class="ml-3 text-sm font-normal">
-          Tu cuenta aun no ha sido creada ¿Estás seguro de que quieres abandonar
-          el formulario?
-        </p>
-        <div class="flex justify-between">
-          <div
-            (click)="navigate()"
-            class="px-2 flex items-center hover:bg-gray-100 rounded-lg group hover:cursor-pointer"
-          >
-            <button
-              type="button"
-              class="text-gray-400 group-hover:text-gray-900 focus:ring-2 focus:ring-gray-300 p-1.5 h-8 w-8 flex justify-center items-center"
-              aria-label="Close"
-            >
-              <svg
-                class="w-4 h-4"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 16 12"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M1 5.917 5.724 10.5 15 1.5"
-                />
-              </svg>
-              <span class="sr-only">Accept</span>
-            </button>
-            <p class="text-xs">Aceptar</p>
-          </div>
-          <div
-            (click)="closeToast()"
-            class="px-2 flex items-center hover:bg-gray-100 rounded-lg group hover:cursor-pointer"
-          >
-            <button
-              type="button"
-              class="text-gray-400 group-hover:text-gray-900 focus:ring-2 focus:ring-gray-300 p-1.5 h-8 w-8 flex justify-center items-center"
-              aria-label="Close"
-            >
-              <span class="sr-only">Close</span>
-              <svg
-                class="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
-            </button>
-            <p class="text-sm">Cerrar</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="flex flex-col items-center justify-center">
+    <app-custom-toast
+      *ngIf="registerToast"
+      [toastType]="toastKey"
+    ></app-custom-toast>
     <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
       <div class="p-6 space-y-4 md:space-y-8 sm:p-8">
         <h1
@@ -244,7 +112,6 @@
                 >Email</label
               >
             </div>
-            <div></div>
             <div
               *ngIf="email?.invalid && (email?.dirty || email?.touched)"
               class="alert alert-danger"

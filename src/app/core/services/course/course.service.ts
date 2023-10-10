@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import { BackEndResponse } from '../../interfaces/interfaces';
 import {
-  BackEndResponse,
-} from '../../interfaces/interfaces';
-import { CourseData, CourseDetailResponse, CourseRequest } from '../../interfaces/courseInterfaces';
+  CourseData,
+  CourseDetailResponse,
+  CourseRequest,
+} from '../../interfaces/courseInterfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -25,11 +27,21 @@ export class CourseService {
     return this.http.get<CourseData>(`${environment.API_URL}/api/cursos`);
   }
 
+  getAllTeacherCourses(): Observable<CourseData> {
+    return this.http.get<CourseData>(`${environment.API_URL}/api/cursos/all`);
+  }
+
   getCourseByIdOrSlug(
     identificator: number | string
   ): Observable<CourseDetailResponse> {
     return this.http.get<CourseDetailResponse>(
       `${environment.API_URL}/api/curso/${identificator}`
+    );
+  }
+
+  getCoursesByCategory(category: string): Observable<CourseData> {
+    return this.http.get<CourseData>(
+      `${environment.API_URL}/api/cursos/categoria/${category}`
     );
   }
 

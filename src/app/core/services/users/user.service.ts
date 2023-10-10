@@ -27,6 +27,10 @@ export class UserService {
     return this.http.get<GetUser>(`${environment.API_URL}/api/usuario/${id}`);
   }
 
+  getUserData(): Observable<GetUser> {
+    return this.http.get<GetUser>(`${environment.API_URL}/api/me`);
+  }
+
   getTeachers(): Observable<TeacherDataResponse> {
     return this.http.get<TeacherDataResponse>(
       `${environment.API_URL}/api/usuarios/docentes`
@@ -40,10 +44,10 @@ export class UserService {
     );
   }
 
-  editUser(id: Number, formData: UserEditRequest) {
+  editUser(id: Number, formData: FormData) {
     return this.http.put<BackEndResponse>(
-      `${environment.API_URL}/api/usuario/${id}/roles`,
-      { formData }
+      `${environment.API_URL}/api/usuario/${id}/editar`,
+      formData
     );
   }
 

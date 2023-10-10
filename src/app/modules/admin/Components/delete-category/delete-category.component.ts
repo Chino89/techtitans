@@ -33,10 +33,13 @@ export class DeleteCategoryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.categoryService.getCategories().subscribe({
-      next: (data: CategoryDataResponse) => (this.categories = data.data),
-      error: (errorData) => console.log(errorData),
-    });
+    const getCategoriesServiceSubscription = this.categoryService
+      .getCategories()
+      .subscribe({
+        next: (data: CategoryDataResponse) => (this.categories = data.data),
+        error: (errorData) => console.log(errorData),
+      });
+    this.subscriptions.push(getCategoriesServiceSubscription);
   }
 
   onDeleteCategory() {

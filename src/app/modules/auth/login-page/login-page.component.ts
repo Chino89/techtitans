@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LoginService } from 'src/app/core/services/auth/login.service';
 import { BackEndError } from 'src/app/core/interfaces/interfaces';
 import { LoginRequest } from 'src/app/core/interfaces/authInterfaces';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css'],
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnInit, OnDestroy {
   greeting = 'Hola! Qué bueno verte otra vez';
   errorGreeting = 'Oops! Tuvimos algunos errores...';
   loginError: BackEndError[] = [];
@@ -19,28 +20,32 @@ export class LoginPageComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
+  subscriptions: Subscription[] = [];
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private loginService: LoginService,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {}
   login() {
     if (this.loginForm.valid) {
-      this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
-        error: (errorData) => {
-          if (errorData.error.mensaje) {
-            this.loginError = [{ mensaje: errorData.error.mensaje }];
-          } else {
-            this.loginError = errorData.error.errors as BackEndError[];
-          }
-        },
-        complete: () => {
-          console.info('Login completo');
-          this.router.navigateByUrl('');
-        },
-      });
+      const loginServiceSubscription = this.loginService
+        .login(this.loginForm.value as LoginRequest)
+        .subscribe({
+          error: (errorData) => {
+            if (errorData.error.mensaje) {
+              this.loginError = [{ mensaje: errorData.error.mensaje }];
+            } else {
+              this.loginError = errorData.error.errors as BackEndError[];
+            }
+          },
+          complete: () => {
+            console.info('Login completo');
+            this.router.navigateByUrl('');
+          },
+        });
+      this.subscriptions.push(loginServiceSubscription);
     } else {
       console.log('error al inicio de sesión');
       this.loginForm.markAllAsTouched();
@@ -56,5 +61,11 @@ export class LoginPageComponent implements OnInit {
   }
   get password() {
     return this.loginForm.controls.password;
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }

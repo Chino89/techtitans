@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -6,18 +6,21 @@ import { PasswordRecoveryService } from 'src/app/core/services/auth/password-rec
 import { SetPasswordRequest } from 'src/app/core/interfaces/authInterfaces';
 import { MyValidators } from 'src/app/utils/validators';
 import { BackEndError } from 'src/app/core/interfaces/interfaces';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recovery-password-page',
   templateUrl: './recovery-password-page.component.html',
   styleUrls: ['./recovery-password-page.component.css'],
 })
-export class RecoveryPasswordPageComponent implements OnInit {
+export class RecoveryPasswordPageComponent implements OnInit, OnDestroy {
   greeting = 'Elige tu contraseña';
   errorGreeting = 'Oops! Tuvimos algunos errores...';
   passwordToast = false;
+  toastKey = '';
   recoveryError: BackEndError[] = [];
   token = '';
+  subscriptions: Subscription[] = [];
   setForm = this.formBuilder.group(
     {
       password: [
@@ -48,27 +51,32 @@ export class RecoveryPasswordPageComponent implements OnInit {
 
   renewPassword() {
     if (this.setForm.valid) {
-      this.passwordRecoveryService
-        .setPassword(this.setForm.value as SetPasswordRequest, this.token)
-        .subscribe({
-          next: (userData) => {
-            console.log(userData);
-          },
-          error: (errorData) => {
-            if (errorData.error.mensaje) {
-              this.recoveryError = [{ mensaje: errorData.error.mensaje }];
-            } else {
-              this.recoveryError = errorData.error.errors as BackEndError[];
-            }
-          },
-          complete: () => {
-            console.info('Password seteado con éxito');
-            this.passwordToast = true;
-            setTimeout(() => {
-              this.router.navigateByUrl('/iniciar-sesion');
-            }, 3000);
-          },
-        });
+      const setPasswordRecoveryServiceSubscription =
+        this.passwordRecoveryService
+          .setPassword(this.setForm.value as SetPasswordRequest, this.token)
+          .subscribe({
+            next: (userData) => {
+              console.log(userData);
+            },
+            error: (errorData) => {
+              this.passwordToast = true;
+              this.toastKey = 'error';
+              if (errorData.error.mensaje) {
+                this.recoveryError = [{ mensaje: errorData.error.mensaje }];
+              } else {
+                this.recoveryError = errorData.error.errors as BackEndError[];
+              }
+            },
+            complete: () => {
+              console.info('Password seteado con éxito');
+              this.passwordToast = true;
+              this.toastKey = 'check';
+              setTimeout(() => {
+                this.router.navigateByUrl('/iniciar-sesion');
+              }, 3000);
+            },
+          });
+      this.subscriptions.push(setPasswordRecoveryServiceSubscription);
     }
   }
 
@@ -77,5 +85,11 @@ export class RecoveryPasswordPageComponent implements OnInit {
   }
   get confirm_password() {
     return this.setForm.controls['confirm_password'];
+  }
+
+  ngOnDestroy(): void {
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 }

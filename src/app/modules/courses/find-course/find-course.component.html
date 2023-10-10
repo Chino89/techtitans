@@ -1,0 +1,77 @@
+<section class="bg-gray-50 py-4 flex justify-center">
+  <div class="bg-white rounded-lg shadow md:mt-0 w-4/5 sm:w-5/6 md:max-w-5xl xl:p-0">
+    <h3 class="text-base lg:text-2xl font-semibold my-4 mx-12">
+      ¿Buscas algun curso en especial?
+    </h3>
+    <form [formGroup]="findCourseForm" (ngSubmit)="onFindCourse()">
+      <div class="flex flex-col sm:flex-row mx-14 sm:mx-28 lg:mx-48">
+        <div class="mt-6 w-full">
+          <div class="relative z-0 w-full mb-6 group">
+            <label
+              for="courseCategory"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+              >Buscar por categoría</label
+            >
+            <select
+              formControlName="categoria"
+              id="courseCategory"
+              class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+            >
+              <option value="" selected disabled>
+                Selecciona una categoría
+              </option>
+              <option
+                *ngFor="let category of categories"
+                value="{{ category.nombre }}"
+              >
+                {{ category.nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <!-- <div class="m-6 w-full">
+              <div class="relative z-0 w-full mb-6 group">
+                <label
+                  for="courseTeacher"
+                  class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                  >Buscar por Docente</label
+                >
+                <select
+                  formControlName="docente"
+                  id="courseTeacher"
+                  class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                >
+                  <option value="" selected disabled>Selecciona un docente</option>
+                  <option *ngFor="let teacher of teachers" value="{{ teacher.id }}">
+                    {{ teacher.docente }}
+                  </option>
+                </select>
+              </div>
+            </div> -->
+      </div>
+      <div class="mx-auto my-6 text-sm" *ngIf="!(backendErrors.length === 0)">
+        <p
+          *ngFor="let error of backendErrors"
+          class="text-center mt-2 text-sm text-red-600"
+        >
+          {{ error.mensaje }}
+        </p>
+      </div>
+      <div class="flex justify-center mb-4">
+        <button
+          [disabled]="!this.categoria.value"
+          type="submit"
+          class="sm:w-1/4 text-white bg-blue-600 disabled:bg-gray-300 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        >
+          Buscar cursos
+        </button>
+      </div>
+    </form>
+    <div class="grid lg:grid-cols-3 pb-4 md:grid-cols-2 gap-8 px-14 lg:px-8">
+      <app-course-card
+        *ngFor="let course of courses"
+        [courseContent]="course"
+      ></app-course-card>
+    </div>
+  </div>
+</section>
