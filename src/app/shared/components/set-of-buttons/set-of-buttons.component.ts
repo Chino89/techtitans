@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { LoginService } from 'src/app/core/services/auth/login.service';
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
@@ -18,6 +18,7 @@ import {
 import { User } from 'src/app/core/interfaces/userInterfaces';
 import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
+import { PaymentService } from 'src/app/core/services/payment/payment.service';
 
 @Component({
   selector: 'app-set-of-buttons',
@@ -40,6 +41,7 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   @Input() inscriptionCode: string = '';
   @Input() paymentToken: string = '';
+  @Input() payment: boolean = false;
   @Input() courseData: CourseResponse = {
     id: 0,
     nombre: '',
@@ -82,10 +84,31 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(courseEnrollmentServiceSubscription);
   }
 
+  // userPayment() {
+  //   const param = this.paymentToken;
+  //   const getPaymentByTokenServiceSubscription = this.paymentService
+  //     .getPaymentByToken(param as string)
+  //     .subscribe({
+  //       error: (errorData) => {
+  //         this.showToast.emit('error' as string);
+  //         this.backEndErrors.emit(errorData.error.mensaje);
+  //       },
+  //       complete: () => {
+  //         this.showToast.emit('check' as string);
+  //         setTimeout(() => {
+  //           this.router.navigateByUrl('/cursos/realizar-pago');
+  //         }, 3000);
+  //       },
+  //     });
+  //     this.subscriptions.push(getPaymentByTokenServiceSubscription);
+  // }
+
   constructor(
     private loginService: LoginService,
     private route: ActivatedRoute,
-    private enrollmentService: EnrollmentService
+    private router: Router,
+    private enrollmentService: EnrollmentService,
+    private paymentService: PaymentService
   ) {}
 
   ngOnInit(): void {

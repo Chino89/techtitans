@@ -43,6 +43,7 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
   teacherCoursesResponse: CourseResponse[] = [];
   backendErrors: BackEndError[] = [];
   userIsLoged = false;
+  courseLength = this.userCoursesResponse.length;
 
   constructor(
     private loginService: LoginService,

@@ -60,6 +60,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   userCoursesResponse: UserEnrollmentData[] = [];
   inscriptionCode = '';
   paymentToken = '';
+  payment = false;
   
   getCourse(identificator: number | string) {
     const getCoursesByIdOrSlugServiceSubscription = this.courseService
@@ -123,9 +124,10 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
             if (enrollmentCourse === this.courseData.nombre) {
               this.inscriptionCode = course.codigoInscripcion;
               this.paymentToken = course.pago.tokenPago;
+              this.payment = course.pago.pago;
             }
-          }
-        },
+          }          
+        }
       });
 
     this.subscriptions.push(
