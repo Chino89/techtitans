@@ -10,8 +10,6 @@ import { CourseDetailComponent } from './course-detail/course-detail.component';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { DeleteCourseComponent } from './delete-course/delete-course.component';
 
-
-
 const routes: Routes = [
   {
     path: '',

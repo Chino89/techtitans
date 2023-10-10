@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { CourseData, CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
+import { BackEndError } from 'src/app/core/interfaces/interfaces';
+import { CourseService } from 'src/app/core/services/course/course.service';
 
 @Component({
   selector: 'app-courses-page',

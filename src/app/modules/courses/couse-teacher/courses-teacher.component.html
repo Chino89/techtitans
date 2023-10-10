@@ -1,0 +1,27 @@
+<div class="container">
+    <h1>Vista de docente</h1>
+  
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Alumnos inscritos</h2>
+        <ul>
+          <li *ngFor="let alumno of alumnos">
+            {{ alumno.nombre }} {{ alumno.apellido }}
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h2>Marcar asistencia</h2>
+        <form (submit)="marcarAsistencia()">
+          <input type="text" placeholder="ID del alumno" [(ngModel)]="idAlumno">
+          <input type="date" placeholder="Fecha de la asistencia" [(ngModel)]="fechaAsistencia">
+          <button type="submit">Marcar asistencia</button>
+        </form>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Cerrar curso</h2>
+        <button type="button" (click)="cerrarCurso()">Cerrar curso</button
+  

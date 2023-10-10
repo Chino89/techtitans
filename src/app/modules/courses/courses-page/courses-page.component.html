@@ -1,1 +1,15 @@
-<p>courses-page works!</p>
+<section class="bg-gray-50 py-4">
+  <div class="max-w-5xl m-auto">
+    <h3 class="text-base lg:text-2xl font-semibold mx-12 my-4 md:mx-14">
+      Todos nuestros cursos
+    </h3>
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 px-16 lg:px-8">
+      <app-course-card
+      *ngFor="let course of courses"
+      [courseContent]="course"
+      ></app-course-card>
+    </div>
+  </div>
+  <app-find-course></app-find-course>
+  <app-find-some-courses></app-find-some-courses>
+</section>

@@ -1,14 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-import { environment } from 'src/environments/environment';
 import { BackEndResponse } from '../../interfaces/interfaces';
-import {
-  CourseData,
-  CourseDetailResponse,
-  CourseRequest,
-} from '../../interfaces/courseInterfaces';
+import { environment } from 'src/environments/environment';
+import { Asistencia } from '../../interfaces/asistencia';
 
 @Injectable({
   providedIn: 'root',
@@ -16,45 +13,47 @@ import {
 export class CourseService {
   constructor(private http: HttpClient) {}
 
-  createCourse(formData: FormData): Observable<CourseRequest> {
-    return this.http.post<CourseRequest>(
-      `${environment.API_URL}/api/curso/nuevo`,
-      formData
+  marcarAsistencia(id: number, idAlumno: number, fechaAsistencia: Date): Observable<Asistencia> {
+    const data: Asistencia = {
+      idAlumno,
+      fechaAsistencia,
+      asistio: true,
+    };
+    return this.http.post<Asistencia>(
+      `${environment.API_URL}/api/cursos/${id}/asistencias`,
+      data
+    ).pipe(
+      catchError(error => {
+            console.error('Error en la solicitud de asistencia:', error);
+        return throwError('Error en la solicitud de asistencia');
+      })
     );
   }
 
-  getAllCourses(): Observable<CourseData> {
-    return this.http.get<CourseData>(`${environment.API_URL}/api/cursos`);
-  }
-
-  getAllTeacherCourses(): Observable<CourseData> {
-    return this.http.get<CourseData>(`${environment.API_URL}/api/cursos/all`);
-  }
-
-  getCourseByIdOrSlug(
-    identificator: number | string
-  ): Observable<CourseDetailResponse> {
-    return this.http.get<CourseDetailResponse>(
-      `${environment.API_URL}/api/curso/${identificator}`
+  cerrarCurso(id: number): Observable<BackEndResponse> {
+    return this.http.put<BackEndResponse>(
+      `${environment.API_URL}/api/cursos/${id}/cerrar`, {}
+    ).pipe(
+      catchError(error => {
+         console.error('Error al cerrar el curso:', error);
+        return throwError('Error al cerrar el curso');
+      })
     );
   }
 
-  getCoursesByCategory(category: string): Observable<CourseData> {
-    return this.http.get<CourseData>(
-      `${environment.API_URL}/api/cursos/categoria/${category}`
+  enviarDiploma(id: number, idAlumno: number): Observable<BackEndResponse> {
+    return this.http.post<BackEndResponse>(
+      `${environment.API_URL}/api/cursos/${id}/diplomas`,
+      { idAlumno }
+    ).pipe(
+      catchError(error => {
+         console.error('Error al enviar el diploma:', error);
+        return throwError('Error al enviar el diploma');
+      })
     );
   }
 
-  editCourse(formData: FormData, id: Number): Observable<CourseRequest> {
-    return this.http.put<CourseRequest>(
-      `${environment.API_URL}/api/curso/${id}/editar`,
-      formData
-    );
-  }
-  deleteCourse(id: number) {
-    console.log(id);
-    return this.http.delete<BackEndResponse>(
-      `${environment.API_URL}/api/curso/${id}/borrar`
-    );
-  }
+ 
 }
+
+
