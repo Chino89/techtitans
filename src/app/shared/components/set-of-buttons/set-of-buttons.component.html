@@ -1,6 +1,6 @@
 <div class="flex justify-center items-center md:justify-end mt-6">
   <div class="flex" *ngIf="!userIsLoged">
-    <a
+    <button
       routerLink="/iniciar-sesion"
       type="button"
       class="{{
@@ -9,13 +9,13 @@
     >
       <svg-icon src="{{ buttons['subscribe'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["subscribe"].action }}</p>
-    </a>
+    </button>
   </div>
   <div
     class="flex flex-col"
     *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')"
   >
-    <a
+    <button
       routerLink="/cursos/{{ courseData.id }}/editar-curso"
       class="{{
         buttons['edit'].style
@@ -23,8 +23,8 @@
     >
       <svg-icon src="{{ buttons['edit'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["edit"].action }}</p>
-    </a>
-    <a
+    </button>
+    <button
       routerLink="/cursos/{{ courseData.id }}/borrar-curso"
       class="{{
         buttons['delete'].style
@@ -32,7 +32,7 @@
     >
       <svg-icon src="{{ buttons['delete'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["delete"].action }}</p>
-    </a>
+    </button>
   </div>
   <div
     class="flex"
@@ -42,7 +42,7 @@
       !inscriptionCode
     "
   >
-    <a
+    <button
       (click)="onSubscribe()"
       type="button"
       class="{{
@@ -51,7 +51,7 @@
     >
       <svg-icon src="{{ buttons['subscribe'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["subscribe"].action }}</p>
-    </a>
+    </button>
   </div>
   <div
     class="flex flex-col"
@@ -61,21 +61,23 @@
       inscriptionCode
     "
   >
-    <a
+    <button
       class="{{
         buttons['payment'].style
       }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
     >
       <svg-icon src="{{ buttons['payment'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["payment"].action }}</p>
-    </a>
-    <a
+    </button>
+    <button
+      disabled="{{payment === true}}"
+      routerLink="obtener-certificado"
       class="{{
         buttons['certify'].style
-      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+      }} disabled:bg-gray-300 flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
     >
       <svg-icon src="{{ buttons['certify'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["certify"].action }}</p>
-    </a>
+    </button>
   </div>
 </div>

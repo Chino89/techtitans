@@ -20,9 +20,21 @@ export class EnrollmentService {
     );
   }
 
+  getAttendances(): Observable<UserEnrollment> {
+    return this.http.get<UserEnrollment>(
+      `${environment.API_URL}/api/asistencias`
+    );
+  }
+
   getMyCourses(): Observable<UserEnrollment> {
     return this.http.get<UserEnrollment>(
       `${environment.API_URL}/api/asistencias/mis-cursos`
+    );
+  }
+
+  getCertification(inscriptionCode: string): Observable<any> {
+    return this.http.get<any>(
+      `${environment.API_URL}/api/asistencias/mis-cursos/certificado/${inscriptionCode}`
     );
   }
 }
