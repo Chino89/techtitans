@@ -9,6 +9,7 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TeacherControlComponent } from './components/teacher-control/teacher-control.component';
+import { InscriptoDetailComponent } from './components/inscripto-detail/inscripto-detail.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { TeacherControlComponent } from './components/teacher-control/teacher-co
     UserEditComponent,
     UserProfileComponent,
     TeacherControlComponent,
+    InscriptoDetailComponent,
   ],
 
   imports: [CommonModule, UserRoutingModule, ReactiveFormsModule, SharedModule],

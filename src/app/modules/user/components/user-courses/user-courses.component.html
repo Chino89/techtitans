@@ -1,26 +1,144 @@
 <section class="py-2">
-  <div
-  *ngIf="userIsLoged && user?.roles?.includes('ROLE_ESTUDIANTE')"
-    class="bg-white flex flex-col border p-8 border-gray-200 rounded-lg shadow"
-  >
-    <h3 class="mb-4 text-xl font-medium text-gray-900">
-      Estás inscripto a estos cursos...
-    </h3>
-    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 md:px-14 lg:px-8">
-      <app-course-card
-        *ngFor="let courseResponse of userCoursesResponse"
-        [courseContent]="courseResponse.curso"
-      ></app-course-card>
+    <div *ngIf="userIsLoged && user?.roles?.includes('ROLE_ESTUDIANTE')" class="bg-white flex flex-col border p-8 border-gray-200 rounded-lg shadow">
+        <h3 class="mb-4 text-xl font-medium text-gray-900">
+            Estás inscripto a estos cursos...
+        </h3>
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 md:px-14 lg:px-8">
+            <app-course-card *ngFor="let courseResponse of userCoursesResponse" [courseContent]="courseResponse.curso"></app-course-card>
+        </div>
+    </div>
+
+    <div *ngIf="pagoToast">
+        <div class="flex items-center w-full max-w p-4 mb-4 text-gray-500 bg-white rounded-lg shadow" role="alert">
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 {{
+          pagoErrors.length === 0
+            ? 'text-green-500 bg-green-100'
+            : 'text-red-500 bg-red-100'
+        }}  rounded-lg">
+                <svg *ngIf="pagoErrors.length === 0" class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+          />
+        </svg>
+
+                <svg *ngIf="pagoErrors.length > 0" class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"
+          />
+        </svg>
+            </div>
+            <p *ngIf="pagoErrors.length === 0" class="ml-3 text-sm font-normal">
+                <strong>Cobro efectuado con éxito.</strong> {{ pagoMsj }}
+            </p>
+            <p *ngIf="pagoErrors.length > 0" class="ml-3 text-sm font-normal">
+                <strong>Oops, Hubo un error al procesar el cobro:</strong> {{ pagoErrors[0].mensaje }}
+            </p>
+        </div>
+    </div>
+
+    <div *ngIf="
+      userIsLoged &&
+      (user?.roles?.includes('ROLE_DOCENTE') ||
+        user?.roles?.includes('ROLE_ADMIN'))
+    " class="bg-white flex flex-col border p-8 border-gray-200 rounded-lg shadow">
+        <div class="flex flex-row justify-between gap-3 items-center">
+            <h3 class="mb-4 text-xl font-medium text-gray-900">
+                Estos son tus cursos que tienes pendiente para dictar
+            </h3>
+            <!-- data-modal-target="cobroModal" data-modal-toggle="cobroModal" -->
+            <button type="button" (click)="openModal()" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">
+        Cobrar curso
+      </button>
+        </div>
+        <!-- <app-teacher-control></app-teacher-control> -->
+        <app-teacher-control *ngFor="let courseResponse of teacherCoursesResponse" [courseContent]="courseResponse"></app-teacher-control>
+    </div>
+
+    <!-- Modal cobro -->
+    <div id="cobroModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-sm max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button #closeButton type="button" (click)="closeModal()" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="cobroModal">
+          <svg
+            class="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span class="sr-only">Cerrar modal</span>
+        </button>
+                <div class="px-6 py-6 lg:px-8">
+                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                        Cobrar curso
+                    </h3>
+                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400 mb-4">
+                        Ingrese el código que le proporciona el alumno para marcar el pago del curso.
+                    </p>
+                    <form class="space-y-6" [formGroup]="pagoForm" (ngSubmit)="payCourse()">
+                        <div>
+                            <label for="tokenPago" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código</label
+              >
+              <input
+                formControlName="tokenPago"
+                type="text"
+                name="tokenPago"
+                id="tokenPago"
+                class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="XEFTGBDXIN"
+                required
+                autocomplete="code"
+                autofocus
+                maxlength="10"
+                max="10"
+              />
+            </div>
+            <div
+              *ngIf="
+                tokenPago?.invalid && (tokenPago?.dirty || tokenPago?.touched)
+              "
+              class="alert alert-danger mb-2"
+            >
+              <div
+                class="text-sm text-red-600"
+                *ngIf="tokenPago.errors?.['required']"
+              >
+                El código es requerido.
+              </div>
+              <div
+                class="mt-2 text-sm text-red-600"
+                *ngIf="tokenPago.errors?.['minlength']"
+              >
+                El código al menos debe tener 2 carácteres.
+              </div>
+
+              <div
+                class="mt-2 text-sm text-red-600"
+                *ngIf="tokenPago.errors?.['maxlength']"
+              >
+                El código como maximo debe tener 10 carácteres.
+              </div>
+            </div>
+            <button
+              type="submit"
+              [disabled]="pagoForm.invalid"
+              class="w-full text-white disabled:bg-gray-300 bg-purple-700 hover:bg-purple-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              Cobrar curso
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-  <div
-  *ngIf="userIsLoged && user?.roles?.includes('ROLE_DOCENTE')"
-
-    class="bg-white flex flex-col border p-8 border-gray-200 rounded-lg shadow"
-  >
-    <h3 class="mb-4 text-xl font-medium text-gray-900">
-      Estos son tus cursos
-    </h3>
-    <app-teacher-control *ngFor="let courseResponse of teacherCoursesResponse" [courseContent]="courseResponse" ></app-teacher-control>
-  </div>
+  <!-- Fin modal cobro -->
 </section>

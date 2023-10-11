@@ -1,4 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { mensajeResponse } from './../../../../core/interfaces/paymentInterfaces';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Modal } from 'flowbite';
+import type { ModalOptions, ModalInterface } from 'flowbite';
 import { Subscription } from 'rxjs';
 import {
   CourseData,
@@ -9,11 +19,14 @@ import {
   UserEnrollmentData,
 } from 'src/app/core/interfaces/enrollmentInterfaces';
 import { BackEndError } from 'src/app/core/interfaces/interfaces';
+import { pagoDto } from 'src/app/core/interfaces/paymentInterfaces';
 import { User, UserResponse } from 'src/app/core/interfaces/userInterfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
 import { CourseService } from 'src/app/core/services/course/course.service';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
+import { PaymentService } from 'src/app/core/services/payment/payment.service';
 import { UserService } from 'src/app/core/services/users/user.service';
+import { modalTarget } from 'src/app/utils/modal';
 
 @Component({
   selector: 'app-user-courses',
@@ -21,6 +34,7 @@ import { UserService } from 'src/app/core/services/users/user.service';
   styleUrls: ['./user-courses.component.css'],
 })
 export class UserCoursesComponent implements OnInit, OnDestroy {
+  @ViewChild('closeButton', { static: false }) closeButton!: ElementRef;
   user: User = {
     id: 0,
     nombre: '',
@@ -44,12 +58,24 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
   backendErrors: BackEndError[] = [];
   userIsLoged = false;
   courseLength = this.userCoursesResponse.length;
+  pagoErrors: BackEndError[] = [];
+  pagoToast: boolean = false;
+  pagoMsj: string = '';
+
+  pagoForm = this.formBuilder.group({
+    tokenPago: [
+      '',
+      [Validators.required, Validators.minLength(2), Validators.maxLength(10)],
+    ],
+  });
 
   constructor(
     private loginService: LoginService,
     private userService: UserService,
     private enrollmentService: EnrollmentService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private paymentService: PaymentService,
+    private formBuilder: FormBuilder
   ) {}
   ngOnInit(): void {
     const currentUserDataServiceSubscription =
@@ -72,8 +98,7 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
       .getAllTeacherCourses()
       .subscribe({
         next: (response: CourseData) => {
-          (this.teacherCoursesResponse = response.data),
-            console.log(this.teacherCoursesResponse);
+          this.teacherCoursesResponse = response.data;
         },
         error: (errorData) => {
           if (errorData.error.mensaje) {
@@ -102,11 +127,63 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
       .getMyCourses()
       .subscribe({
         next: (response: UserEnrollment) => {
-          console.log(response);
           this.userCoursesResponse = response.data;
         },
       });
     this.subscriptions.push(getMyCoursesServiceSubscription);
+  }
+
+  closeModal(): void {
+    const modal = modalTarget('cobroModal');
+    modal.hide();
+  }
+
+  openModal(): void {
+    const modal = modalTarget('cobroModal');
+    modal.show();
+  }
+
+  payCourse(): void {
+    const { tokenPago } = this.pagoForm.value;
+    let data: pagoDto = {
+      pago: true,
+    };
+
+    if (this.pagoForm.valid) {
+      this.paymentService.payCourse(tokenPago!.toUpperCase(), data).subscribe({
+        next: (res: mensajeResponse) => {
+          this.pagoMsj = res.mensaje;
+        },
+        error: (err) => {
+          this.closeButton.nativeElement.click();
+          this.pagoToast = true;
+          setTimeout(() => {
+            this.pagoToast = false;
+            this.pagoErrors = [];
+          }, 5000);
+          this.pagoForm.reset();
+          if (err.error.mensaje) {
+            this.pagoErrors = [{ mensaje: err.error.mensaje }];
+          } else {
+            this.pagoErrors = err.error.errors as BackEndError[];
+          }
+        },
+
+        complete: () => {
+          this.pagoErrors = [];
+          this.closeButton.nativeElement.click();
+          this.pagoToast = true;
+          setTimeout(() => {
+            this.pagoToast = false;
+          }, 5000);
+          this.pagoForm.reset();
+        },
+      });
+    }
+  }
+
+  get tokenPago() {
+    return this.pagoForm.controls.tokenPago;
   }
 
   ngOnDestroy(): void {

@@ -38,6 +38,24 @@ export class DeleteCourseComponent implements OnInit, OnDestroy {
       email: '',
     },
     docente: { id: 0, nombre: '', apellido: '' },
+    asistencia: [{
+      id: 0,
+      codigoInscripcion: '',
+      asistio: false,
+      puntaje: '',
+      estudiante: {
+        id: 0,
+        nombre: '',
+        apellido: '',
+        email: ''
+      },
+      pago: {
+        id: 0,
+        tokenPago: '',
+        fechaPago: null,
+        pago: false
+      }
+    }]
   };
 
   constructor(

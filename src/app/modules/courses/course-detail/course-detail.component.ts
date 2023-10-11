@@ -42,6 +42,24 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       nombre: '',
       apellido: '',
     },
+    asistencia: [{
+      id: 0,
+      codigoInscripcion: '',
+      asistio: false,
+      puntaje: '',
+      estudiante: {
+        id: 0,
+        nombre: '',
+        apellido: '',
+        email: ''
+      },
+      pago: {
+        id: 0,
+        tokenPago: '',
+        fechaPago: null,
+        pago: false
+      }
+    }]
   };
   userSuscribed = false;
   setKey = '';
@@ -61,7 +79,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   inscriptionCode = '';
   paymentToken = '';
   payment = false;
-  
+
   getCourse(identificator: number | string) {
     const getCoursesByIdOrSlugServiceSubscription = this.courseService
     .getCourseByIdOrSlug(identificator)
@@ -81,7 +99,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl('/usuario/mis-cursos');
     }, 5000);
   }
-  
+
   showErrors(errors: BackEndResponse) {
     this.courseEnrollmentErrors = errors.mensaje;
   }
@@ -113,7 +131,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
           this.userData = userData;
         },
       });
-    
+
       const getMyCoursesServiceSubscription = this.enrollmentService
       .getMyCourses()
       .subscribe({
@@ -126,7 +144,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
               this.paymentToken = course.pago.tokenPago;
               this.payment = course.pago.pago;
             }
-          }          
+          }
         }
       });
 

@@ -19,3 +19,11 @@ export type inscriptionDetail = {
   asistio: boolean;
   puntaje: string;
 };
+
+export type pagoDto = {
+  pago: boolean
+}
+
+export type mensajeResponse = {
+  mensaje: string;
+}

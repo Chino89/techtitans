@@ -4,6 +4,7 @@ import { UserPageComponent } from './components/user-page/user-page.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { InscriptoDetailComponent } from './components/inscripto-detail/inscripto-detail.component';
 
 const routes: Routes = [
   {
@@ -21,13 +22,18 @@ const routes: Routes = [
         children: [],
       },
       {
+        path: 'mis-cursos/dictados/:identificator',
+        component: InscriptoDetailComponent,
+        children: [],
+      },
+      {
         path: 'edicion',
         component: UserEditComponent,
         children: [],
       },
     ],
   },
-  
+
 ];
 
 @NgModule({
