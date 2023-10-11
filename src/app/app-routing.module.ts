@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './feature/components/not-found/not-found.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AdminGuard } from './core/guards/admin.guard';
+import { TermsComponent } from './shared/components/terms/terms.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,6 @@ const routes: Routes = [
   },
   {
     path: 'cursos',
-    // canActivate: [AdminGuard], //Only Admin can access this path at the moment, Just for test AdminGuard
     loadChildren: () =>
       import('./modules/courses/courses.module').then((m) => m.CoursesModule),
   },
@@ -25,13 +25,13 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [AdminGuard], // You can't access this path if you aren't logged
+    canActivate: [AdminGuard],
     loadChildren: () =>
       import('./modules/admin/admin.module').then((m) => m.AdminModule),
   },
   {
     path: 'usuario',
-    canActivate: [AuthGuard], // You can't access this path if you aren't logged
+    canActivate: [AuthGuard], 
     loadChildren: () =>
       import('./modules/user/user.module').then((m) => m.UserModule),
   },
@@ -41,6 +41,10 @@ const routes: Routes = [
       import('./modules/institutional/institutional.module').then(
         (m) => m.InstitutionalModule
       ),
+  },
+  {
+    path: 'terminos-y-condiciones',
+    component: TermsComponent,
   },
   {
     path: '**',
