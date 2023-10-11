@@ -1,8 +1,14 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
-import { UserEnrollment, UserEnrollmentData } from 'src/app/core/interfaces/enrollmentInterfaces';
+import {
+  AttendanceDetail,
+  CourseResponse,
+} from 'src/app/core/interfaces/courseInterfaces';
+import {
+  UserEnrollment,
+  UserEnrollmentData,
+} from 'src/app/core/interfaces/enrollmentInterfaces';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
 
 @Component({
@@ -12,6 +18,7 @@ import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.s
 })
 export class TeacherControlComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
+
   @Input() courseContent: CourseResponse = {
     id: 0,
     nombre: '',
@@ -31,20 +38,29 @@ export class TeacherControlComponent implements OnInit, OnDestroy {
       email: '',
     },
     docente: { id: 0, nombre: '', apellido: '' },
+    asistencia: [
+      {
+        id: 0,
+        codigoInscripcion: '',
+        asistio: false,
+        puntaje: '',
+        estudiante: {
+          id: 0,
+          nombre: '',
+          apellido: '',
+          email: '',
+        },
+        pago: {
+          id: 0,
+          tokenPago: '',
+          fechaPago: null,
+          pago: false,
+        },
+      },
+    ],
   };
-  allAttendances: UserEnrollmentData[] = []
+  allAttendances: AttendanceDetail[] = [];
   asistence = 0;
-
-  attendanceForm = this.formBuilder.group({
-    alumno: ['', []],
-  });
-
-  markAsPresent() {
-  }
-
-  get alumno() {
-    return this.attendanceForm.controls.alumno;
-  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,19 +68,8 @@ export class TeacherControlComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const getAttendancesServiceSubscription = this.enrollmentService
-      .getAttendances()
-      .subscribe({
-        next: (response: UserEnrollment) => {
-          this.allAttendances = response.data;
-          this.asistence = this.allAttendances.length;
-
-        },  
-        error: (errorData) => {
-          console.log(errorData)
-        },
-      });
-    this.subscriptions.push(getAttendancesServiceSubscription);
+    this.allAttendances = this.courseContent.asistencia;
+    this.asistence = this.courseContent.asistencia.length;
   }
 
   ngOnDestroy(): void {

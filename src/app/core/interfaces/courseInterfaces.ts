@@ -9,7 +9,30 @@ export type CourseRequest = {
     docenteId: string;
     file: Blob;
   };
-  
+
+  export type PaymentDetail = {
+    id: number;
+    tokenPago: string;
+    fechaPago: null;
+    pago: false;
+  };
+
+  export type StudentDetail = {
+    id:       number;
+    nombre:   string;
+    apellido: string;
+    email?:   string;
+}
+
+  export type AttendanceDetail = {
+    id:                number;
+    codigoInscripcion: string;
+    asistio:           boolean;
+    puntaje:           string;
+    estudiante: StudentDetail;
+    pago:              PaymentDetail;
+  }
+
   export type CourseResponse = {
     id: number;
     nombre: string;
@@ -33,12 +56,13 @@ export type CourseRequest = {
       nombre: string;
       apellido: string;
     };
+    asistencia: AttendanceDetail[]
   };
 
   export type CourseData = {
     data: CourseResponse[];
   };
-  
+
   export type CourseDetailResponse = {
     data: CourseResponse;
   };

@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import {
   EnrollmentResponse,
   UserEnrollment,
+  attendanceDto,
 } from '../../interfaces/enrollmentInterfaces';
+import { mensajeResponse } from '../../interfaces/paymentInterfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +37,13 @@ export class EnrollmentService {
   getCertification(inscriptionCode: string): Observable<any> {
     return this.http.get<any>(
       `${environment.API_URL}/api/asistencias/mis-cursos/certificado/${inscriptionCode}`
+    );
+  }
+
+  markAttendance(codigoInscripcion: string, data: attendanceDto): Observable<mensajeResponse>{
+    return this.http.put<mensajeResponse>(
+      `${environment.API_URL}/api/asistencia/marcar/${codigoInscripcion}`,
+      data
     );
   }
 }

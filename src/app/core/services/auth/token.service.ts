@@ -19,6 +19,13 @@ export class TokenService {
     return token;
   }
 
+  isLogged(): boolean {
+    if (this.checkToken()) {
+      return true;
+    }
+    return false;
+  }
+
   removeToken() {
     localStorage.removeItem('token');
   }
