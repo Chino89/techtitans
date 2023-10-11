@@ -1,25 +1,25 @@
 [
     {
         "svg": "/assets/icons/user.svg",
-        "routerLink": "",
+        "routerLink": "/institucional/nuestro-staff",
         "component": "Nuestro staff",
         "phrase": ""
     },
     {
         "svg": "/assets/icons/services.svg",
-        "routerLink": "",
+        "routerLink": "/institucional/servicios",
         "component": "Nuestros servicios",
         "phrase": ""
     },
     {
         "svg": "/assets/icons/location.svg",
-        "routerLink": "",
+        "routerLink": "/institucional/direccion",
         "component": "Encontranos",
         "phrase": ""
     },
     {
         "svg": "/assets/icons/contact.svg",
-        "routerLink": "",
+        "routerLink": "/institucional/contacto",
         "component": "Contacto",
         "phrase": ""
     }
