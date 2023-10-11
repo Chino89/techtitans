@@ -36,6 +36,13 @@ const routes: Routes = [
       import('./modules/user/user.module').then((m) => m.UserModule),
   },
   {
+    path: 'institucional',
+    loadChildren: () =>
+      import('./modules/institutional/institutional.module').then(
+        (m) => m.InstitutionalModule
+      ),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },
