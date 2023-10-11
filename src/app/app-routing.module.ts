@@ -38,7 +38,9 @@ const routes: Routes = [
   {
     path: 'institucional',
     loadChildren: () =>
-      import('./modules/institutional/institutional.module').then((m) => m.InstitutionalModule),
+      import('./modules/institutional/institutional.module').then(
+        (m) => m.InstitutionalModule
+      ),
   },
   {
     path: '**',
