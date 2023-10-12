@@ -14,6 +14,7 @@ import { CustomToastComponent } from './components/custom-toast/custom-toast.com
 import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.component';
 import { TimeCustomizerPipe } from './pipes/timeCustomizerPipe/time-customizer.pipe';
 import { RoleCustomizerPipe } from './pipes/roleCustomizerPipe/role-customizer.pipe';
+import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
 
 const myModules = [
   TimeCustomizerPipe,
@@ -26,6 +27,7 @@ const myModules = [
   SetOfButtonsComponent,
   CustomToastComponent,
   UserDropdownComponent,
+  TeacherCardComponent
 ];
 
 @NgModule({
