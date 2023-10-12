@@ -10,6 +10,7 @@ import { InstitutionalPageComponent } from './components/institutional-page/inst
 import { FoundUsComponent } from './components/found-us/found-us.component';
 import { TeachingStaffComponent } from './components/teaching-staff/teaching-staff.component';
 import { NewsComponent } from './components/news/news.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,6 @@ import { NewsComponent } from './components/news/news.component';
     TeachingStaffComponent,
     NewsComponent,
   ],
-  imports: [CommonModule, InstitutionalRoutingModule, AngularSvgIconModule],
+  imports: [CommonModule, InstitutionalRoutingModule, AngularSvgIconModule, SharedModule],
 })
 export class InstitutionalModule {}

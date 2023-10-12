@@ -1,3 +1,18 @@
+// USER-ROLE = 2 (Docente)
+
+export type TeacherDataResponse = {
+  data: [TeacherData];
+};
+
+export type TeacherData = {
+  id: Number;
+  docente: string;
+  email: string;
+  avatar: string;
+};
+
+// USER-ROLE = 3 (Estudiante)
+
 export type UserDataResponse = {
   data: [UserResponse];
 };
@@ -35,16 +50,3 @@ export type UserEditRequest = {
   password: string;
   confirm_password: string;
 };
-
-// USER-ROLE = 2 (Docente)
-
-export type TeacherDataResponse = {
-  data: [TeacherData];
-};
-
-export type TeacherData = {
-  id: Number;
-  docente: String;
-};
-
-// USER-ROLE = 3 (Estudiante)
