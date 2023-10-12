@@ -1,0 +1,97 @@
+<section class="py-2">
+    <div *ngIf="userIsLoged && user?.roles?.includes('ROLE_ESTUDIANTE')" class="bg-white flex flex-col border p-8 border-gray-200 rounded-lg shadow">
+        <h3 class="mb-4 text-xl font-medium text-gray-900">
+            Detalle de tu inscripcion.
+        </h3>
+        <div class="">
+            <!-- Va el contenido -->
+
+            <div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-4xl">
+                <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="{{ attendanceDataBack.curso.portada }}" alt="{{ attendanceDataBack.curso.nombre }}" />
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        {{ attendanceDataBack.curso.nombre }}
+                    </h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        {{ attendanceDataBack.curso.descripcion }}
+                    </p>
+                    <div class="text-md flex flex-col justify-center">
+                        <div class="flex flex-col md:flex-row gap-x-0 md:gap-x-8">
+                            <div class="flex">
+                                <p class="font-medium mr-1">Fecha:</p>
+                                <span>
+                  {{ attendanceDataBack.curso.dia_curso | date : "dd/MM/yyyy" }}
+                </span>
+                            </div>
+                            <div class="flex">
+                                <p class="font-medium mr-1">Hora:</p>
+                                <span>
+                  {{ attendanceDataBack.curso.hora_curso | timeCustomizer }}
+                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-x-0 md:gap-x-10">
+                            <div class="flex">
+                                <p class="font-medium mr-1">Asistencia:</p>
+                                <span *ngIf="attendanceDataBack.asistio"> Asistió </span>
+                                <span *ngIf="!attendanceDataBack.asistio"> No Asistió </span>
+                            </div>
+                            <div class="flex">
+                                <p class="font-medium mr-1">Nota:</p>
+                                <span>{{ attendanceDataBack.puntaje }}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row mt-6 justify-center items-center">
+            <button class=" {{
+          attendanceDataBack.pago.pago == true
+            ? 'bg-gray-500 pointer-events-none'
+            : 'bg-green-700 hover:bg-green-800'
+        }} select-none   flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
+        <svg
+          class="w-4 h-4 text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 18 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M5 2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1M2 5h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm8 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
+          />
+        </svg>
+        <p class="px-2">Realizar pago</p>
+      </button>
+            <button class="{{
+          attendanceDataBack.pago.pago == false
+            ? 'bg-gray-500 pointer-events-none'
+            : 'bg-purple-700 hover:bg-purple-800'
+        }} select-none flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
+        <svg
+          class="w-4 h-4 text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 19"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"
+          />
+        </svg>
+        <p class="px-2">Descargar mi certificado</p>
+      </button>
+        </div>
+    </div>
+</section>

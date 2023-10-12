@@ -10,6 +10,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TeacherControlComponent } from './components/teacher-control/teacher-control.component';
 import { InscriptoDetailComponent } from './components/inscripto-detail/inscripto-detail.component';
+import { DownloadCertificateComponent } from './components/download-certificate/download-certificate.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { InscriptoDetailComponent } from './components/inscripto-detail/inscript
     UserProfileComponent,
     TeacherControlComponent,
     InscriptoDetailComponent,
+    DownloadCertificateComponent,
   ],
 
   imports: [CommonModule, UserRoutingModule, ReactiveFormsModule, SharedModule],

@@ -5,6 +5,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { InscriptoDetailComponent } from './components/inscripto-detail/inscripto-detail.component';
+import { DownloadCertificateComponent } from './components/download-certificate/download-certificate.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,11 @@ const routes: Routes = [
       {
         path: 'mis-cursos/dictados/:identificator',
         component: InscriptoDetailComponent,
+        children: [],
+      },
+      {
+        path: 'mis-cursos/inscripcion/:identificator',
+        component: DownloadCertificateComponent,
         children: [],
       },
       {

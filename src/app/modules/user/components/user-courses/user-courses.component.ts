@@ -128,6 +128,8 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: UserEnrollment) => {
           this.userCoursesResponse = response.data;
+          console.log(this.userCoursesResponse);
+
         },
       });
     this.subscriptions.push(getMyCoursesServiceSubscription);
