@@ -69,24 +69,26 @@ export class EditCourseComponent implements OnInit, OnDestroy {
       nombre: '',
       apellido: '',
     },
-    asistencia: [{
-      id: 0,
-      codigoInscripcion: '',
-      asistio: false,
-      puntaje: '',
-      estudiante: {
+    asistencia: [
+      {
         id: 0,
-        nombre: '',
-        apellido: '',
-        email: ''
+        codigoInscripcion: '',
+        asistio: false,
+        puntaje: '',
+        estudiante: {
+          id: 0,
+          nombre: '',
+          apellido: '',
+          email: '',
+        },
+        pago: {
+          id: 0,
+          tokenPago: '',
+          fechaPago: null,
+          pago: false,
+        },
       },
-      pago: {
-        id: 0,
-        tokenPago: '',
-        fechaPago: null,
-        pago: false
-      }
-    }]
+    ],
   };
 
   constructor(
