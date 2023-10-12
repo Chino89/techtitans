@@ -1,3 +1,4 @@
+import { AttendanceDetail } from './../../../core/interfaces/courseInterfaces';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -18,7 +19,7 @@ import { Subscription } from 'rxjs';
 export class DashboardPageComponent implements OnInit, OnDestroy {
   courses: CourseResponse[] = [];
   subscriptions: Subscription[] = [];
-
+code: string = '';
   items = carouselContent;
   constructor(private http: HttpClient, private courseService: CourseService) {}
 
@@ -29,9 +30,29 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
         error: (errorData) => console.log(errorData),
         next: (data: CourseData) => {
           this.courses = data.data;
+
+          for (let i = 0; i < this.courses.length; i++) {
+            const c = this.courses[i];
+
+            if(c.asistencia.length > 0){
+
+              for (let j = 0; j < c.asistencia.length; j++) {
+                const a: AttendanceDetail = c.asistencia[j];
+                this.code = a.codigoInscripcion;
+
+              }
+            }else{
+              this.code = '';
+            }
+            console.log(this.code);
+
+
+
+          }
         },
       });
     this.subscriptions.push(getAllCoursesServiceSubscription);
+
   }
 
   ngOnDestroy(): void {

@@ -34,6 +34,7 @@ export type CourseRequest = {
   }
 
   export type CourseResponse = {
+    asistencia: AttendanceDetail[]
     id: number;
     nombre: string;
     descripcion: string;
@@ -56,7 +57,6 @@ export type CourseRequest = {
       nombre: string;
       apellido: string;
     };
-    asistencia: AttendanceDetail[]
   };
 
   export type CourseData = {

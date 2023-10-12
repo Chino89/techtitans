@@ -24,4 +24,14 @@ export const buttonInteractions = {
     action: 'Borrar curso',
     style: 'bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300',
   },
+  detail: {
+    svg: '/assets/icons/info.svg',
+    action: 'Mostrar mas detalles',
+    style: 'bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300',
+  },
+  my_courses: {
+    svg: '/assets/icons/info.svg',
+    action: 'Mostrar mis cursos',
+    style: 'bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300',
+  },
 };

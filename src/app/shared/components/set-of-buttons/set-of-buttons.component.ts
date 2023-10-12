@@ -39,9 +39,12 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     accessToken: '',
   };
   subscriptions: Subscription[] = [];
+
   @Input() inscriptionCode: string = '';
   @Input() paymentToken: string = '';
   @Input() payment: boolean = false;
+
+  @Input() codigoInscripcion: string = '';
   @Input() courseData: CourseResponse = {
     id: 0,
     nombre: '',
@@ -127,9 +130,14 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     private router: Router,
     private enrollmentService: EnrollmentService,
     private paymentService: PaymentService
-  ) {}
+  ) {
+
+
+  }
 
   ngOnInit(): void {
+    console.log(this.inscriptionCode);
+
     const currentUserLoginOnServiceSubscription =
       this.loginService.currentUserLoginOn.subscribe({
         next: (userIsLoged) => {
@@ -145,6 +153,7 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
         },
       });
     this.subscriptions.push(currentUserDataServiceSubscription);
+
   }
 
   ngOnDestroy(): void {

@@ -1,35 +1,24 @@
-<div
-  class="bg-white border border-gray-200 rounded-lg shadow cursor-pointer"
-  (click)="navigateTo(courseContent.slug)"
->
-  <div>
-    <img
-      class="rounded-t-lg w-full h-full object-cover p-2"
-      src="{{ courseContent.portada }}"
-      alt=""
-    />
-  </div>
-  <div class="p-5">
-    <div class="flex justify-between font-medium pb-2">
-      <p>
-        {{ courseContent.dia_curso | date : "dd/MM/yyyy" }}
-      </p>
-      <p>
-        {{ courseContent.hora_curso | timeCustomizer }}
-      </p>
+<div class="bg-white border border-gray-200 rounded-lg shadow">
+    <div>
+        <img class="rounded-t-lg w-full h-full object-cover p-2" src="{{ courseContent.portada }}" alt="" />
     </div>
-    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-      {{ courseContent!.nombre }}
-    </h5>
-    <p class="mb-3 font-normal text-gray-700">
-      {{ courseContent!.descripcion | truncate : 100 }}
-    </p>
-    <div class="flex justify-center">
-      <app-set-of-buttons
-        [courseData]="courseContent"
-        [inscriptionCode]="inscriptionCode"
-        [paymentToken]="paymentToken"
-      ></app-set-of-buttons>
+    <div class="p-5">
+        <div class="flex justify-between font-medium pb-2">
+            <p>
+                {{ courseContent.dia_curso | date : "dd/MM/yyyy" }}
+            </p>
+            <p>
+                {{ courseContent.hora_curso | timeCustomizer }}
+            </p>
+        </div>
+        <h5 (click)="navigateTo(courseContent.slug)" class="mb-2 text-2xl font-bold tracking-tight text-noc-blue hover:text-noc-orange cursor-pointer">
+            {{ courseContent!.nombre }}
+        </h5>
+        <p class="mb-3 font-normal text-gray-700">
+            {{ courseContent!.descripcion | truncate : 100 }}
+        </p>
+        <div class="flex justify-center">
+            <app-set-of-buttons [courseData]="courseContent" [inscriptionCode]="inscriptionCode" [paymentToken]="paymentToken" [codigoInscripcion]="codigoInscripcion"></app-set-of-buttons>
+        </div>
     </div>
-  </div>
 </div>

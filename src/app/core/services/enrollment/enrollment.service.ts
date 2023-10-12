@@ -8,6 +8,7 @@ import {
   attendanceDto,
 } from '../../interfaces/enrollmentInterfaces';
 import { mensajeResponse } from '../../interfaces/paymentInterfaces';
+import { attendanceData, attendanceResponse } from '../../interfaces/attendanceInterface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,12 @@ export class EnrollmentService {
   getMyCourses(): Observable<UserEnrollment> {
     return this.http.get<UserEnrollment>(
       `${environment.API_URL}/api/asistencias/mis-cursos`
+    );
+  }
+
+  getMyCoursesByCode(codigoInscripcion: string): Observable<attendanceData> {
+    return this.http.get<attendanceData>(
+      `${environment.API_URL}/api/asistencias/mis-cursos/${codigoInscripcion}`
     );
   }
 

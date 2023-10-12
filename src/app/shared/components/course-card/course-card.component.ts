@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Customizer } from 'src/app/core/interfaces/interfaces';
-import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
+import { AttendanceDetail, CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
 import {
@@ -18,6 +18,7 @@ import { TokenService } from 'src/app/core/services/auth/token.service';
   styleUrls: ['./course-card.component.css'],
 })
 export class CourseCardComponent implements OnInit, OnDestroy {
+  @Input() codigoInscripcion: string = '';
   @Input() courseContent: CourseResponse = {
     id: 0,
     nombre: '',
@@ -37,24 +38,26 @@ export class CourseCardComponent implements OnInit, OnDestroy {
       email: '',
     },
     docente: { id: 0, nombre: '', apellido: '' },
-    asistencia: [{
-      id: 0,
-      codigoInscripcion: '',
-      asistio: false,
-      puntaje: '',
-      estudiante: {
+    asistencia: [
+      {
         id: 0,
-        nombre: '',
-        apellido: '',
-        email: ''
+        codigoInscripcion: '',
+        asistio: false,
+        puntaje: '',
+        estudiante: {
+          id: 0,
+          nombre: '',
+          apellido: '',
+          email: '',
+        },
+        pago: {
+          id: 0,
+          tokenPago: '',
+          fechaPago: null,
+          pago: false,
+        },
       },
-      pago: {
-        id: 0,
-        tokenPago: '',
-        fechaPago: null,
-        pago: false
-      }
-    }]
+    ],
   };
 
   buttons: {
@@ -72,27 +75,31 @@ export class CourseCardComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private enrollmentService: EnrollmentService,
-    private tokenService:TokenService
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
-  if(this.tokenService.isLogged()){
-    const getMyCoursesServiceSubscription = this.enrollmentService
-    .getMyCourses()
-    .subscribe({
-      next: (response: UserEnrollment) => {
-        this.userCoursesResponse = response.data;
-        for (const course of this.userCoursesResponse) {
-          const enrollmentCourse = course.curso.nombre;
-          if (enrollmentCourse === this.courseContent.nombre) {
-            this.inscriptionCode = course.codigoInscripcion;
-            this.paymentToken = course.pago.tokenPago;
-          }
-        }
-      },
-    });
-  this.subscriptions.push(getMyCoursesServiceSubscription);
-  }
+    if (this.tokenService.isLogged()) {
+      const getMyCoursesServiceSubscription = this.enrollmentService
+        .getMyCourses()
+        .subscribe({
+          next: (response: UserEnrollment) => {
+            this.userCoursesResponse = response.data;
+            for (const course of this.userCoursesResponse) {
+              const enrollmentCourse = course.curso.nombre;
+              if (enrollmentCourse === this.courseContent.nombre) {
+                this.inscriptionCode = course.codigoInscripcion;
+                this.paymentToken = course.pago.tokenPago;
+
+
+
+              }
+            }
+          },
+        });
+        this.subscriptions.push(getMyCoursesServiceSubscription);
+      }
+
   }
 
   ngOnDestroy(): void {
