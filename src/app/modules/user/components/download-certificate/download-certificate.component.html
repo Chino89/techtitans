@@ -1,85 +1,116 @@
 <section class="py-2">
   <div *ngIf="asistenciaToast" class="mt-3">
-    <div class="flex items-center w-full max-w p-4 mb-4 text-gray-500 bg-white rounded-lg shadow" role="alert">
-        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 {{
-    asistenciaError.length === 0
-      ? 'text-green-500 bg-green-100'
-      : 'text-red-500 bg-red-100'
-  }}  rounded-lg">
-            <svg *ngIf="asistenciaError.length === 0" class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-    <path
-      d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
-    />
-  </svg>
+    <div
+      class="flex items-center w-full max-w p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
+      role="alert"
+    >
+      <div
+        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 {{
+          asistenciaError.length === 0
+            ? 'text-green-500 bg-green-100'
+            : 'text-red-500 bg-red-100'
+        }}  rounded-lg"
+      >
+        <svg
+          *ngIf="asistenciaError.length === 0"
+          class="w-5 h-5"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+          />
+        </svg>
 
-            <svg *ngIf="asistenciaError.length > 0" class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-    <path
-      d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"
-    />
-  </svg>
-        </div>
-        <p *ngIf="asistenciaError.length === 0" class="ml-3 text-sm font-normal">
-            <strong>Éxito!!!</strong> {{ asistenciaMsj }}
-        </p>
-        <p *ngIf="asistenciaError.length > 0" class="ml-3 text-sm font-normal">
-            <strong>Oops, Hubo un error:</strong> {{ asistenciaError[0].mensaje }}
-        </p>
+        <svg
+          *ngIf="asistenciaError.length > 0"
+          class="w-5 h-5"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"
+          />
+        </svg>
+      </div>
+      <p *ngIf="asistenciaError.length === 0" class="ml-3 text-sm font-normal">
+        <strong>Éxito!!!</strong> {{ asistenciaMsj }}
+      </p>
+      <p *ngIf="asistenciaError.length > 0" class="ml-3 text-sm font-normal">
+        <strong>Oops, Hubo un error:</strong> {{ asistenciaError[0].mensaje }}
+      </p>
     </div>
-</div>
-    <div *ngIf="userIsLoged && user?.roles?.includes('ROLE_ESTUDIANTE')" class="bg-white flex flex-col border p-8 border-gray-200 rounded-lg shadow">
-        <h3 class="mb-4 text-xl font-medium text-gray-900">
-            Detalle de tu inscripcion.
-        </h3>
-        <div class="">
-            <!-- Va el contenido -->
+  </div>
+  <div
+    *ngIf="userIsLoged && user?.roles?.includes('ROLE_ESTUDIANTE')"
+    class="bg-white flex flex-col border p-8 border-gray-200 rounded-lg shadow"
+  >
+    <h3 class="mb-4 text-xl font-medium text-gray-900">
+      Detalle de tu inscripcion.
+    </h3>
+    <div class="">
+      <!-- Va el contenido -->
 
-            <div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-4xl">
-                <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="{{ attendanceDataBack.curso.portada }}" alt="{{ attendanceDataBack.curso.nombre }}" />
-                <div class="flex flex-col justify-between p-4 leading-normal">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        {{ attendanceDataBack.curso.nombre }}
-                    </h5>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                        {{ attendanceDataBack.curso.descripcion }}
-                    </p>
-                    <div class="text-md flex flex-col justify-center">
-                        <div class="flex flex-col md:flex-row gap-x-0 md:gap-x-8">
-                            <div class="flex">
-                                <p class="font-medium mr-1">Fecha:</p>
-                                <span>
+      <div
+        class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-4xl"
+      >
+        <img
+          class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+          src="{{ attendanceDataBack.curso.portada }}"
+          alt="{{ attendanceDataBack.curso.nombre }}"
+        />
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+          >
+            {{ attendanceDataBack.curso.nombre }}
+          </h5>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            {{ attendanceDataBack.curso.descripcion }}
+          </p>
+          <div class="text-md flex flex-col justify-center">
+            <div class="flex flex-col md:flex-row gap-x-0 md:gap-x-8">
+              <div class="flex">
+                <p class="font-medium mr-1">Fecha:</p>
+                <span>
                   {{ attendanceDataBack.curso.dia_curso | date : "dd/MM/yyyy" }}
                 </span>
-                            </div>
-                            <div class="flex">
-                                <p class="font-medium mr-1">Hora:</p>
-                                <span>
+              </div>
+              <div class="flex">
+                <p class="font-medium mr-1">Hora:</p>
+                <span>
                   {{ attendanceDataBack.curso.hora_curso | timeCustomizer }}
                 </span>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col md:flex-row gap-x-0 md:gap-x-10">
-                            <div class="flex">
-                                <p class="font-medium mr-1">Asistencia:</p>
-                                <span *ngIf="attendanceDataBack.asistio"> Asistió </span>
-                                <span *ngIf="!attendanceDataBack.asistio"> No Asistió </span>
-                            </div>
-                            <div class="flex">
-                                <p class="font-medium mr-1">Nota:</p>
-                                <span>{{ attendanceDataBack.puntaje }}</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+              </div>
             </div>
+
+            <div class="flex flex-col md:flex-row gap-x-0 md:gap-x-10">
+              <div class="flex">
+                <p class="font-medium mr-1">Asistencia:</p>
+                <span *ngIf="attendanceDataBack.asistio"> Asistió </span>
+                <span *ngIf="!attendanceDataBack.asistio"> No Asistió </span>
+              </div>
+              <div class="flex">
+                <p class="font-medium mr-1">Nota:</p>
+                <span>{{ attendanceDataBack.puntaje }}</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="flex flex-col md:flex-row mt-6 justify-center items-center">
-            <button class=" {{
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-row mt-6 justify-center items-center">
+      <button
+        class=" {{
           attendanceDataBack.pago.pago == true
             ? 'bg-gray-500 pointer-events-none'
             : 'bg-green-700 hover:bg-green-800'
-        }} select-none   flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
+        }} select-none   flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+      >
         <svg
           class="w-4 h-4 text-white"
           aria-hidden="true"
@@ -97,11 +128,22 @@
         </svg>
         <p class="px-2">Realizar pago</p>
       </button>
-            <button class="{{
+      <button
+        class="{{
           attendanceDataBack.pago.pago == false
             ? 'bg-gray-500 pointer-events-none'
             : 'bg-purple-700 hover:bg-purple-800'
-        }} select-none flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer" (click)="downloadCertificate(attendanceDataBack.codigoInscripcion,attendanceDataBack.estudiante.nombre, attendanceDataBack.estudiante.apellido, attendanceDataBack.curso.slug)">
+        }} select-none flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+        (click)="
+          downloadCertificate(
+            attendanceDataBack.codigoInscripcion,
+            attendanceDataBack.estudiante.nombre,
+            attendanceDataBack.estudiante.apellido,
+            attendanceDataBack.curso.slug,
+            attendanceDataBack.pago.pago
+          )
+        "
+      >
         <svg
           class="w-4 h-4 text-white"
           aria-hidden="true"
@@ -118,6 +160,7 @@
           />
         </svg>
         <p class="px-2">Descargar mi certificado</p>
-      </button></div>
+      </button>
     </div>
+  </div>
 </section>
