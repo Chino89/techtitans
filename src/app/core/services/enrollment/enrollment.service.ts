@@ -14,43 +14,52 @@ import { attendanceData, attendanceResponse } from '../../interfaces/attendanceI
   providedIn: 'root',
 })
 export class EnrollmentService {
-  constructor(private http: HttpClient) {}
+  url: string = '';
+  constructor(private http: HttpClient) {
+    this.url = environment.API_URL;
+  }
 
   courseEnrollment(param: string, id: number): Observable<EnrollmentResponse> {
     return this.http.post<EnrollmentResponse>(
-      `${environment.API_URL}/api/asistencia/inscribirme/${param}`,
+      `${this.url}/api/asistencia/inscribirme/${param}`,
       { id }
     );
   }
 
   getAttendances(): Observable<UserEnrollment> {
     return this.http.get<UserEnrollment>(
-      `${environment.API_URL}/api/asistencias`
+      `${this.url}/api/asistencias`
     );
   }
 
   getMyCourses(): Observable<UserEnrollment> {
     return this.http.get<UserEnrollment>(
-      `${environment.API_URL}/api/asistencias/mis-cursos`
+      `${this.url}/api/asistencias/mis-cursos`
     );
   }
 
   getMyCoursesByCode(codigoInscripcion: string): Observable<attendanceData> {
     return this.http.get<attendanceData>(
-      `${environment.API_URL}/api/asistencias/mis-cursos/${codigoInscripcion}`
+      `${this.url}/api/asistencias/mis-cursos/${codigoInscripcion}`
     );
-  }
-
-  getCertification(inscriptionCode: string): Observable<any> {
-    return this.http.get<any>(
-      `${environment.API_URL}/api/asistencias/mis-cursos/certificado/${inscriptionCode}`
-    );
-  }
+    }
 
   markAttendance(codigoInscripcion: string, data: attendanceDto): Observable<mensajeResponse>{
     return this.http.put<mensajeResponse>(
-      `${environment.API_URL}/api/asistencia/marcar/${codigoInscripcion}`,
+      `${this.url}/api/asistencia/marcar/${codigoInscripcion}`,
       data
+    );
+  }
+
+  getQRCodePay(tokenPago: string): Observable<Blob>{
+    return this.http.get(
+      `${this.url}/api/asistencia/generar-qr/${tokenPago}`, { responseType: 'blob' }
+    );
+  }
+
+  getCertificate(codigoInscripcion: string): Observable<Blob>{
+    return this.http.get(
+      `${this.url}/api/asistencias/mis-cursos/certificado/${codigoInscripcion}`, { responseType: 'blob' }
     );
   }
 }

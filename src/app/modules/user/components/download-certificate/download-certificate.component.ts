@@ -35,10 +35,8 @@ export class DownloadCertificateComponent implements OnInit {
     curso: {
       id: 0,
       nombre: '',
-      descripcion:
-        '',
-      portada:
-        '',
+      descripcion: '',
+      portada: '',
       dia_curso: null,
       hora_curso: '',
       duracion: '',
@@ -91,6 +89,8 @@ export class DownloadCertificateComponent implements OnInit {
   asistenciaMsj: string = '';
   asistenciaToast: boolean = false;
   asistenciaError: BackEndError[] = [];
+  downloadErrors: BackEndError[] = [];
+  payErrors: BackEndError[] = [];
   codigoInscripcion: string = '';
 
   userIsLoged = false;
@@ -114,6 +114,8 @@ export class DownloadCertificateComponent implements OnInit {
   };
 
   subscriptions: Subscription[] = [];
+
+  pdfBlob: Blob | null = null;
 
   constructor(
     private loginService: LoginService,
@@ -172,5 +174,58 @@ export class DownloadCertificateComponent implements OnInit {
       },
       complete: () => {},
     });
+  }
+
+  // Metodos para pagar y descargar certificados
+  downloadCertificate(
+    codigoInscripcion: string,
+    nombre: string,
+    apellido: string,
+    slug: string,
+    pago: boolean = false
+  ): void {
+    let fullname = `${nombre.toLowerCase()}-${apellido.toLowerCase()}`;
+    this.enrollmentService.getCertificate(codigoInscripcion).subscribe({
+      next: (data: Blob) => {
+        setTimeout(() => {
+          this.pdfBlob = data;
+         if (pago) {
+          this.createDownloadLink(fullname, slug);
+         }else{
+          let msg = 'No pago el curso, no puede descargar el certificado';
+          this.asistenciaError.push({ mensaje: msg });
+         }
+        });
+      },
+      error(err) {
+        //TODO: aca debiera mostrar un toast de que no pudo descargar el certificado con éxito
+
+        console.error(err.error.mensaje);
+        // this.asistenciaError.push({ mensaje: err.error.mensaje });
+      },
+      complete: () => {
+        //TODO: aca debiera mostrar un toast de que descargo el certificado con éxito
+        this.asistenciaMsj = 'Se descargó el certificado con éxito';
+        this.asistenciaToast = true;
+
+        setTimeout(() => {
+          this.asistenciaToast = false;
+        }, 5000);
+        console.log('Se descargó el certificado con éxito');
+      },
+    });
+  }
+  createDownloadLink(fullname: string, slug: string) {
+    if (this.pdfBlob) {
+      const url = window.URL.createObjectURL(this.pdfBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `certificado-${fullname}-${slug}.pdf`;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+    }
   }
 }
