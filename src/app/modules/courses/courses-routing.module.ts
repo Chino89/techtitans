@@ -42,6 +42,7 @@ const routes: Routes = [
   },
   {
     path: ':identificator/editar-curso',
+    canActivate: [AdminGuard],
     component: EditCourseComponent,
     children: [],
   },
