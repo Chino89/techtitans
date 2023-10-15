@@ -128,8 +128,6 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: UserEnrollment) => {
           this.userCoursesResponse = response.data;
-          console.log(this.userCoursesResponse);
-
         },
       });
     this.subscriptions.push(getMyCoursesServiceSubscription);
@@ -147,6 +145,7 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
 
   payCourse(): void {
     const { tokenPago } = this.pagoForm.value;
+
     let data: pagoDto = {
       pago: true,
     };

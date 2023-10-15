@@ -23,31 +23,6 @@
             {{ asistence }}
         </p>
     </div>
-    <!-- <div class="flex flex-col items-center justify-start">
-    <h5 class="font-medium text-md text-center">Alumnos:</h5>
-    <form [formGroup]="attendanceForm" (ngSubmit)="markAsPresent()">
-      <div class="flex flex-col items-start mb-4">
-        <div class="flex items-center h-5" *ngFor="let user of allAttendances">
-          <input
-            formControlName="alumno"
-            id="alumno"
-            type="checkbox"
-            value="{{ user.estudiante.id }}"
-            class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
-          />
-          <label for="alumno" class="ml-2 text-sm font-medium text-gray-900"
-            >{{ user.estudiante.nombre }} {{ user.estudiante.apellido }}</label
-          >
-        </div>
-      </div>
-      <button
-        type="submit"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs w-full sm:w-auto px-5 py-2.5 text-center"
-      >
-        Marcar asistencia
-      </button>
-    </form>
-  </div> -->
     <div class="flex flex-row md:flex-col items-center justify-center gap-3">
         <a routerLink="dictados/{{ courseContent.slug }}" class="text-white {{ asistence == 0 ? 'bg-gray-500 hover:bg-gray-500 cursor-default pointer-events-none': '' }} bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs w-full sm:w-auto px-5 py-2.5 text-center">
       Ver detalles

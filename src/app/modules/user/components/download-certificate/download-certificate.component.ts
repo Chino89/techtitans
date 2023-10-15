@@ -17,6 +17,9 @@ import { LoginService } from 'src/app/core/services/auth/login.service';
 import { CourseService } from 'src/app/core/services/course/course.service';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
 import { UserService } from 'src/app/core/services/users/user.service';
+import { modalTarget } from 'src/app/utils/modal';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-download-certificate',
@@ -116,6 +119,10 @@ export class DownloadCertificateComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
   pdfBlob: Blob | null = null;
+  qrBlob: Blob | null = null;
+  qrBlobUrl: SafeUrl | null = null;
+
+  idModal: string = 'QRModal';
 
   constructor(
     private loginService: LoginService,
@@ -123,7 +130,8 @@ export class DownloadCertificateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private enrollmentService: EnrollmentService,
     private courseService: CourseService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -177,24 +185,24 @@ export class DownloadCertificateComponent implements OnInit {
   }
 
   // Metodos para pagar y descargar certificados
-  downloadCertificate(
-    codigoInscripcion: string,
-    nombre: string,
-    apellido: string,
-    slug: string,
-    pago: boolean = false
-  ): void {
+  downloadCertificate(attendanceData: attendanceResponse): void {
+    const { curso, pago, codigoInscripcion, estudiante, asistio, puntaje } =
+      attendanceData;
+    const { slug } = curso;
+    const { nombre, apellido } = estudiante;
     let fullname = `${nombre.toLowerCase()}-${apellido.toLowerCase()}`;
     this.enrollmentService.getCertificate(codigoInscripcion).subscribe({
       next: (data: Blob) => {
         setTimeout(() => {
           this.pdfBlob = data;
-         if (pago) {
-          this.createDownloadLink(fullname, slug);
-         }else{
-          let msg = 'No pago el curso, no puede descargar el certificado';
-          this.asistenciaError.push({ mensaje: msg });
-         }
+          if (pago.pago) {
+            if (asistio && puntaje === 'Aprobado') {
+              this.createDownloadLink(fullname, slug);
+            }
+          } else {
+            let msg = 'No pago el curso, no puede descargar el certificado';
+            this.asistenciaError.push({ mensaje: msg });
+          }
         });
       },
       error(err) {
@@ -204,14 +212,12 @@ export class DownloadCertificateComponent implements OnInit {
         // this.asistenciaError.push({ mensaje: err.error.mensaje });
       },
       complete: () => {
-        //TODO: aca debiera mostrar un toast de que descargo el certificado con éxito
         this.asistenciaMsj = 'Se descargó el certificado con éxito';
         this.asistenciaToast = true;
 
         setTimeout(() => {
           this.asistenciaToast = false;
         }, 5000);
-        console.log('Se descargó el certificado con éxito');
       },
     });
   }
@@ -228,4 +234,40 @@ export class DownloadCertificateComponent implements OnInit {
       document.body.removeChild(link);
     }
   }
+
+  openModal(): void {
+    const modal = modalTarget(`${this.idModal}`);
+    modal.show();
+  }
+
+  closeModal(): void {
+    const modal = modalTarget(`${this.idModal}`);
+    modal.hide();
+  }
+
+  openModalAndShowQR(tokenPago: string | null): void {
+    if (tokenPago != null) {
+      this.enrollmentService.getQRCodePay(tokenPago).subscribe({
+        next: (data: Blob) => {
+          setTimeout(() => {
+            this.qrBlob = data;
+            this.qrBlobUrl = this.getQRCodeObjectUrl(data);
+            this.openModal();
+          });
+        },
+        error: (err) => {
+          //TODO: aca debiera mostrar un toast de que no pudo descargar el certificado con éxito
+        },
+        complete: () => {},
+      });
+    }
+  }
+
+  getQRCodeObjectUrl(blob: Blob | null): SafeUrl {
+    if (blob) {
+      return this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(blob));
+    }
+    return '';
+  }
+
 }

@@ -45,12 +45,10 @@
             <h3 class="mb-4 text-xl font-medium text-gray-900">
                 Estos son tus cursos que tienes pendiente para dictar
             </h3>
-            <!-- data-modal-target="cobroModal" data-modal-toggle="cobroModal" -->
             <button type="button" (click)="openModal()" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">
         Cobrar curso
       </button>
         </div>
-        <!-- <app-teacher-control></app-teacher-control> -->
         <app-teacher-control *ngFor="let courseResponse of teacherCoursesResponse" [courseContent]="courseResponse"></app-teacher-control>
     </div>
 
@@ -97,7 +95,6 @@
                 placeholder="XEFTGBDXIN"
                 required
                 autocomplete="code"
-                autofocus
                 maxlength="10"
                 max="10"
               />

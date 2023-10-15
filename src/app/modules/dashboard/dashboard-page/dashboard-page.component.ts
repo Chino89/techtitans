@@ -30,25 +30,6 @@ code: string = '';
         error: (errorData) => console.log(errorData),
         next: (data: CourseData) => {
           this.courses = data.data;
-
-          for (let i = 0; i < this.courses.length; i++) {
-            const c = this.courses[i];
-
-            if(c.asistencia.length > 0){
-
-              for (let j = 0; j < c.asistencia.length; j++) {
-                const a: AttendanceDetail = c.asistencia[j];
-                this.code = a.codigoInscripcion;
-
-              }
-            }else{
-              this.code = '';
-            }
-            console.log(this.code);
-
-
-
-          }
         },
       });
     this.subscriptions.push(getAllCoursesServiceSubscription);

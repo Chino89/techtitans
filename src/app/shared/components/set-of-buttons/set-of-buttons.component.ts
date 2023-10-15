@@ -136,8 +136,6 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.inscriptionCode);
-
     const currentUserLoginOnServiceSubscription =
       this.loginService.currentUserLoginOn.subscribe({
         next: (userIsLoged) => {

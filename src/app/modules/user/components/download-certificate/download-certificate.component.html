@@ -110,6 +110,7 @@
             ? 'bg-gray-500 pointer-events-none'
             : 'bg-green-700 hover:bg-green-800'
         }} select-none   flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+        (click)="openModalAndShowQR(attendanceDataBack.pago.tokenPago)"
       >
         <svg
           class="w-4 h-4 text-white"
@@ -130,19 +131,13 @@
       </button>
       <button
         class="{{
-          attendanceDataBack.pago.pago == false
+          attendanceDataBack.pago.pago == false ||
+          !attendanceDataBack.asistio ||
+          attendanceDataBack.puntaje != 'Aprobado'
             ? 'bg-gray-500 pointer-events-none'
             : 'bg-purple-700 hover:bg-purple-800'
         }} select-none flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
-        (click)="
-          downloadCertificate(
-            attendanceDataBack.codigoInscripcion,
-            attendanceDataBack.estudiante.nombre,
-            attendanceDataBack.estudiante.apellido,
-            attendanceDataBack.curso.slug,
-            attendanceDataBack.pago.pago
-          )
-        "
+        (click)="downloadCertificate(attendanceDataBack)"
       >
         <svg
           class="w-4 h-4 text-white"
@@ -164,3 +159,76 @@
     </div>
   </div>
 </section>
+
+<!-- Main modal -->
+<div
+  id="QRModal"
+  tabindex="-1"
+  aria-hidden="true"
+  class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+>
+  <div class="relative w-full max-w-md max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <button
+        type="button"
+        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        (click)="closeModal()"
+      >
+        <svg
+          class="w-3 h-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 14"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+          />
+        </svg>
+        <span class="sr-only">Cerrar modal</span>
+      </button>
+      <div class="px-6 py-6 lg:px-8">
+        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+          Código QR
+        </h3>
+        <p class="text-base leading-relaxed text-gray-500 mb-4">
+          Escaneando el QR obtendra el codigo para decirle al administrativo que
+          le recibe el pago. O se lo puedes mostrar directamente a el.
+        </p>
+        <div class="space-y-6">
+        <div class="flex justify-center items-center center w-full">
+          <img [src]="qrBlobUrl" alt="QR" />
+        </div>
+        <a
+          *ngIf="qrBlobUrl"
+          [href]="qrBlobUrl"
+          download="codigoQR.png"
+          class="bg-green-700 hover:bg-green-800 select-none flex justify-center items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+        >
+        <svg
+          class="w-4 h-4 text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 19"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"
+          />
+        </svg>
+         <span class="px-2"> Descargar imagen QR</span>
+        </a>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal QR -->

@@ -1,77 +1,150 @@
 <div *ngIf="asistenciaToast" class="mt-3">
-    <div class="flex items-center w-full max-w p-4 mb-4 text-gray-500 bg-white rounded-lg shadow" role="alert">
-        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 {{
-    asistenciaError.length === 0
-      ? 'text-green-500 bg-green-100'
-      : 'text-red-500 bg-red-100'
-  }}  rounded-lg">
-            <svg *ngIf="asistenciaError.length === 0" class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-    <path
-      d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
-    />
-  </svg>
+  <div
+    class="flex items-center w-full max-w p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
+    role="alert"
+  >
+    <div
+      class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 {{
+        asistenciaError.length === 0
+          ? 'text-green-500 bg-green-100'
+          : 'text-red-500 bg-red-100'
+      }}  rounded-lg"
+    >
+      <svg
+        *ngIf="asistenciaError.length === 0"
+        class="w-5 h-5"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+        />
+      </svg>
 
-            <svg *ngIf="asistenciaError.length > 0" class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-    <path
-      d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"
-    />
-  </svg>
-        </div>
-        <p *ngIf="asistenciaError.length === 0" class="ml-3 text-sm font-normal">
-            <strong>Éxito!!!</strong> {{ asistenciaMsj }}
-        </p>
-        <p *ngIf="asistenciaError.length > 0" class="ml-3 text-sm font-normal">
-            <strong>Oops, Hubo un error:</strong> {{ asistenciaError[0].mensaje }}
-        </p>
+      <svg
+        *ngIf="asistenciaError.length > 0"
+        class="w-5 h-5"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"
+        />
+      </svg>
     </div>
+    <p *ngIf="asistenciaError.length === 0" class="ml-3 text-sm font-normal">
+      <strong>Éxito!!!</strong> {{ asistenciaMsj }}
+    </p>
+    <p *ngIf="asistenciaError.length > 0" class="ml-3 text-sm font-normal">
+      <strong>Oops, Hubo un error:</strong> {{ asistenciaError[0].mensaje }}
+    </p>
+  </div>
 </div>
-<div class="bg-white border border-gray-200 rounded-lg shadow my-2 py-2 space-y-4 md:space-x-8 w-80 md:w-full flex flex-col max-w w-full">
-    <h3 class="mb-2 mt-3 text-lg md:text-2xl text-center tracking-tight text-gray-900 break-all" style="word-break: break-word; word-wrap: break-word">
-        <strong>Listado de inscriptos al curso: </strong>{{ courseData!.nombre }}
-    </h3>
-    <div class="flex flex-wrap items-center flex-col md:flex-row justify-evenly gap-8 md:gap-14">
-        <div *ngFor="let alumno of asistencia">
-            <div class="flex flex-row flex-wrap gap-4">
-                <div class="flex flex-row gap-3 items-center justify-start">
-                    <div class="max-w-md p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                        <div class="flex flex-col md:flex-row justify-between items-center">
-                            <div class="inline-flex items-center justify-center flex-shrink-0 w-10 h-10 text-orange-400 bg-orange-100  rounded-lg">
-                                <svg class="w-7 h-7" aria-hidden="true " xmlns="http://www.w3.org/2000/svg " fill="currentColor " viewBox="0 0 14 18 ">
-                          <path
-                            d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z "
-                          />
-                        </svg>
-                            </div>
+<div
+  class="bg-white border border-gray-200 rounded-lg shadow my-2 py-2 space-y-4 md:space-x-8 w-80 md:w-full flex flex-col max-w w-full"
+>
+  <h3
+    class="mb-2 mt-3 text-lg md:text-2xl text-center tracking-tight text-gray-900 break-all"
+    style="word-break: break-word; word-wrap: break-word"
+  >
+    <strong>Listado de inscriptos al curso: </strong>{{ courseData!.nombre }}
+  </h3>
+  <div
+    class="flex flex-wrap items-center flex-col md:flex-row justify-evenly gap-8 md:gap-14"
+  >
+    <div *ngFor="let alumno of asistencia">
+      <div class="flex flex-row flex-wrap gap-4">
+        <div class="flex flex-row gap-3 items-center justify-start">
+          <div
+            class="max-w-md p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100"
+          >
+            <div class="flex flex-col md:flex-row justify-between items-center">
+              <div
+                class="inline-flex items-center justify-center flex-shrink-0 w-10 h-10 text-orange-400 bg-orange-100 rounded-lg"
+              >
+                <svg
+                  class="w-7 h-7"
+                  aria-hidden="true "
+                  xmlns="http://www.w3.org/2000/svg "
+                  fill="currentColor "
+                  viewBox="0 0 14 18 "
+                >
+                  <path
+                    d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z "
+                  />
+                </svg>
+              </div>
 
-                            <div class="flex flex-col mb-2 text-xl justify-center items-center font-semibold tracking-tight text-gray-900">
-                                <span>{{ alumno.estudiante.nombre }}</span>
-                                <span>{{ alumno.estudiante.apellido }}</span>
-                            </div>
-                        </div>
-                        <div class="flex flex-row justify-between items-center mb-3 font-normal text-gray-500">
-                            <span class="{{ alumno.asistio ? 'text-green-500' : 'text-red-500' }}">{{ alumno.asistio ? "Asistió" : "No asistió" }}</span>
-                            <span class="{{ alumno.pago.pago ? 'text-green-500' : 'text-red-500' }}">{{ alumno.pago.pago ? "Pagó" : "No pagó" }}</span>
-                        </div>
-                        <div class="mb-3 font-normal text-gray-500 flex flex-col items-center justify-center">
-                            <strong>Califcación:</strong>
-                            <span class="{{ alumno.puntaje === 'No calificado' ? 'text-blue-500' : (alumno.puntaje === 'Aprobado' ? 'text-green-500' : 'text-red-500') }}">
-                              {{ alumno.puntaje }}
-                            </span>
-                        </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <button type="button" (click)="openModal(alumno.codigoInscripcion)" class="text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-md w-full sm:w-auto px-5 py-2.5 text-center">
-                            Marcar asistencia
-                          </button>
-                        </div>
-                    </div>
-                </div>
+              <div
+                class="flex flex-col mb-2 text-xl justify-center items-center font-semibold tracking-tight text-gray-900"
+              >
+                <span>{{ alumno.estudiante.nombre }}</span>
+                <span>{{ alumno.estudiante.apellido }}</span>
+              </div>
             </div>
+            <div
+              class="flex flex-row justify-between items-center mb-3 font-normal text-gray-500"
+            >
+              <span
+                class="{{ alumno.asistio ? 'text-green-500' : 'text-red-500' }}"
+                >{{ alumno.asistio ? "Asistió" : "No asistió" }}</span
+              >
+              <span
+                class="{{
+                  alumno.pago.pago ? 'text-green-500' : 'text-red-500'
+                }}"
+                >{{ alumno.pago.pago ? "Pagó" : "No pagó" }}</span
+              >
+            </div>
+            <div
+              class="mb-3 font-normal text-gray-500 flex flex-col items-center justify-center"
+            >
+              <strong>Califcación:</strong>
+              <span
+                class="{{
+                  alumno.puntaje === 'No calificado'
+                    ? 'text-blue-500'
+                    : alumno.puntaje === 'Aprobado'
+                    ? 'text-green-500'
+                    : 'text-red-500'
+                }}"
+              >
+                {{ alumno.puntaje }}
+              </span>
+            </div>
+            <div class="flex flex-col items-center justify-center">
+              <button
+                type="button"
+                (click)="openModal(alumno.codigoInscripcion)"
+                class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-md w-full sm:w-auto px-5 py-2.5 text-center"
+              >
+                Marcar asistencia
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <!-- Modal attendance -->
-            <div id="attendanceModal-{{ alumno.codigoInscripcion }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div class="relative w-full max-w-sm max-h-full">
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                        <button #closeButton type="button" (click)="closeModal(alumno.codigoInscripcion)" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+      <!-- Modal attendance -->
+      <div
+        id="attendanceModal-{{ alumno.codigoInscripcion }}"
+        data-modal-backdrop="static"
+        tabindex="-1"
+        aria-hidden="true"
+        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      >
+        <div class="relative w-full max-w-sm max-h-full">
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button
+              #closeButton
+              type="button"
+              (click)="closeModal(alumno.codigoInscripcion)"
+              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            >
               <svg
                 class="w-3 h-3"
                 aria-hidden="true"
@@ -89,17 +162,28 @@
               </svg>
               <span class="sr-only">Cerrar modal</span>
             </button>
-                        <div class="px-6 py-6 lg:px-8">
-                            <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                                Marcar presentismo
-                            </h3>
-                            <p class="text-base leading-relaxed text-gray-500 mb-4">
-                                Marque las opciones correctas para marcar el presentismo y calificar al alumno. Una vez marcado que asistio y el alumno aprobó el curso se le enviara un mail para que pueda descargar su diploma
-                            </p>
-                            <form class="space-y-6" [formGroup]="asistenciaForm" (ngSubmit)="markAttendance(alumno.codigoInscripcion)">
-                                <!-- <input type="text" value="{{ alumno.codigoInscripcion }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"> -->
-                                <div>
-                                    <label for="asistio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asistió</label
+            <div class="px-6 py-6 lg:px-8">
+              <h3
+                class="mb-4 text-xl font-medium text-gray-900 dark:text-white"
+              >
+                Marcar presentismo
+              </h3>
+              <p class="text-base leading-relaxed text-gray-500 mb-4">
+                Marque las opciones correctas para marcar el presentismo y
+                calificar al alumno. Una vez marcado que asistio y el alumno
+                aprobó el curso se le enviara un mail para que pueda descargar
+                su diploma
+              </p>
+              <form
+                class="space-y-6"
+                [formGroup]="asistenciaForm"
+                (ngSubmit)="markAttendance(alumno.codigoInscripcion)"
+              >
+                <div>
+                  <label
+                    for="asistio"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Asistió</label
                   >
                   <select
                     formControlName="asistio"
