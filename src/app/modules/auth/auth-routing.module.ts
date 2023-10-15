@@ -7,9 +7,7 @@ import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-passw
 import { RecoveryPasswordPageComponent } from './recovery-password-page/recovery-password-page.component';
 import { VerifyUserComponent } from './verify-user/verify-user.component';
 
-import { RecoveryGuard } from 'src/app/core/guards/recovery.guard';
 import { ExitGuard } from 'src/app/core/guards/exit.guard';
-import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -34,7 +32,6 @@ const routes: Routes = [
   {
     path: 'recuperar-clave/:token',
     pathMatch: 'full',
-    // canActivate: [RecoveryGuard],
     component: RecoveryPasswordPageComponent,
     children: [],
   },
