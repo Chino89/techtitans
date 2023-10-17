@@ -20,24 +20,24 @@ export type UserDetail = {
 };
 
 export type UserEnrollment = {
-  data: UserEnrollmentData[]
+  data: UserEnrollmentData[];
 };
 
 export type StudentDetail = {
-  id:       number;
-  nombre:   string;
+  id: number;
+  nombre: string;
   apellido: string;
-  email?:   string;
-}
+  email?: string;
+};
 
 export type AttendanceDetail = {
-  id:                number;
+  id: number;
   codigoInscripcion: string;
-  asistio:           boolean;
-  puntaje:           string;
+  asistio: boolean;
+  puntaje: string;
   estudiante: StudentDetail;
-  pago:              PaymentDetail;
-}
+  pago: PaymentDetail;
+};
 
 export type UserEnrollmentData = {
   id: number;
@@ -54,4 +54,4 @@ export type UserEnrollmentData = {
 export type attendanceDto = {
   asistio: boolean;
   puntaje: string;
-}
+};

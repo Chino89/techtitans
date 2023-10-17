@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Customizer } from 'src/app/core/interfaces/interfaces';
-import { AttendanceDetail, CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
+import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
 import {
@@ -11,6 +11,7 @@ import {
 } from 'src/app/core/interfaces/enrollmentInterfaces';
 import { Subscription } from 'rxjs';
 import { TokenService } from 'src/app/core/services/auth/token.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-course-card',
@@ -18,6 +19,7 @@ import { TokenService } from 'src/app/core/services/auth/token.service';
   styleUrls: ['./course-card.component.css'],
 })
 export class CourseCardComponent implements OnInit, OnDestroy {
+  currentDate: string | null = null;
   @Input() codigoInscripcion: string = '';
   @Input() courseContent: CourseResponse = {
     id: 0,
@@ -38,6 +40,7 @@ export class CourseCardComponent implements OnInit, OnDestroy {
       email: '',
     },
     docente: { id: 0, nombre: '', apellido: '' },
+
     asistencia: [
       {
         id: 0,
@@ -75,8 +78,11 @@ export class CourseCardComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private enrollmentService: EnrollmentService,
-    private tokenService: TokenService
-  ) {}
+    private tokenService: TokenService,
+    public datepipe: DatePipe
+  ) {
+    this.currentDate = this.datepipe.transform(new Date(), 'dd/MM/yyyy');
+  }
 
   ngOnInit(): void {
     if (this.tokenService.isLogged()) {
@@ -90,16 +96,12 @@ export class CourseCardComponent implements OnInit, OnDestroy {
               if (enrollmentCourse === this.courseContent.nombre) {
                 this.inscriptionCode = course.codigoInscripcion;
                 this.paymentToken = course.pago.tokenPago;
-
-
-
               }
             }
           },
         });
-        this.subscriptions.push(getMyCoursesServiceSubscription);
-      }
-
+      this.subscriptions.push(getMyCoursesServiceSubscription);
+    }
   }
 
   ngOnDestroy(): void {

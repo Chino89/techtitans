@@ -21,9 +21,9 @@ export type inscriptionDetail = {
 };
 
 export type pagoDto = {
-  pago: boolean
-}
+  pago: boolean;
+};
 
 export type mensajeResponse = {
   mensaje: string;
-}
+};

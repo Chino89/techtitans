@@ -11,7 +11,11 @@ import { User } from 'src/app/core/interfaces/userInterfaces';
 import { Subscription } from 'rxjs';
 import { BackEndResponse } from 'src/app/core/interfaces/interfaces';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
-import { UserEnrollment, UserEnrollmentData } from 'src/app/core/interfaces/enrollmentInterfaces';
+import {
+  UserEnrollment,
+  UserEnrollmentData,
+} from 'src/app/core/interfaces/enrollmentInterfaces';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-course-detail',
@@ -42,24 +46,26 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       nombre: '',
       apellido: '',
     },
-    asistencia: [{
-      id: 0,
-      codigoInscripcion: '',
-      asistio: false,
-      puntaje: '',
-      estudiante: {
+    asistencia: [
+      {
         id: 0,
-        nombre: '',
-        apellido: '',
-        email: ''
+        codigoInscripcion: '',
+        asistio: false,
+        puntaje: '',
+        estudiante: {
+          id: 0,
+          nombre: '',
+          apellido: '',
+          email: '',
+        },
+        pago: {
+          id: 0,
+          tokenPago: '',
+          fechaPago: null,
+          pago: false,
+        },
       },
-      pago: {
-        id: 0,
-        tokenPago: '',
-        fechaPago: null,
-        pago: false
-      }
-    }]
+    ],
   };
   userSuscribed = false;
   setKey = '';
@@ -79,17 +85,18 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   inscriptionCode = '';
   paymentToken = '';
   payment = false;
+  currentDate: string | null = null;
 
   getCourse(identificator: number | string) {
     const getCoursesByIdOrSlugServiceSubscription = this.courseService
-    .getCourseByIdOrSlug(identificator)
-    .subscribe({
-      next: (data: CourseDetailResponse) => {
-        this.courseData = data.data;
-      },
+      .getCourseByIdOrSlug(identificator)
+      .subscribe({
+        next: (data: CourseDetailResponse) => {
+          this.courseData = data.data;
+        },
         error: (errorData) => console.log(errorData),
       });
-      this.subscriptions.push(getCoursesByIdOrSlugServiceSubscription);
+    this.subscriptions.push(getCoursesByIdOrSlugServiceSubscription);
   }
 
   showToast(key: string) {
@@ -109,8 +116,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private enrollmentService: EnrollmentService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    public datepipe: DatePipe
+  ) {
+    this.currentDate = this.datepipe.transform(new Date(), 'dd/MM/yyyy');
+  }
 
   ngOnInit(): void {
     const identificator = this.route.snapshot.paramMap.get('identificator') as
@@ -132,7 +142,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
         },
       });
 
-      const getMyCoursesServiceSubscription = this.enrollmentService
+    const getMyCoursesServiceSubscription = this.enrollmentService
       .getMyCourses()
       .subscribe({
         next: (response: UserEnrollment) => {
@@ -145,7 +155,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
               this.payment = course.pago.pago;
             }
           }
-        }
+        },
       });
 
     this.subscriptions.push(
