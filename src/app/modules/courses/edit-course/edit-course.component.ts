@@ -42,6 +42,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   invalidType = false;
   fileInputTouched = false;
   spinner = false;
+  hasChange = false;
 
   oldCourseData: CourseResponse = {
     id: 0,
@@ -91,22 +92,9 @@ export class EditCourseComponent implements OnInit, OnDestroy {
     ],
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private categoryService: CategoryService,
-    private userService: UserService,
-    private courseService: CourseService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
-
   identificator = this.route.snapshot.paramMap.get('identificator') as
     | number
     | string;
-  ngOnInit(): void {
-    this.getCourse(this.identificator);
-    this.getData();
-  }
 
   getData() {
     const getCategoriesServiceSubscription = this.categoryService
@@ -164,9 +152,11 @@ export class EditCourseComponent implements OnInit, OnDestroy {
     }
   );
 
-  selectPhoto(event: any): void {
-    if (event.target.files && event.target.files[0]!) {
-      this.file = <File>event.target.files[0];
+  selectPhoto(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement.files && inputElement.files[0]) {
+      this.file = inputElement.files[0] as File;
       if (MyValidators.requiredFileType(this.file)) {
         const reader = new FileReader();
         reader.onload = (e) =>
@@ -235,6 +225,19 @@ export class EditCourseComponent implements OnInit, OnDestroy {
     }
   }
 
+  formHasChange(field: string) {
+    const currentValue = (this.editCourseForm.value as any)[field];
+    const initialValue = this.oldCourseData[field];
+    this.hasChange = currentValue !== initialValue;
+  }
+
+  checkFormHasChanged() {
+    return (
+      this.editCourseForm.invalid ||
+      (this.editCourseForm.valid && !this.hasChange && this.file === null)
+    );
+  }
+
   navigate() {
     this.forceExit = true;
     this.router.navigateByUrl(this.nextRoute);
@@ -270,6 +273,20 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   }
   get docenteId() {
     return this.editCourseForm.controls.docenteId;
+  }
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private categoryService: CategoryService,
+    private userService: UserService,
+    private courseService: CourseService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.getCourse(this.identificator);
+    this.getData();
   }
 
   ngOnDestroy(): void {

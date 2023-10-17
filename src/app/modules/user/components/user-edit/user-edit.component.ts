@@ -125,8 +125,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
     const param = this.oldUserDetail.id;
     this.spinner = true;
     const formData = new FormData();
-    const { nombre, apellido, email, password, confirm_password } = this
-      .editUserForm.value as UserEditRequest;
+    const { nombre, apellido, password, confirm_password } = this.editUserForm
+      .value as UserEditRequest;
 
     formData.append('nombre', nombre);
     formData.append('apellido', apellido);

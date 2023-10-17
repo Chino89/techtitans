@@ -133,6 +133,7 @@
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
+                (change)="formHasChange('nombre')"
               />
               <label
                 for="courseName"
@@ -157,13 +158,13 @@
               <textarea
                 id="courseDescription"
                 formControlName="descripcion"
-                rows="4"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-r-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=""
+                (change)="formHasChange('descripcion')"
               ></textarea>
               <label
                 for="courseDescription"
-                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-75 peer-focus:scale-75 peer-focus:-translate-y-8"
                 >Descripción del curso</label
               >
             </div>
@@ -229,6 +230,7 @@
                   class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
+                  (change)="formHasChange('dia')"
                 />
                 <label
                   for="courseDate"
@@ -271,6 +273,7 @@
                   class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
+                  (change)="formHasChange('hora')"
                 />
                 <label
                   for="courseStartTime"
@@ -302,6 +305,7 @@
                   class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
+                  (change)="formHasChange('duracion')"
                 />
                 <label
                   for="courseDuration"
@@ -333,6 +337,7 @@
                   class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
+                  (change)="formHasChange('precio')"
                 />
                 <label
                   for="coursePrice"
@@ -375,6 +380,7 @@
               <select
                 formControlName="categoriaId"
                 id="courseCategory"
+                (change)="formHasChange('categoriaId')"
                 class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
                 <option value="" selected disabled>
@@ -413,6 +419,7 @@
               <select
                 formControlName="docenteId"
                 id="courseTeacher"
+                (change)="formHasChange('docenteId')"
                 class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
                 <option value="" selected disabled>
@@ -452,11 +459,9 @@
             </p>
           </div>
           <button
-            [disabled]="editCourseForm.invalid"
+            [disabled]="checkFormHasChanged()"
             type="submit"
-            class="text-white {{
-              editCourseForm.invalid ? 'bg-gray-300' : 'bg-blue-600'
-            }} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
+            class="text-white bg-blue-600 disabled:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
           >
             <svg
               *ngIf="spinner"
