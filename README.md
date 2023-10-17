@@ -1,20 +1,27 @@
-# SantexAcademy
-Este proyecto fue generado con Angular CLI versión 14.2.11.
+![Proyecto Tech Titans - FRONT](https://github.com/Chino89/techtitans/blob/dev/src/assets/readme.png)
 
-# Servidor de desarrollo
-Ejecuta ng serve para levantar un servidor de desarrollo. Navega a http://localhost:4200/. La aplicación se recargará automáticamente si cambias alguno de los archivos de origen.
+## Participantes
+* Fabrizio Ferroni 
+* Agustín Rizzo
+* Emmanuel Vivas
 
-# Generando código
-Ejecuta ng generate component nombre-componente para generar un nuevo componente. También puedes utilizar ng generate directive|pipe|service|class|guard|interface|enum|module.
+## El Proyecto
+Optamos por el proyecto de la Incubadora del N.O.C porque nos pareció muy interesante la amplitud del mismo, así como la dimensión y el alcance. 
+Desde el comienzo fue dividido en dos subproyectos, por lo que se subdividio el equipo en dos y se fue avanzando paralelamente.
 
-# Compilando
-Ejecuta ng build para compilar el proyecto. Los artefactos de compilación se almacenarán en la carpeta dist/.
+|Repositorios|Port|Script|
+|:---------:|:---------:|:---------:|
+|[Front end](https://github.com/Chino89/techtitans/)|4200|ng serve|
+|[Back end](https://github.com/techtitans-xacademy/backend-tech-titans)|3000|npm run dev|
 
-# Ejecutando pruebas unitarias
-Ejecuta ng test para ejecutar pruebas unitarias a través de Karma.
+En el desarrollo del Frontend, utilizamos Angular junto con la librería Flowbite para mantener una experiencia de usuario consistente en toda la aplicación.
+En el Backend trabajamos con NodeJS, sobre el framework *Express*, y empleamos Sequelize para interactuar con la base de datos MySQL.
 
-# Ejecutando pruebas de extremo a extremo
-Ejecuta ng e2e para ejecutar pruebas de extremo a extremo a través de una plataforma de tu elección. Para utilizar este comando, primero debes agregar un paquete que implemente capacidades de pruebas de extremo a extremo.
+## Requisitos del cliente
+* Login de usuarios y diferentes permisos segun sus Roles
+* CRUD de Cursos 
+* Gestión de back office para el usuario Admin
+* Gestionar pago y asistencias a los cursos
 
-# Ayuda adicional
-Para obtener más ayuda sobre Angular CLI, utiliza ng help o visita la página Angular CLI https://angular.io/cli.
+## Aprendizajes
+En lo personal, durante el desarrollo de este proyecto pude entender la importancia de la buena comunicación dentro del equipo. Comprendo de los procesos de organización y una de mis cualidades es el sentido de urgencia, lo que me permitió identificar qué procesos priorizar para garantizar la viabilidad y la maximización del valor del producto al final de cada iteración. Ese esfuerzo y compromiso sostenido durante toda la fase del proyecto, sumado al del equipo, se traduce en lograr alcanzar el MVP planteado desde el comienzo, aun con los contratiempos y bajas de compañeros que inicialmente formaron parte en el comienzo. 
