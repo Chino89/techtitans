@@ -52,7 +52,6 @@ export class CourseService {
     );
   }
   deleteCourse(id: number) {
-    console.log(id);
     return this.http.delete<BackEndResponse>(
       `${environment.API_URL}/api/curso/${id}/borrar`
     );
