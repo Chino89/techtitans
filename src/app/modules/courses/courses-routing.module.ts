@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ExitGuard } from 'src/app/core/guards/exit.guard';
 import { AdminGuard } from 'src/app/core/guards/admin.guard';
+import { GestionGuard } from 'src/app/core/guards/gestion.guard';
 
 import { CoursesPageComponent } from './courses-page/courses-page.component';
 import { NewCourseComponent } from './new-course/new-course.component';
@@ -18,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'crear-curso',
-    canActivate: [AdminGuard],
+    canActivate: [GestionGuard],
     canDeactivate: [ExitGuard],
     component: NewCourseComponent,
     children: [],

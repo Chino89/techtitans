@@ -90,8 +90,16 @@
         class="text-sm font-semibold leading-6 text-gray-900"
         >Cursos</a
       >
-      <a routerLink="/institucional/novedades" class="text-sm font-semibold leading-6 text-gray-900"
+      <a
+        routerLink="/institucional/novedades"
+        class="text-sm font-semibold leading-6 text-gray-900"
         >Novedades</a
+      >
+      <a
+        routerLink="/cursos/crear-curso"
+        *ngIf="userIsLoged && userData?.roles?.includes('ROLE_DOCENTE')"
+        class="text-sm font-semibold leading-6 text-gray-900"
+        >Crear Curso</a
       >
       <div
         (click)="myToggleDropdown('adminDropdown')"
@@ -255,7 +263,13 @@
               >Novedades</a
             >
             <a
+              routerLink="/cursos/crear-curso"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >Crear curso</a
+            >
+            <a
               (click)="myToggleDropdown('adminDropdown')"
+              *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')"
               class="flex w-full items-center justify-between rounded-lg text-base font-semibold leading-7 text-gray-900"
               >Gestión
               <svg
