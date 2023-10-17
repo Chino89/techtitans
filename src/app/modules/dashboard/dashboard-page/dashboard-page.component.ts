@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
 export class DashboardPageComponent implements OnInit, OnDestroy {
   courses: CourseResponse[] = [];
   subscriptions: Subscription[] = [];
-code: string = '';
+  code: string = '';
   items = carouselContent;
   constructor(private http: HttpClient, private courseService: CourseService) {}
 
@@ -33,7 +33,6 @@ code: string = '';
         },
       });
     this.subscriptions.push(getAllCoursesServiceSubscription);
-
   }
 
   ngOnDestroy(): void {
