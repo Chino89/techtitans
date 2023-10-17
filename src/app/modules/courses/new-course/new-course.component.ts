@@ -91,9 +91,11 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  selectPhoto(event: any): void {
-    if (event.target.files && event.target.files[0]!) {
-      this.file = <File>event.target.files[0];
+  selectPhoto(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement.files && inputElement.files[0]) {
+      this.file = inputElement.files[0] as File;
       if (MyValidators.requiredFileType(this.file)) {
         const reader = new FileReader();
         reader.onload = (e) =>

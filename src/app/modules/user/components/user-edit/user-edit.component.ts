@@ -88,9 +88,11 @@ export class UserEditComponent implements OnInit, OnDestroy {
     this.subscriptions.push(getUserDetailSubscription);
   }
 
-  selectPhoto(event: any): void {
-    if (event.target.files && event.target.files[0]!) {
-      this.file = <File>event.target.files[0];
+  selectPhoto(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement.files && inputElement.files[0]) {
+      this.file = inputElement.files[0] as File;
       if (MyValidators.requiredFileType(this.file)) {
         const reader = new FileReader();
         reader.onload = (e) =>
@@ -125,8 +127,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
     const param = this.oldUserDetail.id;
     this.spinner = true;
     const formData = new FormData();
-    const { nombre, apellido, email, password, confirm_password } = this
-      .editUserForm.value as UserEditRequest;
+    const { nombre, apellido, password, confirm_password } = this.editUserForm
+      .value as UserEditRequest;
 
     formData.append('nombre', nombre);
     formData.append('apellido', apellido);

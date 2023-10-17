@@ -45,9 +45,6 @@ export class RegisterPageComponent implements OnInit, onExit, OnDestroy {
       const registerServiceSubscription = this.registerService
         .register(this.registerForm.value as RegisterRequest)
         .subscribe({
-          next: (userData) => {
-            console.log(userData);
-          },
           error: (errorData) => {
             this.registerToast = true;
             this.toastKey = 'error';

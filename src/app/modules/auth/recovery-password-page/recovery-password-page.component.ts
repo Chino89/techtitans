@@ -55,9 +55,6 @@ export class RecoveryPasswordPageComponent implements OnInit, OnDestroy {
         this.passwordRecoveryService
           .setPassword(this.setForm.value as SetPasswordRequest, this.token)
           .subscribe({
-            next: (userData) => {
-              console.log(userData);
-            },
             error: (errorData) => {
               this.passwordToast = true;
               this.toastKey = 'error';

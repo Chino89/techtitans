@@ -22,7 +22,7 @@ export class TeachingStaffComponent implements OnInit, OnDestroy {
       .getTeachers()
       .subscribe({
         next: (response: TeacherDataResponse) =>
-          {(this.teacherStaff = response.data), console.log(this.teacherStaff, 'LO QUE LLEGA')},
+          {(this.teacherStaff = response.data)},
         error: (errorData) => console.log(errorData),
       });
     this.subscriptions.push(getTeachersServiceSubscription);

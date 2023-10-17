@@ -13,6 +13,7 @@ import {
 } from 'src/app/core/interfaces/userInterfaces';
 import {
   CourseDetailResponse,
+  CourseFormData,
   CourseResponse,
 } from 'src/app/core/interfaces/courseInterfaces';
 import {
@@ -42,6 +43,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   invalidType = false;
   fileInputTouched = false;
   spinner = false;
+  hasChange = false;
 
   oldCourseData: CourseResponse = {
     id: 0,
@@ -91,22 +93,9 @@ export class EditCourseComponent implements OnInit, OnDestroy {
     ],
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private categoryService: CategoryService,
-    private userService: UserService,
-    private courseService: CourseService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
-
   identificator = this.route.snapshot.paramMap.get('identificator') as
     | number
     | string;
-  ngOnInit(): void {
-    this.getCourse(this.identificator);
-    this.getData();
-  }
 
   getData() {
     const getCategoriesServiceSubscription = this.categoryService
@@ -164,9 +153,11 @@ export class EditCourseComponent implements OnInit, OnDestroy {
     }
   );
 
-  selectPhoto(event: any): void {
-    if (event.target.files && event.target.files[0]!) {
-      this.file = <File>event.target.files[0];
+  selectPhoto(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement.files && inputElement.files[0]) {
+      this.file = inputElement.files[0] as File;
       if (MyValidators.requiredFileType(this.file)) {
         const reader = new FileReader();
         reader.onload = (e) =>
@@ -197,16 +188,24 @@ export class EditCourseComponent implements OnInit, OnDestroy {
       precio,
       categoriaId,
       docenteId,
-    } = this.editCourseForm.value as any;
+    } = this.editCourseForm.value as CourseFormData;
 
-    formData.append('nombre', nombre);
-    formData.append('descripcion', descripcion);
-    formData.append('dia', dia);
-    formData.append('hora', hora);
-    formData.append('duracion', duracion);
-    formData.append('precio', precio);
-    formData.append('categoriaId', categoriaId);
-    formData.append('docenteId', docenteId);
+    nombre ? formData.append('nombre', nombre) : this.oldCourseData.nombre;
+    descripcion
+      ? formData.append('descripcion', descripcion)
+      : this.oldCourseData.descripcion;
+    dia ? formData.append('dia', dia) : this.oldCourseData.dia_curso;
+    hora ? formData.append('hora', hora) : this.oldCourseData.hora_curso;
+    duracion
+      ? formData.append('duracion', duracion)
+      : this.oldCourseData.duracion;
+    precio ? formData.append('precio', precio) : this.oldCourseData.precio;
+    categoriaId
+      ? formData.append('categoriaId', categoriaId)
+      : this.oldCourseData.categoria;
+    docenteId
+      ? formData.append('docenteId', docenteId)
+      : this.oldCourseData.docente;
     this.file && formData.append('imageFile', this.file);
 
     if (this.editCourseForm.valid) {
@@ -233,6 +232,19 @@ export class EditCourseComponent implements OnInit, OnDestroy {
         });
       this.subscriptions.push(editCourseServiceSubscription);
     }
+  }
+
+  formHasChange(field: string) {
+    const currentValue = (this.editCourseForm.value as CourseFormData)[field];
+    const initialValue = this.oldCourseData[field];
+    this.hasChange = currentValue !== initialValue;
+  }
+
+  checkFormHasChanged() {
+    return (
+      this.editCourseForm.invalid ||
+      (this.editCourseForm.valid && !this.hasChange && this.file === null)
+    );
   }
 
   navigate() {
@@ -270,6 +282,20 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   }
   get docenteId() {
     return this.editCourseForm.controls.docenteId;
+  }
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private categoryService: CategoryService,
+    private userService: UserService,
+    private courseService: CourseService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.getCourse(this.identificator);
+    this.getData();
   }
 
   ngOnDestroy(): void {

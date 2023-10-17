@@ -13,7 +13,6 @@ import { DeleteCourseComponent } from './delete-course/delete-course.component';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { FindCourseComponent } from './find-course/find-course.component';
 import { FindSomeCoursesComponent } from './find-some-courses/find-some-courses.component';
-import { CoursePaymentComponent } from './course-payment/course-payment.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import { CoursePaymentComponent } from './course-payment/course-payment.componen
     EditCourseComponent,
     FindCourseComponent,
     FindSomeCoursesComponent,
-    CoursePaymentComponent,
   ],
   imports: [
     CommonModule,
