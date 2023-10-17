@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { LoginService } from 'src/app/core/services/auth/login.service';
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
@@ -18,7 +18,7 @@ import {
 import { User } from 'src/app/core/interfaces/userInterfaces';
 import { CourseResponse } from 'src/app/core/interfaces/courseInterfaces';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
-import { PaymentService } from 'src/app/core/services/payment/payment.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-set-of-buttons',
@@ -39,11 +39,11 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     accessToken: '',
   };
   subscriptions: Subscription[] = [];
+  currentDate: string | null = null;
 
   @Input() inscriptionCode: string = '';
   @Input() paymentToken: string = '';
   @Input() payment: boolean = false;
-
   @Input() codigoInscripcion: string = '';
   @Input() courseData: CourseResponse = {
     id: 0,
@@ -64,24 +64,26 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
       email: '',
     },
     docente: { id: 0, nombre: '', apellido: '' },
-    asistencia: [{
-      id: 0,
-      codigoInscripcion: '',
-      asistio: false,
-      puntaje: '',
-      estudiante: {
+    asistencia: [
+      {
         id: 0,
-        nombre: '',
-        apellido: '',
-        email: ''
+        codigoInscripcion: '',
+        asistio: false,
+        puntaje: '',
+        estudiante: {
+          id: 0,
+          nombre: '',
+          apellido: '',
+          email: '',
+        },
+        pago: {
+          id: 0,
+          tokenPago: '',
+          fechaPago: null,
+          pago: false,
+        },
       },
-      pago: {
-        id: 0,
-        tokenPago: '',
-        fechaPago: null,
-        pago: false
-      }
-    }]
+    ],
   };
 
   @Output() showToast = new EventEmitter<string>();
@@ -105,34 +107,13 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(courseEnrollmentServiceSubscription);
   }
 
-  // userPayment() {
-  //   const param = this.paymentToken;
-  //   const getPaymentByTokenServiceSubscription = this.paymentService
-  //     .getPaymentByToken(param as string)
-  //     .subscribe({
-  //       error: (errorData) => {
-  //         this.showToast.emit('error' as string);
-  //         this.backEndErrors.emit(errorData.error.mensaje);
-  //       },
-  //       complete: () => {
-  //         this.showToast.emit('check' as string);
-  //         setTimeout(() => {
-  //           this.router.navigateByUrl('/cursos/realizar-pago');
-  //         }, 3000);
-  //       },
-  //     });
-  //     this.subscriptions.push(getPaymentByTokenServiceSubscription);
-  // }
-
   constructor(
     private loginService: LoginService,
     private route: ActivatedRoute,
-    private router: Router,
     private enrollmentService: EnrollmentService,
-    private paymentService: PaymentService
+    public datepipe: DatePipe
   ) {
-
-
+    this.currentDate = this.datepipe.transform(new Date(), 'dd/MM/yyyy');
   }
 
   ngOnInit(): void {
@@ -151,7 +132,6 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
         },
       });
     this.subscriptions.push(currentUserDataServiceSubscription);
-
   }
 
   ngOnDestroy(): void {

@@ -1,71 +1,89 @@
 <div class="flex justify-center items-center md:justify-end mt-6">
-    <div class="flex" *ngIf="!userIsLoged">
-        <button routerLink="/iniciar-sesion" type="button" class="{{
+  <div class="flex" *ngIf="!userIsLoged && courseData.dia_curso > currentDate!">
+    <button
+      routerLink="/iniciar-sesion"
+      type="button"
+      class="{{
         buttons['subscribe'].style
-      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
+      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+    >
       <svg-icon src="{{ buttons['subscribe'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["subscribe"].action }}</p>
     </button>
-    </div>
-    <div class="flex flex-col" *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')">
-        <button routerLink="/cursos/{{ courseData.id }}/editar-curso" class="{{
+  </div>
+  <div
+    class="flex flex-col"
+    *ngIf="userIsLoged && userData?.roles?.includes('ROLE_ADMIN')"
+  >
+    <button
+      routerLink="/cursos/{{ courseData.id }}/editar-curso"
+      class="{{
         buttons['edit'].style
-      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
+      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+    >
       <svg-icon src="{{ buttons['edit'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["edit"].action }}</p>
     </button>
-        <button routerLink="/cursos/{{ courseData.id }}/borrar-curso" class="{{
+    <button
+      routerLink="/cursos/{{ courseData.id }}/borrar-curso"
+      class="{{
         buttons['delete'].style
-      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
+      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+    >
       <svg-icon src="{{ buttons['delete'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["delete"].action }}</p>
     </button>
-    </div>
-    <div class="flex" *ngIf="
+  </div>
+  <div
+    class="flex"
+    *ngIf="
       userIsLoged &&
       userData?.roles?.includes('ROLE_ESTUDIANTE') &&
-      (!inscriptionCode && !codigoInscripcion)
-    ">
-        <button (click)="onSubscribe()" type="button" class="{{
+      !inscriptionCode &&
+      !codigoInscripcion &&
+      courseData.dia_curso > currentDate!
+    "
+  >
+    <button
+      (click)="onSubscribe()"
+      type="button"
+      class="{{
         buttons['subscribe'].style
-      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
+      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+    >
       <svg-icon src="{{ buttons['subscribe'].svg }}"></svg-icon>
       <p class="px-2">{{ buttons["subscribe"].action }}</p>
     </button>
-    </div>
-    <div class="flex flex-col" *ngIf="
+  </div>
+  <div
+    class="flex flex-col"
+    *ngIf="
       userIsLoged &&
       userData?.roles?.includes('ROLE_ESTUDIANTE') &&
       (inscriptionCode || codigoInscripcion)
-    ">
-        <!-- <button class="{{
-        buttons['payment'].style
-      }} flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
-      <svg-icon src="{{ buttons['payment'].svg }}"></svg-icon>
-      <p class="px-2">{{ buttons["payment"].action }}</p>
-    </button>
-        <button disabled="{{payment === true}}" routerLink="obtener-certificado" class="{{
-        buttons['certify'].style
-      }} disabled:bg-gray-300 flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
-      <svg-icon src="{{ buttons['certify'].svg }}"></svg-icon>
-      <p class="px-2">{{ buttons["certify"].action }}</p>
-    </button> -->
-
-        <div *ngIf="codigoInscripcion !== ''">
-            <a routerLink="inscripcion/{{ codigoInscripcion }}" class="{{
-            buttons['detail'].style
-          }} disabled:bg-gray-300 flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
-                <svg-icon src="{{ buttons['detail'].svg }}"></svg-icon>
-                <p class="px-2">{{ buttons["detail"].action }}</p>
-            </a>
-        </div>
-        <div *ngIf="codigoInscripcion === ''">
-            <a routerLink="usuario/mis-cursos" class="{{
-          buttons['my_courses'].style
-        }} disabled:bg-gray-300 flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer">
-                <svg-icon src="{{ buttons['my_courses'].svg }}"></svg-icon>
-                <p class="px-2">{{ buttons["my_courses"].action }}</p>
-            </a>
-        </div>
+    "
+  >
+    <div *ngIf="codigoInscripcion !== ''">
+      <a
+        routerLink="inscripcion/{{ codigoInscripcion }}"
+        class="{{
+          buttons['detail'].style
+        }} disabled:bg-gray-300 flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+      >
+        <svg-icon src="{{ buttons['detail'].svg }}"></svg-icon>
+        <p class="px-2">{{ buttons["detail"].action }}</p>
+      </a>
     </div>
+    <div *ngIf="codigoInscripcion === ''">
+      <a
+        routerLink="usuario/mis-cursos"
+        class="{{
+          buttons['my_courses'].style
+        }} disabled:bg-gray-300 flex items-center focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 cursor-pointer"
+      >
+        <svg-icon src="{{ buttons['my_courses'].svg }}"></svg-icon>
+        <p class="px-2">{{ buttons["my_courses"].action }}</p>
+      </a>
+    </div>
+  </div>
 </div>
