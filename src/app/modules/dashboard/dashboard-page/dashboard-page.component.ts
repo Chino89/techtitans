@@ -1,4 +1,3 @@
-import { AttendanceDetail } from './../../../core/interfaces/courseInterfaces';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 

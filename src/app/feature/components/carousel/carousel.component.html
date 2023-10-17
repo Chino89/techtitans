@@ -1,25 +1,23 @@
 <div
   id="default-carousel"
-  class="group relative w-2/3 m-auto my-16"
+  class="group relative w-5/6 lg:w-3/4 m-auto my-16 flex justify-center"
   data-carousel="slide"
 >
-  <!-- Carousel wrapper -->
   <div
-    class="relative h-56 md:h-96 overflow-hidden rounded-xl shadow-lg shadow-gray-300"
+    class="relative w-full h-56 md:h-96 overflow-hidden rounded-xl shadow-lg shadow-gray-300"
   >
     <div
       *ngFor="let photo of carouselContent"
-      class="absolute block w-full -translate-x-1 -translate-y-1 duration-600 ease-in-out"
+      class="absolute w-full -translate-x-1 -translate-y-1 duration-600 ease-in-out"
       data-carousel-item
     >
       <img
         src="{{ photo.img }}"
-        class="absolute block w-full"
+        class="absolute top-1 w-full h-full object-cover"
         alt="{{ photo.alt }}"
       />
     </div>
   </div>
-  <!-- Slider indicators -->
   <div
     class="hidden group-hover:flex absolute z-30 space-x-3 -translate-x-1 bottom-5 left-1/2"
   >
@@ -32,7 +30,6 @@
       [attr.data-carousel-slide-to]="i"
     ></button>
   </div>
-  <!-- Slider controls -->
   <button
     type="button"
     class="hidden hover:block z-30 group-hover:flex absolute top-0 left-0 items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
