@@ -36,6 +36,12 @@ export type StudentDetail = {
   email?: string;
 };
 
+export type TeacherDetail = {
+  id: number;
+  nombre: string;
+  apellido: string;
+};
+
 export type AttendanceDetail = {
   id: number;
   codigoInscripcion: string;
@@ -52,6 +58,7 @@ export type CourseResponse = {
     | Blob
     | AttendanceDetail[]
     | StudentDetail
+    | TeacherDetail
     | CategoryInfo;
   asistencia: AttendanceDetail[];
   id: number;
@@ -65,17 +72,8 @@ export type CourseResponse = {
   precio: string;
   slug: string;
   categoria: CategoryInfo;
-  usuario: {
-    id: number;
-    nombre: string;
-    apellido: string;
-    email: string;
-  };
-  docente: {
-    id: number;
-    nombre: string;
-    apellido: string;
-  };
+  usuario: StudentDetail;
+  docente: TeacherDetail;
 };
 
 export type CategoryInfo = { id: number; nombre: string };
