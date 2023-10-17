@@ -10,6 +10,18 @@ export type CourseRequest = {
   file: Blob;
 };
 
+export type CourseFormData = {
+  [key: string]: string | null;
+  nombre: string | null;
+  descripcion: string | null;
+  dia: string | null;
+  hora: string | null;
+  duracion: string | null;
+  precio: string | null;
+  categoriaId: string | null;
+  docenteId: string | null;
+};
+
 export type PaymentDetail = {
   id: number;
   tokenPago: string;

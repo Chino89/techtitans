@@ -13,6 +13,7 @@ import {
 } from 'src/app/core/interfaces/userInterfaces';
 import {
   CourseDetailResponse,
+  CourseFormData,
   CourseResponse,
 } from 'src/app/core/interfaces/courseInterfaces';
 import {
@@ -187,16 +188,24 @@ export class EditCourseComponent implements OnInit, OnDestroy {
       precio,
       categoriaId,
       docenteId,
-    } = this.editCourseForm.value as any;
+    } = this.editCourseForm.value as CourseFormData;
 
-    formData.append('nombre', nombre);
-    formData.append('descripcion', descripcion);
-    formData.append('dia', dia);
-    formData.append('hora', hora);
-    formData.append('duracion', duracion);
-    formData.append('precio', precio);
-    formData.append('categoriaId', categoriaId);
-    formData.append('docenteId', docenteId);
+    nombre ? formData.append('nombre', nombre) : this.oldCourseData.nombre;
+    descripcion
+      ? formData.append('descripcion', descripcion)
+      : this.oldCourseData.descripcion;
+    dia ? formData.append('dia', dia) : this.oldCourseData.dia_curso;
+    hora ? formData.append('hora', hora) : this.oldCourseData.hora_curso;
+    duracion
+      ? formData.append('duracion', duracion)
+      : this.oldCourseData.duracion;
+    precio ? formData.append('precio', precio) : this.oldCourseData.precio;
+    categoriaId
+      ? formData.append('categoriaId', categoriaId)
+      : this.oldCourseData.categoria;
+    docenteId
+      ? formData.append('docenteId', docenteId)
+      : this.oldCourseData.docente;
     this.file && formData.append('imageFile', this.file);
 
     if (this.editCourseForm.valid) {
@@ -226,7 +235,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   }
 
   formHasChange(field: string) {
-    const currentValue = (this.editCourseForm.value as any)[field];
+    const currentValue = (this.editCourseForm.value as CourseFormData)[field];
     const initialValue = this.oldCourseData[field];
     this.hasChange = currentValue !== initialValue;
   }
