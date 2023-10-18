@@ -1,14 +1,14 @@
 [
   {
-    "img": "/assets/Carousel/carousel-1.png",
-    "alt": "carousel-1"
+    "img": "/assets/Carousel/cruzDelEje.jpg",
+    "alt": "Cruz del eje"
   },
   {
-    "img": "/assets/Carousel/carousel-2.png",
-    "alt": "carousel-2"
-  },      
+    "img": "/assets/Carousel/incubadoraNOC.jpg",
+    "alt": "Incubadora del N.O.C"
+  },
   {
-    "img": "/assets/Carousel/carousel-3.png",
-    "alt": "carousel-3"
+    "img": "/assets/Carousel/dique.jpg",
+    "alt": "Dique Cruz del eje"
   }
 ]

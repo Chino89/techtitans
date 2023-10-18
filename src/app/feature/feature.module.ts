@@ -1,18 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CarouselComponent } from './components/carousel/carousel.component';
 import { AlliedCompaniesComponent } from './components/allied-companies/allied-companies.component';
 import { RouterModule } from '@angular/router';
+import { SwiperComponent } from './components/swiper/swiper.component';
+import { register } from 'swiper/element/bundle';
+
+register();
 
 @NgModule({
-  declarations: [CarouselComponent, AlliedCompaniesComponent],
-  imports: [
-    CommonModule,
-    RouterModule
-  ], 
-  exports: [
-    CarouselComponent,
-    AlliedCompaniesComponent
-  ],
+  declarations: [AlliedCompaniesComponent, SwiperComponent],
+  imports: [CommonModule, RouterModule],
+  exports: [AlliedCompaniesComponent, SwiperComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class FeatureModule { }
+export class FeatureModule {}
