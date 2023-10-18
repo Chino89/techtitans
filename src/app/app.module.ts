@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +20,7 @@ import { DatePipe } from '@angular/common';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    DatePipe
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })
