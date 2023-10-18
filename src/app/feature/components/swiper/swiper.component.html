@@ -1,0 +1,12 @@
+<div
+  class="h-32 md:h-64 lg:h-96 w-5/6 lg:w-3/4 m-auto my-16 overflow-hidden rounded-xl shadow-lg shadow-gray-300"
+>
+  <swiper-container autoplay="true">
+    <swiper-slide *ngFor="let photo of carouselContent">
+      <img
+        src="{{ photo.img }}"
+        alt="{{ photo.alt }}"
+        loading="lazy"
+    /></swiper-slide>
+  </swiper-container>
+</div>
