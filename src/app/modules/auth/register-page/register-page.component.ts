@@ -15,6 +15,7 @@ export class RegisterPageComponent implements OnInit, onExit, OnDestroy {
   greeting: string = 'Hola, Bienvenido!';
   errorGreeting: string = 'Oops! Tuvimos algunos errores...';
   registerToast: boolean = false;
+  errorToast: boolean = false;
   toastKey = '';
   registerError: BackEndError[] = [];
   hasUser: boolean = false;
@@ -46,7 +47,7 @@ export class RegisterPageComponent implements OnInit, onExit, OnDestroy {
         .register(this.registerForm.value as RegisterRequest)
         .subscribe({
           error: (errorData) => {
-            this.registerToast = true;
+            this.errorToast = true;
             this.toastKey = 'error';
             if (errorData.error.mensaje) {
               this.registerError = [{ mensaje: errorData.error.mensaje }];
@@ -55,7 +56,7 @@ export class RegisterPageComponent implements OnInit, onExit, OnDestroy {
             }
           },
           complete: () => {
-            this.registerToast = true;
+            this.errorToast = true;
             this.toastKey = 'check';
             this.hasUser = true;
             setTimeout(() => {
@@ -80,6 +81,7 @@ export class RegisterPageComponent implements OnInit, onExit, OnDestroy {
     }
     if (this.registerForm.dirty && !this.hasUser) {
       this.registerToast = true;
+      this.toastKey = 'error';
       this.nextRoute = nextRoute!.url;
       return false;
     }
