@@ -32,7 +32,6 @@ export class VerifyUserComponent implements OnInit, OnDestroy {
           }
         },
         complete: () => {
-          console.info('Usuario verificado');
           setTimeout(() => {
             this.router.navigateByUrl('/iniciar-sesion');
           }, 5000);

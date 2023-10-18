@@ -221,7 +221,6 @@ export class EditCourseComponent implements OnInit, OnDestroy {
             }
           },
           complete: () => {
-            console.info('Curso editado');
             this.editCourseToast = true;
             this.hasCourse = true;
             this.spinner = false;
