@@ -150,7 +150,6 @@ export class NewCourseComponent implements OnInit, OnDestroy {
             }
           },
           complete: () => {
-            console.info('Curso creado');
             this.newCourseToast = true;
             this.hasCourse = true;
             this.spinner = false;

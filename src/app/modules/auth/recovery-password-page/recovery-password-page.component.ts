@@ -65,7 +65,6 @@ export class RecoveryPasswordPageComponent implements OnInit, OnDestroy {
               }
             },
             complete: () => {
-              console.info('Password seteado con éxito');
               this.passwordToast = true;
               this.toastKey = 'check';
               setTimeout(() => {

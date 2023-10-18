@@ -153,7 +153,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
             this.userEditToast = true;
             this.userEdited = true;
             this.spinner = false;
-            console.info('Usuario editado');
             setTimeout(() => {
               this.router.navigateByUrl('/usuario/perfil');
             }, 3000);

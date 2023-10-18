@@ -1,25 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import {
   attendanceData,
   attendanceResponse,
 } from 'src/app/core/interfaces/attendanceInterface';
-import {
-  AttendanceDetail,
-  CourseResponse,
-} from 'src/app/core/interfaces/courseInterfaces';
-import { UserEnrollment } from 'src/app/core/interfaces/enrollmentInterfaces';
+import { AttendanceDetail } from 'src/app/core/interfaces/courseInterfaces';
 import { BackEndError } from 'src/app/core/interfaces/interfaces';
 import { User, UserResponse } from 'src/app/core/interfaces/userInterfaces';
 import { LoginService } from 'src/app/core/services/auth/login.service';
-import { CourseService } from 'src/app/core/services/course/course.service';
 import { EnrollmentService } from 'src/app/core/services/enrollment/enrollment.service';
 import { UserService } from 'src/app/core/services/users/user.service';
 import { modalTarget } from 'src/app/utils/modal';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
 
 @Component({
   selector: 'app-download-certificate',
@@ -129,7 +123,6 @@ export class DownloadCertificateComponent implements OnInit {
     private userService: UserService,
     private formBuilder: FormBuilder,
     private enrollmentService: EnrollmentService,
-    private courseService: CourseService,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer
   ) {}
@@ -209,7 +202,6 @@ export class DownloadCertificateComponent implements OnInit {
         //TODO: aca debiera mostrar un toast de que no pudo descargar el certificado con éxito
 
         console.error(err.error.mensaje);
-        // this.asistenciaError.push({ mensaje: err.error.mensaje });
       },
       complete: () => {
         this.asistenciaMsj = 'Se descargó el certificado con éxito';
@@ -265,9 +257,10 @@ export class DownloadCertificateComponent implements OnInit {
 
   getQRCodeObjectUrl(blob: Blob | null): SafeUrl {
     if (blob) {
-      return this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(blob));
+      return this.sanitizer.bypassSecurityTrustUrl(
+        window.URL.createObjectURL(blob)
+      );
     }
     return '';
   }
-
 }
