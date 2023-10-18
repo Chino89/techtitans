@@ -41,7 +41,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             }
           },
           complete: () => {
-            console.info('Login completo');
             this.router.navigateByUrl('');
           },
         });

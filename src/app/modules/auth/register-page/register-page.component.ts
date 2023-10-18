@@ -55,7 +55,6 @@ export class RegisterPageComponent implements OnInit, onExit, OnDestroy {
             }
           },
           complete: () => {
-            console.info('Registro exitoso');
             this.registerToast = true;
             this.toastKey = 'check';
             this.hasUser = true;
