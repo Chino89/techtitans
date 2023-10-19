@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { LoginService } from 'src/app/core/services/auth/login.service';
 import { buttonInteractions } from '../../../../assets/icons/buttonInteractions';
@@ -89,12 +89,12 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
   @Output() showToast = new EventEmitter<string>();
   @Output() backEndErrors = new EventEmitter<BackEndResponse>();
 
-  onSubscribe() {
-    const param = this.route.snapshot.paramMap.get('identificator') as string;
+  onSubscribe(codigo: string) {
     const id = Number(this.userData.id);
 
+
     const courseEnrollmentServiceSubscription = this.enrollmentService
-      .courseEnrollment(param, id)
+      .courseEnrollment(codigo, id)
       .subscribe({
         error: (error) => {
           this.showToast.emit('error' as string);
@@ -102,6 +102,7 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.showToast.emit('check' as string);
+          this.router.navigate(['usuario/mis-cursos'])
         },
       });
     this.subscriptions.push(courseEnrollmentServiceSubscription);
@@ -111,7 +112,8 @@ export class SetOfButtonsComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private route: ActivatedRoute,
     private enrollmentService: EnrollmentService,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private router: Router
   ) {
     this.currentDate = this.datepipe.transform(new Date(), 'dd/MM/yyyy');
   }
